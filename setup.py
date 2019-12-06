@@ -1,0 +1,27 @@
+from setuptools import setup
+
+def readme():
+    with open('README.md') as f:
+        README = f.read()
+    return README
+
+
+setup(
+    name="opfunu",
+    version="0.1.0",
+    description="A python package for Optimization Functions in Numpy.",
+    long_description=readme(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/thieunguyen5991/opfunu",
+    author="Thieu Nguyen",
+    author_email="nguyenthieu2102@gmail.com",
+    license="Apache License, Version 2.0",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+    ],
+    packages=["opfunu"],
+    include_package_data=True,
+    install_requires=["numpy"]
+)
