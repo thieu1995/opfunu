@@ -5,10 +5,9 @@ def readme():
         README = f.read()
     return README
 
-
 setup(
     name="opfunu",
-    version="0.1.0",
+    version="0.1.1",
     description="A python package for Optimization Functions in Numpy.",
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -20,6 +19,12 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
+        "Topic :: Scientific/Engineering :: Mathematics",
+        "Topic :: System :: Benchmark",
+        "License :: OSI Approved :: Apache Software License",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Intended Audience :: Science/Research,"
+        "Topic :: Utilities"
     ],
     packages=["opfunu"],
     include_package_data=True,
