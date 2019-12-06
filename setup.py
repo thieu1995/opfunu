@@ -23,8 +23,7 @@ setup(
         "Topic :: System :: Benchmark",
         "License :: OSI Approved :: Apache Software License",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Intended Audience :: Science/Research,"
-        "Topic :: Utilities"
+        "Intended Audience :: Science/Research"
     ],
     packages=["opfunu"],
     include_package_data=True,
