@@ -12,6 +12,7 @@ setup(
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.1.1.zip",
     author="Thieu Nguyen",
     author_email="nguyenthieu2102@gmail.com",
     license="Apache License, Version 2.0",
