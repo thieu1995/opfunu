@@ -7,12 +7,12 @@ def readme():
 
 setup(
     name="opfunu",
-    version="0.1.1",
+    version="0.1.2",
     description="A python package for Optimization Functions in Numpy.",
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
-    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.1.1.zip",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.1.2.zip",
     author="Thieu Nguyen",
     author_email="nguyenthieu2102@gmail.com",
     license="Apache License, Version 2.0",
