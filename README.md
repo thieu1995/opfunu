@@ -19,14 +19,14 @@ pip install git+https://github.com/thieunguyen5991/opfunu
 ## Example
 + All you need to do is: (Make sure your solution is a numpy 1-D array)
 ```python 
-from opfunu.benchmark import Functions      # import our library
+from opfunu.benchmark2d import Functions     # import 2-d benchmark functions
 import numpy as np
 
-solution = np.array([1, 2, 3, 4])          # create a solution 
-func = Functions()                          # create an object
+solution2d = np.array([-0.1, 1.5])           # Solution for 2-d benchmark
+func2d = Functions()                         # create an object
 
-print(func._ackley__(solution))             # using function in above object
-print(func._bird__(solution))
+print(func2d._bartels_conn__(solution2d))    # using function in above object
+print(func2d._bird__(solution))
 ```
 
 ### Publications
