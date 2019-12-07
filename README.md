@@ -43,6 +43,7 @@ print(func2d._bird__(solution))
 
 ### Documentation 
 ```code 
+0. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 1. http://benchmarkfcns.xyz/fcns
 2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
 3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
