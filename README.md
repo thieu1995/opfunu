@@ -19,14 +19,22 @@ pip install git+https://github.com/thieunguyen5991/opfunu
 ## Example
 + All you need to do is: (Make sure your solution is a numpy 1-D array)
 ```python 
-from opfunu.benchmark2d import Functions     # import 2-d benchmark functions
+## For dimension_based
+
+from opfunu.dimension_based.benchmark2d import Functions        # import 2-d benchmark functions
 import numpy as np
 
-solution2d = np.array([-0.1, 1.5])           # Solution for 2-d benchmark
-func2d = Functions()                         # create an object
+solution2d = np.array([-0.1, 1.5])                              # Solution for 2-d benchmark
+func2d = Functions()                                            # create an object
 
-print(func2d._bartels_conn__(solution2d))    # using function in above object
+print(func2d._bartels_conn__(solution2d))                       # using function in above object
 print(func2d._bird__(solution))
+
+## For type_based (same as dimension_based)
+
+from opfunu.type_based.multi_modal import Functions             # import 2-d benchmark functions
+import numpy as np
+...
 ```
 
 ### Publications
@@ -43,9 +51,12 @@ print(func2d._bird__(solution))
 
 ### Documentation 
 ```code 
-0. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
-1. http://benchmarkfcns.xyz/fcns
-2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
-3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
-4. http://www.sfu.ca/~ssurjano/optimization.html
+1. dimension_based references
+    1. http://benchmarkfcns.xyz/fcns
+    2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
+    3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
+    4. http://www.sfu.ca/~ssurjano/optimization.html
+
+2. type_based
+    A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 ```

@@ -22,10 +22,10 @@ class Functions:
         @param solution: A numpy array like: [1, 2, 10, 4, ...]
         @return: fx
         """
-        sum1 = np.sum(solution ** 2)
-        sum2 = np.sum(np.cos(c * solution))
+        result1 = np.sum(solution ** 2)
+        result2 = np.sum(np.cos(c * solution))
         lin = 1 / len(solution)
-        return -a * np.exp(-b * np.sqrt(lin * sum1)) - np.exp(lin * sum2) + a + np.exp(1)
+        return -a * np.exp(-b * np.sqrt(lin * result1)) - np.exp(lin * result2) + a + np.exp(1)
 
 
     def _ackley_n4__(self, solution=None):
@@ -76,10 +76,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d-1):
-            sum += (solution[i]**2)**(solution[i+1]**2+1) + (solution[i+1]**2)**(solution[i]**2+1)
-        return sum
+            result += (solution[i]**2)**(solution[i+1]**2+1) + (solution[i+1]**2)**(solution[i]**2+1)
+        return result
 
 
     def _exponential__(self, solution=None):
@@ -104,11 +104,11 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 1 + np.sum(solution**2) / 4000
+        result = 1 + np.sum(solution**2) / 4000
         prod = 1.0
         for i in range(0, d):
             prod *= np.cos(solution[i]/np.sqrt(i+1))
-        return sum - prod
+        return result - prod
 
 
     def _happy_cat__(self, solution=None, alpha=1.0/8):
@@ -146,10 +146,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
-            sum += np.abs(solution[i])**(i+2)
-        return sum
+            result += np.abs(solution[i])**(i+2)
+        return result
 
 
     def _qing__(self, solution=None):
@@ -162,10 +162,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
-            sum += (solution[i]**2 - i - 1)**2
-        return sum
+            result += (solution[i]**2 - i - 1)**2
+        return result
 
 
     def _quartic__(self, solution=None):
@@ -178,10 +178,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
-            sum+= (i+1)*solution[i]**4
-        return sum+np.random.uniform(0, 1)
+            result+= (i+1)*solution[i]**4
+        return result+np.random.uniform(0, 1)
 
 
     def _rastrigin__(self, solution=None):
@@ -219,10 +219,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d-1):
-            sum += b*(solution[i+1] - solution[i]**2)**2 + (a-solution[i])**2
-        return sum
+            result += b*(solution[i+1] - solution[i]**2)**2 + (a-solution[i])**2
+        return result
 
 
     def _salomon__(self, solution=None):
@@ -307,11 +307,11 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
             for j in range(1, 6):
-                sum+= j*np.sin((j+1)*solution[i] + j)
-        return sum
+                result+= j*np.sin((j+1)*solution[i] + j)
+        return result
 
     def _shubert_4__(self, solution=None):
         """
@@ -323,11 +323,11 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
             for j in range(1, 6):
-                sum += j * np.cos((j + 1) * solution[i] + j)
-        return sum
+                result += j * np.cos((j + 1) * solution[i] + j)
+        return result
 
 
     def _shubert__(self, solution=None):
@@ -342,10 +342,10 @@ class Functions:
         d = len(solution)
         prod = 1.0
         for i in range(0, d):
-            sum = 0
+            result = 0
             for j in range(1, 6):
-                sum += np.cos((j + 1) * solution[i] + j)
-            prod *= sum
+                result += np.cos((j + 1) * solution[i] + j)
+            prod *= result
         return prod
 
 
@@ -383,10 +383,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0.0
+        result = 0.0
         for i in range(0, d):
-            sum = (i+1)*solution[i]**2
-        return sum
+            result = (i+1)*solution[i]**2
+        return result
 
 
     def _xin_she_yang__(self, solution=None):
@@ -399,10 +399,10 @@ class Functions:
         @return: fx
         """
         d = len(solution)
-        sum = 0
+        result = 0
         for i in range(0, d):
-            sum += np.random.uniform(0, 1) * np.abs(solution[i])**(i+1)
-        return sum
+            result += np.random.uniform(0, 1) * np.abs(solution[i])**(i+1)
+        return result
 
 
     def _xin_she_yang_n2__(self, solution=None):
