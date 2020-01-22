@@ -28,12 +28,24 @@ solution2d = np.array([-0.1, 1.5])                              # Solution for 2
 func2d = Functions()                                            # create an object
 
 print(func2d._bartels_conn__(solution2d))                       # using function in above object
-print(func2d._bird__(solution))
+print(func2d._bird__(solution2d))
 
 ## For type_based (same as dimension_based)
 
 from opfunu.type_based.multi_modal import Functions             # import 2-d benchmark functions
 import numpy as np
+
+## For CEC
+
+from opfunu.cec.cec2014 import Functions                        # import cec2014 functions
+import numpy as np
+
+cec_sol = np.array([-0.1, 1.5])                              # Solution for 2-d benchmark
+cec_func = Functions()                                            # create an object
+
+print(cec_func.C1(cec_sol))                                  # using function in above object from C1, ..., C30
+print(cec_func.C30(cec_sol))
+
 ...
 ```
 
@@ -45,7 +57,7 @@ import numpy as np
 
     + Nguyen, T., Nguyen, B. M., & Nguyen, G. (2019, April). Building Resource Auto-scaler with Functional-Link Neural Network and Adaptive Bacterial Foraging Optimization. In International Conference on Theory and Applications of Models of Computation (pp. 501-517). Springer, Cham.
 
-+ This project related to my another project "meta-heuristics" and "neural-network", check it here
++ This project related to my another projects which are "meta-heuristics" and "neural-network", check it here
     + https://github.com/thieunguyen5991/metaheuristics
     + https://github.com/chasebk
 
@@ -59,4 +71,9 @@ import numpy as np
 
 2. type_based
     A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
+
+3. cec
+    Problem Definitions and Evaluation Criteria for the CEC 2014 
+Special Session and Competition on Single Objective Real-Parameter Numerical Optimization 
+
 ```
