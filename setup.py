@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def readme():
     with open('README.md') as f:
@@ -7,15 +7,17 @@ def readme():
 
 setup(
     name="opfunu",
-    version="0.4.1",
+    version="0.4.2",
+    author="Thieu Nguyen",
+    author_email="nguyenthieu2102@gmail.com",
     description="A python (Numpy) package for Un-constrained Optimization Functions",
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
-    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.4.1.zip",
-    author="Thieu Nguyen",
-    author_email="nguyenthieu2102@gmail.com",
-    license="Apache License, Version 2.0",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.4.2.zip",
+    packages=find_packages(),
+    include_package_data=True,
+    license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
@@ -26,7 +28,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Intended Audience :: Science/Research"
     ],
-    packages=["opfunu"],
-    include_package_data=True,
-    install_requires=["numpy"]
+    install_requires=["numpy"],
+    python_requires='>=3.6',
 )
