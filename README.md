@@ -1,6 +1,8 @@
 # Optimization Function in Numpy (OpFuNu)
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 
+[![DOI version](https://badge/DOI/10.5281/zenodo.3711682.svg)](https://badge.fury.io/py/opfunu)
+
 ## Installation
 
 Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
@@ -49,8 +51,22 @@ print(cec_func.C30(cec_sol))
 ...
 ```
 
-### Publications
+## References
+
+#### Publications
 + If you see my code and data useful and use it, please cites my works here
+```code 
+@software{thieu_nguyen_2020_3711682,
+  author       = {Thieu Nguyen},
+  title        = {A collection of Benchmark functions for numerical optimization problems. 
+Framework of OPtimization FUnction in NUmpy (opfunu)},
+  month        = march,
+  year         = 2020,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.3620960},
+  url          = {https://doi.org/10.5281/zenodo.3620960.}
+}
+```
     + Nguyen, T., Nguyen, T., Nguyen, B. M., & Nguyen, G. (2019). Efficient Time-Series Forecasting Using Neural Network and Opposition-Based Coral Reefs Optimization. International Journal of Computational Intelligence Systems, 12(2), 1144-1161.
     
     + Nguyen, T., Tran, N., Nguyen, B. M., & Nguyen, G. (2018, November). A Resource Usage Prediction System Using Functional-Link and Genetic Algorithm Neural Network for Multivariate Cloud Metrics. In 2018 IEEE 11th Conference on Service-Oriented Computing and Applications (SOCA) (pp. 49-56). IEEE.
@@ -58,10 +74,12 @@ print(cec_func.C30(cec_sol))
     + Nguyen, T., Nguyen, B. M., & Nguyen, G. (2019, April). Building Resource Auto-scaler with Functional-Link Neural Network and Adaptive Bacterial Foraging Optimization. In International Conference on Theory and Applications of Models of Computation (pp. 501-517). Springer, Cham.
 
 + This project related to my another projects which are "meta-heuristics" and "neural-network", check it here
+    + https://github.com/thieunguyen5991/mealpy
     + https://github.com/thieunguyen5991/metaheuristics
     + https://github.com/chasebk
+    
 
-### Documentation 
+#### Documentation 
 ```code 
 1. dimension_based references
     1. http://benchmarkfcns.xyz/fcns
