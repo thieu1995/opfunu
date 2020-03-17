@@ -254,7 +254,7 @@ class Functions:
         """
         d = len(solution)
         result = 0
-        for i in range(0, d):
+        for i in range(0, d-1):
             result+= (solution[i+1]**2 + solution[i]**2)**0.25 * (np.sin(50*(solution[i+1]**2+solution[i]**2)**0.1)**2+0.1)
         return result
 
