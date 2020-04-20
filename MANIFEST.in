@@ -1,2 +1,2 @@
 include README.md LICENSE
-graft opfunu/cec/cec2005/support_data/
+include opfunu/cec/cec2005/support_data/*.txt
