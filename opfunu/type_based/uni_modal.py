@@ -34,7 +34,7 @@ class Functions:
         """
         Class: continuous, differentiable, partially-separable, scalable
         Global: one global minimum fx = 0 at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/brownfcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
@@ -46,15 +46,31 @@ class Functions:
         """
         Class: continuous, differentiable, non-separable, scalable
         Global: one global minimum fx = 0
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/brownfcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-10, 10]
         @return: fx
         """
         d = len(solution)
         result = (solution[0] - 1)**2
-        for i in range(1, d):
+        for i in range(1, d-1):
             result += (i+1)*(2*solution[i]**2 - solution[i-1])**2
+        return result
+
+
+    def _powell_sum__(self, solution=None):
+        """
+        Class: continuous, differentiable, separable, scalable
+        Global: one global minimum fx = 0
+        Link: http://benchmarkfcns.xyz/benchmarkfcns/powellsumfcn.html
+
+        @param solution: A numpy array with x_i in [-1, 1]
+        @return: fx
+        """
+        d = len(solution)
+        result = 0
+        for i in range(0, d):
+            result += np.abs(solution[i]) ** (i + 2)
         return result
 
 
@@ -62,7 +78,7 @@ class Functions:
         """
         Class: continuous, differentiable, non-separable, scalable
         Global: one global minimum fx = 0
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/brownfcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-4, 5]
         @return: fx
@@ -75,27 +91,11 @@ class Functions:
         return result
 
 
-    def _powell_result__(self, solution=None):
-        """
-        Class: continuous, differentiable, separable, scalable
-        Global: one global minimum fx = 0
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/brownfcn.html
-
-        @param solution: A numpy array with x_i in [-1, 1]
-        @return: fx
-        """
-        d = len(solution)
-        result = 0
-        for i in range(0, d):
-            result += np.abs(solution[i])**(i+2)
-        return result
-
-
     def _rosenbrock__(self, solution=None):
         """
         Class: non-convex, differentiable, non-separable, continuous
         Global: 1 global optima, fx = 0, x = [1, ..., 1]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-30, 30]
         @return: fx
@@ -107,63 +107,23 @@ class Functions:
         return result
 
 
-    def _rotate_ellipse__(self, solution=None):
-        """
-        Class: Continuous, Differentiable, Separable, Scalable
-        Global: 1 global optima, fx = 0, x = [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
-
-        @param solution: A numpy array
-        @return: fx
-        """
-        return np.sum(solution**4)
-
-
-    def _schwefel__(self, solution=None, alpha=0.5):
-        """
-        Class: Continuous, Differentiable, Partially-Separable, Scalable
-        Global: 1 global optima, fx = 0, x = [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
-
-        @param solution: A numpy array with x_i in [-100, 100]
-        @return: fx
-        """
-        return np.sum(solution**2)**alpha
-
-
-    def _schwefel_1_2__(self, solution=None):
-        """
-        Class: Continuous, Differentiable, Non-Separable, Scalable
-        Global: 1 global optima, fx = 0, x = [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
-
-        @param solution: A numpy array with x_i in [-100, 100]
-        @return: fx
-        """
-        d = len(solution)
-        result = 0
-        for i in range(0, d):
-            result+= np.sum(solution[:i]**2)
-        return result
-
-
     def _schwefel_2_20__(self, solution=None):
         """
         Class: Continuous, Differentiable, Non-Separable, Scalable
         Global: 1 global optima, fx = 0, x = [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
+        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel220fcn.html
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
         """
-        return -np.sum(np.abs(solution))
+        return np.sum(np.abs(solution))
 
 
     def _schwefel_2_21__(self, solution=None):
         """
         Class: Continuous, Differentiable, Non-Separable, Scalable
         Global: 1 global optima, fx = 0, x = [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/rosenbrockfcn.html
+        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel221fcn.html
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
@@ -187,7 +147,7 @@ class Functions:
         """
         Class: differentiable, non-separable, continuous, scalable
         Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
+        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel223fcn.html
 
         @param solution: A numpy array with x_i in [-10, 10]
         @return: fx
@@ -199,7 +159,7 @@ class Functions:
         """
         Class: Discontinuous, Non-Differentiable, Separable, Scalable
         Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
@@ -211,7 +171,7 @@ class Functions:
         """
         Class: Discontinuous, Non-Differentiable, Separable, Scalable
         Global: one global minimum fx = 0, at [-0.5, ..., -0.5]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
@@ -223,19 +183,7 @@ class Functions:
         """
         Class: Discontinuous, Non-Differentiable, Separable, Scalable
         Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
-
-        @param solution: A numpy array with x_i in [-100, 100]
-        @return: fx
-        """
-        return np.sum(np.floor(solution**2))
-
-
-    def _stepint__(self, solution=None):
-        """
-        Class: Discontinuous, Non-Differentiable, Separable, Scalable
-        Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-100, 100]
         @return: fx
@@ -247,7 +195,7 @@ class Functions:
         """
         Class: Continuous, Differentiable, Non-Separable, Scalable
         Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/schwefel222fcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-10, 10]
         @return: fx
@@ -255,7 +203,7 @@ class Functions:
         d = len(solution)
         result = 0
         for i in range(0, d-1):
-            result+= (solution[i+1]**2 + solution[i]**2)**0.25 * (np.sin(50*(solution[i+1]**2+solution[i]**2)**0.1)**2+0.1)
+            result += (solution[i+1]**2 + solution[i]**2)**0.25 * (np.sin(50*(solution[i+1]**2+solution[i]**2)**0.1)**2+0.1)
         return result
 
 
@@ -263,7 +211,7 @@ class Functions:
         """
         Class: Continuous, Differentiable, Separable, Scalable
         Global: one global minimum fx = 0, at [0, ..., 0]
-        Link: http://benchmarkfcns.xyz/benchmarkfcns/resultsquaresfcn.html
+        Link: A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 
         @param solution: A numpy array with x_i in [-10, 10]
         @return: fx
@@ -275,23 +223,18 @@ class Functions:
         return result
 
 
+    def _zakharov__(self, solution=None):
+        """
+        Class: Continuous, Differentiable, Non-Separable, Scalable
+        Global: fx = 0, at [0, ..., 0]
+        Link: http://benchmarkfcns.xyz/benchmarkfcns/zakharov.html
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        @param solution: A numpy array with x_i in [-5, 10]
+        @return: fx
+        """
+        d = len(solution)
+        result1 = np.sum(solution ** 2)
+        result2 = 0
+        for i in range(0, d):
+            result2 += (i + 1) * solution[i]
+        return result1 + (0.5 * result2) ** 2 + (0.5 * result2) ** 4
