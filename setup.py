@@ -14,7 +14,7 @@ setup(
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
-    download_url="https://github.com/thieunguyen5991/opfunu/archive/v.0.5.1.zip",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v0.5.1.zip",
     packages=find_packages(),
     include_package_data=True,
     license="MIT",

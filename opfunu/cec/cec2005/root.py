@@ -7,8 +7,8 @@
 #       Github:     https://github.com/thieunguyen5991                                                  %
 #-------------------------------------------------------------------------------------------------------%
 
+import pkg_resources
 from pandas import read_csv
-import os
 
 
 class Root:
@@ -17,8 +17,8 @@ class Root:
         self.f_shift_data_file = f_shift_data_file
         self.f_ext = f_ext
         self.f_bias = f_bias
-        self.current_path = os.getcwd() + "/opfunu/cec/cec2005/"
-        self.support_path_data = os.getcwd() + "/opfunu/cec/cec2005/support_data/"
+        self.current_path = pkg_resources.resource_filename("opfunu", "cec/cec2005/")
+        self.support_path_data = pkg_resources.resource_filename("opfunu", "cec/cec2005/support_data/")
 
     def load_shift_data(self):
         data = read_csv(self.support_path_data + self.f_shift_data_file + self.f_ext, delimiter='\s+', index_col=False, header=None)
@@ -27,8 +27,4 @@ class Root:
     def load_matrix_data(self, data_file=None):
         data = read_csv(self.support_path_data + data_file + self.f_ext, delimiter='\s+', index_col=False, header=None)
         return data.values
-
-
-# data = read_csv("support_data/elliptic_M_D2.txt", delimiter='\s+', index_col=False, header=None)
-# print(data.values)
 
