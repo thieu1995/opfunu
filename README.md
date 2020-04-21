@@ -62,6 +62,28 @@ temp = np.array([0.5, 1, 1.5, 2, 3, 0.9, 1.2, 2, 1, 5])
 result = t1._main__(temp)
 print(result)
 
+
+## CEC 2008
+
+import numpy as np
+from opfunu.cec.cec2008.F7 import Model
+t1 = Model()
+
+temp = np.array([0.5, 1, 1.5, 2, 3, 0.9, 1.2, 2, 1, 5])
+result = t1._main__(temp)
+print(result)
+
+
+
+## CEC 2010 
+
+import numpy as np
+from opfunu.cec.cec2010.function import F1, F2, ..., F12,..
+
+solution = np.random.uniform(0, 1, 1000)
+result = F12(temp)
+print(result)
+
 ...
 ```
 
