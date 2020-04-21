@@ -1,5 +1,5 @@
 # Optimization Function in Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.5.1-yellow.svg)]()
+[![GitHub release](https://img.shields.io/badge/release-0.6.0-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -52,37 +52,34 @@ print(cec_func.C1(cec_sol))                                  # using function in
 print(cec_func.C30(cec_sol))
 
 
-## CEC 2005
+## CEC-2005 or CEC-2008
 
 import numpy as np
-from opfunu.cec.cec2005.F1 import Model
+from opfunu.cec.cec2005.F1 import Model as f1
+from opfunu.cec.cec2008.F7 import Model as f7
 
-t1 = Model()
-temp = np.array([0.5, 1, 1.5, 2, 3, 0.9, 1.2, 2, 1, 5])
+solution = np.array([0.5, 1, 1.5, 2, 3, 0.9, 1.2, 2, 1, 5])
+
+t1 = f1()
 result = t1._main__(temp)
 print(result)
 
-
-## CEC 2008
-
-import numpy as np
-from opfunu.cec.cec2008.F7 import Model
-t1 = Model()
-
-temp = np.array([0.5, 1, 1.5, 2, 3, 0.9, 1.2, 2, 1, 5])
-result = t1._main__(temp)
+t2 = f7()
+result = t2._main__(temp)
 print(result)
 
 
 
-## CEC 2010 
+## CEC-2010 or CEC-2014
 
 import numpy as np
 from opfunu.cec.cec2010.function import F1, F2, ..., F12,..
+from opfunu.cec.cec2014.function import F1, F2, ...., F28
 
 solution = np.random.uniform(0, 1, 1000)
 result = F12(temp)
 print(result)
+
 
 ...
 ```
