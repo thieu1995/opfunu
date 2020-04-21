@@ -7,8 +7,6 @@
 #       Github:     https://github.com/thieunguyen5991                                                  %
 #-------------------------------------------------------------------------------------------------------%
 
-# f8
-
 import numpy as np
 from opfunu.cec.cec2005.F1 import Model
 
