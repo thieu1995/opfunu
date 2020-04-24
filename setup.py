@@ -7,14 +7,14 @@ def readme():
 
 setup(
     name="opfunu",
-    version="0.6.0",
+    version="0.6.1",
     author="Thieu Nguyen",
     author_email="nguyenthieu2102@gmail.com",
-    description="A python (Numpy) package for Un-constrained Optimization Functions",
+    description="A framework of un-constrained Optimization Functions in Numpy (MEALPY) for global optimization problems",
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
-    download_url="https://github.com/thieunguyen5991/opfunu/archive/v0.6.0.zip",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v0.6.1.zip",
     packages=find_packages(),
     include_package_data=True,
     license="MIT",
