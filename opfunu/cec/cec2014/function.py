@@ -7,8 +7,6 @@
 #       Github:     https://github.com/thieunguyen5991                                                  %
 #-------------------------------------------------------------------------------------------------------%
 
-
-from numpy.random import seed, permutation
 from numpy import dot, ones, array, ceil
 from opfunu.cec.cec2014.utils import *
 
@@ -287,8 +285,8 @@ def F16(solution=None, name="Shifted and Rotated Expanded Scaffer’s F6 Functio
 def F17(solution=None, name="Hybrid Function 1", shift_data_file="shift_data_17.txt", bias=1700, shuffle=None):
     problem_size = len(solution)
     p = array([0.3, 0.3, 0.4])
-    n1 = int(p[0] * problem_size) + 1
-    n2 = int(p[1] * problem_size) + 1
+    n1 = int(ceil(p[0] * problem_size))
+    n2 = int(ceil(p[1] * problem_size))
 
     if problem_size > 100:
         print("CEC 2014 not support for problem size > 100")
@@ -467,235 +465,253 @@ def F22(solution=None, name="Hybrid Function 6", shift_data_file="shift_data_22.
 
 ### ================== Composition function ========================
 
-def F23(solution=None, name="Composition Function 1", shift_data_file="shift_data_23.txt", f_bias=2300):
-    num_funcs = 5
+def F23(solution=None, name="Composition Function 1", f_shift_file="shift_data_23.txt", f_matrix="M_23_D", f_bias=2300):
     problem_size = len(solution)
     xichma = array([10, 20, 30, 40, 50])
     lamda = array([1, 1e-6, 1e-26, 1e-6, 1e-6])
     bias = array([0, 100, 200, 300, 400])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return f4_rosenbrock__(solution)
-        elif idx == 1:
-            return f1_elliptic__(solution)
-        elif idx == 2:
-            return f2_bent_cigar__(solution)
-        elif idx == 3:
-            return f3_discus__(solution)
-        else:
-            return f1_elliptic__(solution)
+    # 1. Rotated Rosenbrock’s Function F4’
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * f4_rosenbrock__(dot(t1, matrix[:problem_size, :])) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i])**2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. High Conditioned Elliptic Function F1’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f1_elliptic__(solution) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated Bent Cigar Function F2’
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f2_bent_cigar__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    # 4. Rotated Discus Function F3’
+    t4 = solution - shift_data[3]
+    g4 = lamda[3] * f3_discus__(dot(matrix[3 * problem_size: 4 * problem_size, :], t4)) + bias[3]
+    w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * problem_size * xichma[3] ** 2))
+
+    # 4. High Conditioned Elliptic Function F1’
+    t5 = solution - shift_data[4]
+    g5 = lamda[4] * f1_elliptic__(solution) + bias[4]
+    w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * problem_size * xichma[4] ** 2))
+
+    sw = sum([w1, w2, w3, w4, w5])
+    result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
     return result + f_bias
 
 
-def F24(solution=None, name="Composition Function 2", shift_data_file="shift_data_24.txt", f_bias=2400):
-    num_funcs = 3
+def F24(solution=None, name="Composition Function 2", f_shift_file="shift_data_24.txt", f_matrix="M_24_D", f_bias=2400):
     problem_size = len(solution)
     xichma = array([20, 20, 20])
     lamda = array([1, 1, 1])
     bias = array([0, 100, 200])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return f10_katsuura__(solution)
-        elif idx == 1:
-            return f9_modified_schwefel__(solution)
-        else:
-            return f14_expanded_scaffer__(solution)
+    # 1. Rotated Rosenbrock’s Function F4’
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * f9_modified_schwefel__(solution) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i]) ** 2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. Rotated Rastrigin’s Function F9’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f8_rastrigin__(dot(matrix[problem_size: 2 * problem_size], t2)) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated HGBat Function F14’
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f12_hgbat__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    sw = sum([w1, w2, w3])
+    result = (w1 * g1 + w2 * g2 + w3 * g3) / sw
     return result + f_bias
 
 
-def F25(solution=None, name="Composition Function 3", shift_data_file="shift_data_25.txt", f_bias=2500):
-    num_funcs = 3
+def F25(solution=None, name="Composition Function 3", f_shift_file="shift_data_25.txt", f_matrix="M_25_D", f_bias=2500):
     problem_size = len(solution)
     xichma = array([10, 30, 50])
     lamda = array([0.25, 1, 1e-7])
     bias = array([0, 100, 200])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return f11_happy_cat__(solution)
-        elif idx == 1:
-            return f9_modified_schwefel__(solution)
-        else:
-            return f1_elliptic__(solution)
+    # 1. Rotated Schwefel's Function F11’
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * f9_modified_schwefel__(dot(matrix[:problem_size, :problem_size], t1)) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i]) ** 2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. Rotated Rastrigin’s Function F9’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f8_rastrigin__(dot(matrix[problem_size: 2 * problem_size], t2)) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated High Conditioned Elliptic Function F1'
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f1_elliptic__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    sw = sum([w1, w2, w3])
+    result = (w1 * g1 + w2 * g2 + w3 * g3) / sw
     return result + f_bias
 
 
-def F26(solution=None, name="Composition Function 4", shift_data_file="shift_data_26.txt", f_bias=2600):
-    num_funcs = 5
+def F26(solution=None, name="Composition Function 4", f_shift_file="shift_data_26.txt", f_matrix="M_26_D", f_bias=2600):
     problem_size = len(solution)
     xichma = array([10, 10, 10, 10, 10])
     lamda = array([0.25, 1, 1e-7, 2.5, 10])
     bias = array([0, 100, 200, 300, 400])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return f11_happy_cat__(solution)
-        elif idx == 1:
-            return f13_expanded_griewank__(solution)
-        elif idx == 2:
-            return f1_elliptic__(solution)
-        elif idx == 3:
-            return f6_weierstrass__(solution)
-        else:
-            return f7_griewank__(solution)
+    # 1. Rotated Schwefel's Function F11’
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * f9_modified_schwefel__(dot(matrix[:problem_size, :], t1)) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i]) ** 2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. Rotated HappyCat Function F13’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f11_happy_cat__(dot(matrix[problem_size:2 * problem_size, :], t2)) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated High Conditioned Elliptic Function F1’
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f1_elliptic__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    # 4. Rotated Weierstrass Function F6’
+    t4 = solution - shift_data[3]
+    g4 = lamda[3] * f6_weierstrass__(dot(matrix[3 * problem_size: 4 * problem_size, :], t4)) + bias[3]
+    w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * problem_size * xichma[3] ** 2))
+
+    # 5. Rotated Griewank’s Function F7’
+    t5 = solution - shift_data[4]
+    g5 = lamda[4] * f7_griewank__(dot(matrix[4*problem_size:, :], t5)) + bias[4]
+    w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * problem_size * xichma[4] ** 2))
+
+    sw = sum([w1, w2, w3, w4, w5])
+    result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
     return result + f_bias
 
 
-def F27(solution=None, name="Composition Function 5", shift_data_file="shift_data_27.txt", f_bias=2700):
-    num_funcs = 5
+def F27(solution=None, name="Composition Function 5", f_shift_file="shift_data_27.txt", f_matrix="M_27_D", f_bias=2700):
     problem_size = len(solution)
     xichma = array([10, 10, 10, 20, 20])
     lamda = array([10, 10, 2.5, 25, 1e-6])
     bias = array([0, 100, 200, 300, 400])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return f14_expanded_scaffer__(solution)
-        elif idx == 1:
-            return f9_modified_schwefel__(solution)
-        elif idx == 2:
-            return f11_happy_cat__(solution)
-        elif idx == 3:
-            return f6_weierstrass__(solution)
-        else:
-            return f1_elliptic__(solution)
+    # 1. Rotated HGBat Function F14'
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * f12_hgbat__(dot(matrix[:problem_size, :], t1)) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i]) ** 2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. Rotated Rastrigin’s Function F9’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f8_rastrigin__(dot(matrix[problem_size:2 * problem_size, :], t2)) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated Schwefel's Function F11’
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f9_modified_schwefel__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    # 4. Rotated Weierstrass Function F6’
+    t4 = solution - shift_data[3]
+    g4 = lamda[3] * f6_weierstrass__(dot(matrix[3 * problem_size: 4 * problem_size, :], t4)) + bias[3]
+    w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * problem_size * xichma[3] ** 2))
+
+    # 5. Rotated High Conditioned Elliptic Function F1’
+    t5 = solution - shift_data[4]
+    g5 = lamda[4] * f1_elliptic__(dot(matrix[4 * problem_size:, :], t5)) + bias[4]
+    w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * problem_size * xichma[4] ** 2))
+
+    sw = sum([w1, w2, w3, w4, w5])
+    result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
     return result + f_bias
 
 
-def F28(solution=None, name="Composition Function 6", shift_data_file="shift_data_28.txt", f_bias=2800):
-    num_funcs = 5
+def F28(solution=None, name="Composition Function 6", f_shift_file="shift_data_28.txt", f_matrix="M_28_D", f_bias=2800):
     problem_size = len(solution)
     xichma = array([10, 20, 30, 40, 50])
     lamda = array([2.5, 10, 2.5, 5e-4, 1e-6])
     bias = array([0, 100, 200, 300, 400])
 
-    if problem_size > 100:
-        print("CEC 2014 not support for problem size > 100")
+    if problem_size in SUPPORT_DIMENSION_2:
+        f_matrix = f_matrix + str(problem_size) + ".txt"
+    else:
+        print("CEC 2014 function only support problem size 10, 20, 30, 50, 100")
         return 1
-    shift_data = load_matrix_data__(shift_data_file)[:problem_size]
+    shift_data = load_matrix_data__(f_shift_file)[:problem_size]
     shift_data = shift_data[:, :problem_size]
+    matrix = load_matrix_data__(f_matrix)
 
-    def __fi__(solution=None, idx=None):
-        if idx == 0:
-            return F15(solution)
-        elif idx == 1:
-            return f13_expanded_griewank__(solution)
-        elif idx == 2:
-            return f11_happy_cat__(solution)
-        elif idx == 3:
-            return F16(solution)
-        else:
-            return f1_elliptic__(solution)
+    # 1. Rotated Expanded Griewank’s plus Rosenbrock’s Function F15’
+    t1 = solution - shift_data[0]
+    g1 = lamda[0] * F15(solution, bias=0) + bias[0]
+    w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * problem_size * xichma[0] ** 2))
 
-    weights = ones(num_funcs)
-    fits = ones(num_funcs)
-    for i in range(0, num_funcs):
-        t1 = lamda[i] * __fi__(solution, i) + bias[i]
-        t2 = 1.0 / sqrt(sum((solution - shift_data[i]) ** 2))
-        w_i = t2 * exp(-sum((solution - shift_data[i]) ** 2) / (2 * problem_size * xichma[i] ** 2))
-        weights[i] = w_i
-        fits[i] = t1
-    sw = sum(weights)
-    result = 0.0
-    for i in range(0, num_funcs):
-        result += (weights[i] / sw) * fits[i]
+    # 2. Rotated HappyCat Function F13’
+    t2 = solution - shift_data[1]
+    g2 = lamda[1] * f11_happy_cat__(dot(matrix[problem_size:2 * problem_size, :], t2)) + bias[1]
+    w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * problem_size * xichma[1] ** 2))
+
+    # 3. Rotated Schwefel's Function F11’
+    t3 = solution - shift_data[2]
+    g3 = lamda[2] * f9_modified_schwefel__(dot(matrix[2 * problem_size: 3 * problem_size, :], t3)) + bias[2]
+    w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * problem_size * xichma[2] ** 2))
+
+    # 4. Rotated Expanded Scaffer’s F6 Function F16’
+    t4 = solution - shift_data[3]
+    g4 = lamda[3] * f14_expanded_scaffer__(dot(matrix[3 * problem_size: 4 * problem_size, :], t4)) + bias[3]
+    w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * problem_size * xichma[3] ** 2))
+
+    # 5. Rotated High Conditioned Elliptic Function F1’
+    t5 = solution - shift_data[4]
+    g5 = lamda[4] * f1_elliptic__(dot(matrix[4 * problem_size:, :], t5)) + bias[4]
+    w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * problem_size * xichma[4] ** 2))
+
+    sw = sum([w1, w2, w3, w4, w5])
+    result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
     return result + f_bias
 
 
@@ -714,11 +730,11 @@ def F29(solution=None, name="Composition Function 7", shift_data_file="shift_dat
 
     def __fi__(solution=None, idx=None):
         if idx == 0:
-            return F17(solution, shuffle=29)
+            return F17(solution, bias=0, shuffle=29)
         elif idx == 1:
-            return F18(solution, shuffle=29)
+            return F18(solution, bias=0, shuffle=29)
         else:
-            return F19(solution, shuffle=29)
+            return F19(solution, bias=0, shuffle=29)
 
     weights = ones(num_funcs)
     fits = ones(num_funcs)
@@ -750,11 +766,11 @@ def F30(solution=None, name="Composition Function 8", shift_data_file="shift_dat
 
     def __fi__(solution=None, idx=None):
         if idx == 0:
-            return F20(solution, shuffle=30)
+            return F20(solution, bias=0, shuffle=30)
         elif idx == 1:
-            return F21(solution, shuffle=30)
+            return F21(solution, bias=0, shuffle=30)
         else:
-            return F22(solution, shuffle=30)
+            return F22(solution, bias=0, shuffle=30)
 
     weights = ones(num_funcs)
     fits = ones(num_funcs)
