@@ -12,6 +12,6 @@ from opfunu.cec.cec2014.function import *
 
 temp = np.random.uniform(0, 1, 10)
 
-result = F1(temp)
+result = F30(temp)
 
 print(result)
