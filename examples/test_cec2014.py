@@ -9,17 +9,21 @@
 
 import numpy as np
 from opfunu.cec.cec2014.function import *
-from opfunu.cec.cec2014.unconstraint import Model
+from opfunu.cec.cec2014.unconstraint2 import Model as MD2
+from opfunu.cec.cec2014.unconstraint import Model as MD
 
-solution = np.random.uniform(0, 1, 10)
+problem_size = 10
+solution = np.random.uniform(0, 1, problem_size)
 
 
 result1 = F1(solution)
 print(result1)
 
-result2 = Model(solution)
+result2 = MD2(solution)
 print(result2.F1())
 
+result3 = MD(problem_size)
+print(result3.F1(solution))
 
 
 

@@ -10,8 +10,8 @@
 import numpy as np
 from opfunu.cec.cec2013.unconstraint import Model
 
-solution = np.random.uniform(0, 1, 5)
+problem_size = 10
+solution = np.random.uniform(0, 1, problem_size)
+func = Model(problem_size)
 
-result = Model(solution)
-
-print(result.F1())
+print(func.F1(solution))

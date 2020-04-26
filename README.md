@@ -1,5 +1,5 @@
 # Optimization Function in Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.6.3-yellow.svg)]()
+[![GitHub release](https://img.shields.io/badge/release-0.6.4-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -70,31 +70,65 @@ print(result)
 
 
 
-## CEC-2010 or CEC-2014
+## CEC-2010 
 
 import numpy as np
 from opfunu.cec.cec2010.function import F1, F2, ..., F12,..
-from opfunu.cec.cec2014.function import F1, F2, ...., F28
 
 solution = np.random.uniform(0, 1, 1000)
 result = F12(temp)
 print(result)
 
 
-## CEC-2013 or CEC-2014 
+## CEC-2013 (2 ways to use depend on your purpose)
 
 import numpy as np
 from opfunu.cec.cec2013.unconstraint import Model as M13
-from opfunu.cec.cec2014.unconstraint import Model as M14
+from opfunu.cec.cec2014.unconstraint2 import Model as MD2
 
-solution = np.random.uniform(0, 1, 10)
+problem_size = 10
+solution = np.random.uniform(0, 1, problem_size)
 
-result1 = M13(solution)
-print(result1.F1())
 
-result2 = M14(solution)
-print(result2.F1())
+obj = MD2(problem_size)             # Object style solve different problems with different functions
+print(obj.F1(solution))
+print(obj.F2(solution))
 
+obj = M13(solution)                 # Object style solve same problem with every functions
+print(obj.F1())
+print(obj.F2())
+
+
+## CEC-2014 (3 ways to use depend on your purpose)
+
+import numpy as np
+from opfunu.cec.cec2014.function import F1, F2, ...
+from opfunu.cec.cec2014.unconstraint2 import Model as MD2
+from opfunu.cec.cec2014.unconstraint import Model as MD
+
+problem_size = 10
+solution = np.random.uniform(0, 1, problem_size)
+
+
+print(F1(solution))             # Function style
+
+func = MD(problem_size)         # Object style solve different problems with different functions
+print(func.F1(solution))
+print(func.F2(solution))
+
+obj = MD2(solution)             # Object style solve same problem with every functions
+print(obj.F1())
+print(obj.F2())
+
+
+## CEC-2015 
+import numpy as np
+from opfunu.cec.cec2015.function import F1, F2,...
+
+temp = np.random.uniform(0, 1, 10)
+
+result = F1(temp)
+print(result)
 ...
 ```
 
