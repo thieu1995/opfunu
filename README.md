@@ -1,5 +1,5 @@
 # Optimization Function in Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.6.2-yellow.svg)]()
+[![GitHub release](https://img.shields.io/badge/release-0.6.3-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -105,21 +105,27 @@ print(result2.F1())
 ```code 
 @software{thieu_nguyen_2020_3711682,
   author       = {Thieu Nguyen},
-  title        = {A collection of Benchmark functions for numerical optimization problems. 
-Framework of OPtimization FUnction in NUmpy (opfunu)},
+  title        = {A framework of un-constrained Optimization Functions in Numpy (OpFuNu) for global optimization
+ problems},
   month        = march,
   year         = 2020,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.3620960},
   url          = {https://doi.org/10.5281/zenodo.3620960.}
 }
+
+@article{nguyen2019efficient,
+  title={Efficient Time-Series Forecasting Using Neural Network and Opposition-Based Coral Reefs Optimization},
+  author={Nguyen, Thieu and Nguyen, Tu and Nguyen, Binh Minh and Nguyen, Giang},
+  journal={International Journal of Computational Intelligence Systems},
+  volume={12},
+  number={2},
+  pages={1144--1161},
+  year={2019},
+  publisher={Atlantis Press}
+}
 ```
-    + Nguyen, T., Nguyen, T., Nguyen, B. M., & Nguyen, G. (2019). Efficient Time-Series Forecasting Using Neural Network and Opposition-Based Coral Reefs Optimization. International Journal of Computational Intelligence Systems, 12(2), 1144-1161.
-    
-    + Nguyen, T., Tran, N., Nguyen, B. M., & Nguyen, G. (2018, November). A Resource Usage Prediction System Using Functional-Link and Genetic Algorithm Neural Network for Multivariate Cloud Metrics. In 2018 IEEE 11th Conference on Service-Oriented Computing and Applications (SOCA) (pp. 49-56). IEEE.
-
-    + Nguyen, T., Nguyen, B. M., & Nguyen, G. (2019, April). Building Resource Auto-scaler with Functional-Link Neural Network and Adaptive Bacterial Foraging Optimization. In International Conference on Theory and Applications of Models of Computation (pp. 501-517). Springer, Cham.
-
+ 
 + This project related to my another projects which are "meta-heuristics" and "neural-network", check it here
     + https://github.com/thieunguyen5991/metaheuristics
     + https://github.com/chasebk
