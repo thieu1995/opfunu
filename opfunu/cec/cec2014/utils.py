@@ -48,9 +48,9 @@ def f6_weierstrass__(solution=None, a=0.5, b=3, k_max=20):
     result = 0.0
     for i in range(0, len(solution)):
         t1 = sum([a**k * cos(2*pi*b**k*(solution[i] + 0.5)) for k in range(0, k_max)])
-        t2 = len(solution) * sum([a**k * cos(2*pi*b**k * 0.5) for k in range(0, k_max)])
-        result += t1 - t2
-    return result
+        result += t1
+    t2 = len(solution) * sum([a**k * cos(2*pi*b**k * 0.5) for k in range(0, k_max)])
+    return result - t2
 
 def f7_griewank__(solution=None):
     result = sum(solution ** 2) / 4000
