@@ -9,9 +9,20 @@
 
 import numpy as np
 from opfunu.cec.cec2014.function import *
+from opfunu.cec.cec2014.unconstraint import Model
 
-temp = np.random.uniform(0, 1, 10)
+solution = np.random.uniform(0, 1, 10)
 
-result = F30(temp)
 
-print(result)
+result1 = F1(solution)
+print(result1)
+
+result2 = Model(solution)
+print(result2.F1())
+
+
+
+
+
+
+

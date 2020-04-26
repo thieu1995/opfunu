@@ -1,5 +1,5 @@
 # Optimization Function in Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.6.1-yellow.svg)]()
+[![GitHub release](https://img.shields.io/badge/release-0.6.2-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -80,6 +80,20 @@ solution = np.random.uniform(0, 1, 1000)
 result = F12(temp)
 print(result)
 
+
+## CEC-2013 or CEC-2014 
+
+import numpy as np
+from opfunu.cec.cec2013.unconstraint import Model as M13
+from opfunu.cec.cec2014.unconstraint import Model as M14
+
+solution = np.random.uniform(0, 1, 10)
+
+result1 = M13(solution)
+print(result1.F1())
+
+result2 = M14(solution)
+print(result2.F1())
 
 ...
 ```
