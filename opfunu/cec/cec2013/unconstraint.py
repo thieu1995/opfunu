@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # ------------------------------------------------------------------------------------------------------%
-# Created by "Thieu Nguyen" at 09:52, 25/04/2020                                                        %
+# Created by "Thieu Nguyen" at 11:16, 26/04/2020                                                        %
 #                                                                                                       %
 #       Email:      nguyenthieu2102@gmail.com                                                           %
 #       Homepage:   https://www.researchgate.net/profile/Thieu_Nguyen6                                  %
 #       Github:     https://github.com/thieunguyen5991                                                  %
-# -------------------------------------------------------------------------------------------------------%
+#-------------------------------------------------------------------------------------------------------%
 
 from numpy import dot, array, sum, matmul, where, sqrt, sign, min, cos, pi, exp, round
 from opfunu.cec.utils import BasicFunction
