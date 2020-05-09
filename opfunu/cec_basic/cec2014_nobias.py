@@ -108,7 +108,7 @@ def F16(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     return expanded_scaffer__(z) + f_bias
 
 
-def F17(solution=None, shift_num=1, f_bias=0):
+def F17(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.3 * dim))
     n2 = int(ceil(0.3 * dim)) + n1
@@ -117,7 +117,7 @@ def F17(solution=None, shift_num=1, f_bias=0):
     return modified_schwefel__(x[D[:n1]]) + rastrigin__(x[D[n1:n2]]) + elliptic__(x[D[n2:]]) + f_bias
 
 
-def F18(solution=None, shift_num=1, f_bias=0):
+def F18(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.3 * dim))
     n2 = int(ceil(0.3 * dim)) + n1
@@ -126,7 +126,7 @@ def F18(solution=None, shift_num=1, f_bias=0):
     return bent_cigar__(x[D[:n1]]) + hgbat__(x[D[n1:n2]]) + rastrigin__(x[D[n2:]]) + f_bias
 
 
-def F19(solution=None, shift_num=1, f_bias=0):
+def F19(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.2 * dim))
     n2 = int(ceil(0.2 * dim)) + n1
@@ -136,7 +136,7 @@ def F19(solution=None, shift_num=1, f_bias=0):
     return griewank__(x[D[:n1]]) + weierstrass__(x[D[n1:n2]]) + rosenbrock__(x[D[n2:n3]]) + expanded_scaffer__(x[D[n3:]]) + f_bias
 
 
-def F20(solution=None, shift_num=1, f_bias=0):
+def F20(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.2 * dim))
     n2 = int(ceil(0.2 * dim)) + n1
@@ -146,7 +146,7 @@ def F20(solution=None, shift_num=1, f_bias=0):
     return hgbat__(x[D[:n1]]) + discus__(x[D[n1:n2]]) + expanded_griewank__(x[D[n2:n3]]) + rastrigin__(x[D[n3:]]) + f_bias
 
 
-def F21(solution=None, shift_num=1, f_bias=0):
+def F21(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.1 * dim))
     n2 = int(ceil(0.2 * dim)) + n1
@@ -158,7 +158,7 @@ def F21(solution=None, shift_num=1, f_bias=0):
            modified_schwefel__(x[D[n3:n4]]) + elliptic__(x[D[n4:]]) + f_bias
 
 
-def F22(solution=None, shift_num=1, f_bias=0):
+def F22(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     dim = len(solution)
     n1 = int(ceil(0.1 * dim))
     n2 = int(ceil(0.2 * dim)) + n1
