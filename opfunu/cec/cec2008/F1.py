@@ -12,7 +12,7 @@ from numpy import sum
 
 
 class Model(Root):
-    def __init__(self, f_name="Shifted Sphere Function", f_shift_data_file="schwefel_shift_func_data", f_ext='.txt', f_bias=-450):
+    def __init__(self, f_name="Shifted Sphere Function", f_shift_data_file="sphere_shift_func_data", f_ext='.txt', f_bias=-450):
         Root.__init__(self, f_name, f_shift_data_file, f_ext, f_bias)
 
     def _main__(self, solution=None):
