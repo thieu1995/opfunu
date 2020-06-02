@@ -1,0 +1,27 @@
+CEC 2010
+========
+
+.. toctree::
+   :maxdepth: 2
+   :caption: CEC 2010 Functions
+
+
+* The following functions is avaiable in CEC 2010:
+
+
+opfunu.cec.cec2010.function module
+----------------------------------
+
+.. automodule:: opfunu.cec.cec2010.function
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+opfunu.cec.cec2010.utils module
+-------------------------------
+
+.. automodule:: opfunu.cec.cec2010.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

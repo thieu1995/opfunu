@@ -1,0 +1,28 @@
+CEC 2015
+========
+
+.. toctree::
+   :maxdepth: 2
+   :caption: CEC 2015 Functions
+
+
+* The following functions is avaiable in CEC 2015:
+
+
+
+opfunu.cec.cec2015.function module
+----------------------------------
+
+.. automodule:: opfunu.cec.cec2015.function
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+opfunu.cec.cec2015.utils module
+-------------------------------
+
+.. automodule:: opfunu.cec.cec2015.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

@@ -1,0 +1,42 @@
+CEC 2014
+========
+
+.. toctree::
+   :maxdepth: 2
+   :caption: CEC 2014 Functions
+
+
+* The following functions is avaiable in CEC 2014:
+
+opfunu.cec.cec2014.function module
+----------------------------------
+
+.. automodule:: opfunu.cec.cec2014.function
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+opfunu.cec.cec2014.unconstraint module
+--------------------------------------
+
+.. automodule:: opfunu.cec.cec2014.unconstraint
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+opfunu.cec.cec2014.unconstraint2 module
+---------------------------------------
+
+.. automodule:: opfunu.cec.cec2014.unconstraint2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+opfunu.cec.cec2014.utils module
+-------------------------------
+
+.. automodule:: opfunu.cec.cec2014.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
