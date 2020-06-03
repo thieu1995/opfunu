@@ -21,6 +21,9 @@ project = 'opfunu'
 copyright = '2020, Thieu Nguyen'
 author = 'Thieu Nguyen'
 
+# specify the master doc, otherwise the build at read the docs fails
+master_doc = 'index'
+
 
 # -- General configuration ---------------------------------------------------
 
