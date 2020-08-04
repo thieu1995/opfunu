@@ -12,7 +12,17 @@ from opfunu.cec.utils import BasicFunction
 
 
 class Model(BasicFunction):
+    """
+    """
     def __init__(self, problem_size=None, cec_type="cec2014", bound=(-100, 100), dimensions=(10, 20, 30, 50, 100)):
+        """
+        Parameters
+        ----------
+            problem_size (int): The number of variables in problem
+            cec_type (str, optional):
+            bound (set, optional):
+            dimensions (list, optional):
+        """
         BasicFunction.__init__(self, cec_type)
         self.problem_size = problem_size
         self.dimensions = dimensions
@@ -20,6 +30,17 @@ class Model(BasicFunction):
         self.bound = bound
 
     def __load_shift_matrix_1__(self, f_shift=None, f_matrix=None):
+        """ Load shift matrix from files
+
+        Parameters
+        ----------
+        f_shift : file shift name
+        f_matrix : file matrix name
+
+        Returns
+        -------
+            Shift values and Matrix values from files.
+        """
         shift = self.load_shift_data__(f_shift)[:self.problem_size]
         matrix = self.load_matrix_data__(f_matrix)
         return shift, matrix
@@ -37,6 +58,25 @@ class Model(BasicFunction):
 
 
     def F1(self, solution=None, name="Rotated High Conditioned Elliptic Function", f_shift="shift_data_1.txt", f_matrix="M_1_D", f_bias=100):
+        """ this is no heavily, not light like you said
+
+        Parameters
+        ----------
+        solution : None
+            Your solution is 1D-array numpy
+        name : str, optional
+            your name
+        f_shift : str, optional
+            your shift file name
+        f_matrix : str, optional
+            your matrix file name
+        f_bias : float
+            your global bias number
+
+        Returns
+        -------
+            float: your result of F1 function in CEC 2014
+        """
         f_matrix = f_matrix + str(self.problem_size) + ".txt"
         shift, matrix = self.__load_shift_matrix_1__(f_shift, f_matrix)
         t1 = solution - shift
@@ -250,37 +290,44 @@ class Model(BasicFunction):
 
     ## Composition functions
 
+    def __calculate_weights__(self, z, xichma):
+        weight = 1
+        temp = sum(z**2)
+        if temp != 0:
+            weight = (1.0 / sqrt(temp)) * exp(-temp / (2 * self.problem_size * xichma ** 2))
+        return weight
+
     def F23(self, solution=None, name="Composition Function 1", f_shift="shift_data_23.txt", f_matrix="M_23_D", f_bias=2300):
         xichma = array([10, 20, 30, 40, 50])
         lamda = array([1, 1e-6, 1e-26, 1e-6, 1e-6])
-        bias = array([0, 100, 200, 300, 400])
+        bias =  array([0, 100, 200, 300, 400]) # array([-200, -100, 0, 100, 200])
         f_matrix = f_matrix + str(self.problem_size) + ".txt"
         shift, matrix = self.__load_shift_matrix_2__(f_shift, f_matrix)
 
         # 1. Rotated Rosenbrock’s Function F4’
         z = solution - shift[0]
         g1 = lamda[0] * self.rosenbrock__(dot(matrix[:self.problem_size, :], z)) + bias[0]
-        w1 = (1.0 / sqrt(sum(z ** 2))) * exp(-sum(z ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        w1 = self.__calculate_weights__(z, xichma[0])
 
         # 2. High Conditioned Elliptic Function F1’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.elliptic__(solution=solution) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated Bent Cigar Function F2’
         t3 = solution - shift[2]
         g3 = lamda[2] * self.bent_cigar__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         # 4. Rotated Discus Function F3’
         t4 = solution - shift[3]
         g4 = lamda[3] * self.discus__(dot(matrix[3 * self.problem_size: 4 * self.problem_size, :], t4)) + bias[3]
-        w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * self.problem_size * xichma[3] ** 2))
+        w4 = self.__calculate_weights__(t4, xichma[3])
 
         # 4. High Conditioned Elliptic Function F1’
         t5 = solution - shift[4]
         g5 = lamda[4] * self.elliptic__(solution) + bias[4]
-        w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * self.problem_size * xichma[4] ** 2))
+        w5 = self.__calculate_weights__(t5, xichma[4])
 
         sw = sum([w1, w2, w3, w4, w5])
         result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
@@ -296,17 +343,17 @@ class Model(BasicFunction):
         # 1. Schwefel's Function F10'
         t1 = solution - shift[0]
         g1 = lamda[0] * self.modified_schwefel__(solution) + bias[0]
-        w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        w1 = self.__calculate_weights__(t1, xichma[0])
 
         # 2. Rotated Rastrigin’s Function F9’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.rastrigin__(dot(matrix[self.problem_size: 2 * self.problem_size, :], t2)) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated HGBat Function F14’
         t3 = solution - shift[2]
         g3 = lamda[2] * self.hgbat__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         sw = sum([w1, w2, w3])
         result = (w1 * g1 + w2 * g2 + w3 * g3) / sw
@@ -322,17 +369,17 @@ class Model(BasicFunction):
         # 1. Rotated Schwefel's Function F11’
         t1 = solution - shift[0]
         g1 = lamda[0] * self.modified_schwefel__(dot(matrix[:self.problem_size, :], t1)) + bias[0]
-        w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        w1 = self.__calculate_weights__(t1, xichma[0])
 
         # 2. Rotated Rastrigin’s Function F9’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.rastrigin__(dot(matrix[self.problem_size: 2 * self.problem_size, :], t2)) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated High Conditioned Elliptic Function F1'
         t3 = solution - shift[2]
         g3 = lamda[2] * self.elliptic__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         sw = sum([w1, w2, w3])
         result = (w1 * g1 + w2 * g2 + w3 * g3) / sw
@@ -348,27 +395,27 @@ class Model(BasicFunction):
         # 1. Rotated Schwefel's Function F11’
         t1 = solution - shift[0]
         g1 = lamda[0] * self.modified_schwefel__(dot(matrix[:self.problem_size, :], t1)) + bias[0]
-        w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        w1 = self.__calculate_weights__(t1, xichma[0])
 
         # 2. Rotated HappyCat Function F13’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.happy_cat__(dot(matrix[self.problem_size:2 * self.problem_size, :], t2)) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated High Conditioned Elliptic Function F1’
         t3 = solution - shift[2]
         g3 = lamda[2] * self.elliptic__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         # 4. Rotated Weierstrass Function F6’
         t4 = solution - shift[3]
         g4 = lamda[3] * self.weierstrass__(dot(matrix[3 * self.problem_size: 4 * self.problem_size, :], t4)) + bias[3]
-        w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * self.problem_size * xichma[3] ** 2))
+        w4 = self.__calculate_weights__(t4, xichma[3])
 
         # 5. Rotated Griewank’s Function F7’
         t5 = solution - shift[4]
         g5 = lamda[4] * self.griewank__(dot(matrix[4 * self.problem_size:, :], t5)) + bias[4]
-        w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * self.problem_size * xichma[4] ** 2))
+        w5 = self.__calculate_weights__(t5, xichma[4])
 
         sw = sum([w1, w2, w3, w4, w5])
         result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
@@ -385,27 +432,27 @@ class Model(BasicFunction):
         # 1. Rotated HGBat Function F14'
         t1 = solution - shift[0]
         g1 = lamda[0] * self.hgbat__(dot(matrix[:self.problem_size, :], t1)) + bias[0]
-        w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        w1 = self.__calculate_weights__(t1, xichma[0])
 
         # 2. Rotated Rastrigin’s Function F9’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.rastrigin__(dot(matrix[self.problem_size:2 * self.problem_size, :], t2)) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated Schwefel's Function F11’
         t3 = solution - shift[2]
         g3 = lamda[2] * self.modified_schwefel__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         # 4. Rotated Weierstrass Function F6’
         t4 = solution - shift[3]
         g4 = lamda[3] * self.weierstrass__(dot(matrix[3 * self.problem_size: 4 * self.problem_size, :], t4)) + bias[3]
-        w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * self.problem_size * xichma[3] ** 2))
+        w4 = self.__calculate_weights__(t4, xichma[3])
 
         # 5. Rotated High Conditioned Elliptic Function F1’
         t5 = solution - shift[4]
         g5 = lamda[4] * self.elliptic__(dot(matrix[4 * self.problem_size:, :], t5)) + bias[4]
-        w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * self.problem_size * xichma[4] ** 2))
+        w5 = self.__calculate_weights__(t5, xichma[4])
 
         sw = sum([w1, w2, w3, w4, w5])
         result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
@@ -420,28 +467,28 @@ class Model(BasicFunction):
 
         # 1. Rotated Expanded Griewank’s plus Rosenbrock’s Function F15’
         t1 = solution - shift[0]
-        g1 = lamda[0] * self.F15(f_bias=0) + bias[0]
-        w1 = (1.0 / sqrt(sum(t1 ** 2))) * exp(-sum(t1 ** 2) / (2 * self.problem_size * xichma[0] ** 2))
+        g1 = lamda[0] * self.F15(solution, f_bias=0) + bias[0]
+        w1 = self.__calculate_weights__(t1, xichma[0])
 
         # 2. Rotated HappyCat Function F13’
         t2 = solution - shift[1]
         g2 = lamda[1] * self.happy_cat__(dot(matrix[self.problem_size:2 * self.problem_size, :], t2)) + bias[1]
-        w2 = (1.0 / sqrt(sum(t2 ** 2))) * exp(-sum(t2 ** 2) / (2 * self.problem_size * xichma[1] ** 2))
+        w2 = self.__calculate_weights__(t2, xichma[1])
 
         # 3. Rotated Schwefel's Function F11’
         t3 = solution - shift[2]
         g3 = lamda[2] * self.modified_schwefel__(dot(matrix[2 * self.problem_size: 3 * self.problem_size, :], t3)) + bias[2]
-        w3 = (1.0 / sqrt(sum(t3 ** 2))) * exp(-sum(t3 ** 2) / (2 * self.problem_size * xichma[2] ** 2))
+        w3 = self.__calculate_weights__(t3, xichma[2])
 
         # 4. Rotated Expanded Scaffer’s F6 Function F16’
         t4 = solution - shift[3]
         g4 = lamda[3] * self.expanded_scaffer__(dot(matrix[3 * self.problem_size: 4 * self.problem_size, :], t4)) + bias[3]
-        w4 = (1.0 / sqrt(sum(t4 ** 2))) * exp(-sum(t4 ** 2) / (2 * self.problem_size * xichma[3] ** 2))
+        w4 = self.__calculate_weights__(t4, xichma[3])
 
         # 5. Rotated High Conditioned Elliptic Function F1’
         t5 = solution - shift[4]
         g5 = lamda[4] * self.elliptic__(dot(matrix[4 * self.problem_size:, :], t5)) + bias[4]
-        w5 = (1.0 / sqrt(sum(t5 ** 2))) * exp(-sum(t5 ** 2) / (2 * self.problem_size * xichma[4] ** 2))
+        w5 = self.__calculate_weights__(t5, xichma[4])
 
         sw = sum([w1, w2, w3, w4, w5])
         result = (w1 * g1 + w2 * g2 + w3 * g3 + w4 * g4 + w5 * g5) / sw
@@ -459,10 +506,10 @@ class Model(BasicFunction):
         fits = ones(num_funcs)
         for i in range(0, num_funcs):
             func = self.__getattribute__(func_names[i])
-            t1 = lamda[i] * func(f_shift=f_shift, f_matrix=f_matrix, shuffle=29, f_bias=0) + bias[i]
+            t1 = lamda[i] * func(solution, f_shift=f_shift, f_matrix=f_matrix, shuffle=29, f_bias=0) + bias[i]
             fits[i] = t1
-            temp = solution - shift[i]
-            weights[i] = (1.0 / sqrt(sum(temp ** 2))) * exp(-sum(temp ** 2) / (2 * self.problem_size * xichma[i] ** 2))
+            z = solution - shift[i]
+            weights[i] = self.__calculate_weights__(z, xichma[i])
         sw = sum(weights)
         result = 0.0
         for i in range(0, num_funcs):
@@ -481,10 +528,10 @@ class Model(BasicFunction):
         fits = ones(num_funcs)
         for i in range(0, num_funcs):
             func = self.__getattribute__(func_names[i])
-            t1 = lamda[i] * func(f_shift=f_shift, f_matrix=f_matrix, shuffle=29, f_bias=0) + bias[i]
+            t1 = lamda[i] * func(solution, f_shift=f_shift, f_matrix=f_matrix, shuffle=29, f_bias=0) + bias[i]
             fits[i] = t1
-            temp = solution - shift[i]
-            weights[i] = (1.0 / sqrt(sum(temp ** 2))) * exp(-sum(temp ** 2) / (2 * self.problem_size * xichma[i] ** 2))
+            z = solution - shift[i]
+            weights[i] = self.__calculate_weights__(z, xichma[i])
         sw = sum(weights)
         result = 0.0
         for i in range(0, num_funcs):
