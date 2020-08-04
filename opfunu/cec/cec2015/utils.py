@@ -11,9 +11,19 @@ import pkg_resources
 from pandas import read_csv
 from numpy import sum, exp, cos, sin, sqrt, e, pi, abs, round
 
+
 CURRENT_PATH = pkg_resources.resource_filename("opfunu", "cec/cec2015/")
 SUPPORT_PATH_DATA = pkg_resources.resource_filename("opfunu", "cec/cec2015/support_data/")
 
+SUPPORT_DIMENSION = [10, 30]
+
+
+def check_problem_size(problem_size, *f_file):
+    if problem_size in SUPPORT_DIMENSION:
+        return [file + str(problem_size) + ".txt" for file in f_file]
+    else:
+        print("CEC 2015 function only support problem size 10, 30")
+        exit(0)
 
 def load_shift_data__(data_file=None):
     data = read_csv(SUPPORT_PATH_DATA + data_file, delimiter='\s+', index_col=False, header=None)
@@ -122,3 +132,10 @@ def f13_elliptic__(solution=None):
 
 def f14_ackley__(solution=None):
     return -20 * exp(-0.2 * sqrt(sum(solution ** 2) / len(solution))) - exp(sum(cos(2 * pi * solution)) / len(solution)) + 20 + e
+
+def calculate_weights(problem_size, z, xichma):
+    weight = 1
+    temp = sum(z ** 2)
+    if temp != 0:
+        weight = (1.0 / sqrt(temp)) * exp(-temp / (2 * problem_size * xichma ** 2))
+    return weight
