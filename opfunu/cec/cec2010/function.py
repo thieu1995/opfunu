@@ -14,9 +14,7 @@ from opfunu.cec.cec2010.utils import *
 
 def F1(solution=None, name="Shifted Elliptic Function", shift_data_file="f01_o.txt"):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     shift_data = load_shift_data__(shift_data_file)[:problem_size]
     z = solution - shift_data
     return f2_elliptic__(z)
@@ -24,9 +22,7 @@ def F1(solution=None, name="Shifted Elliptic Function", shift_data_file="f01_o.t
 
 def F2(solution=None, name="Shifted Rastrigin’s Function", shift_data_file="f02_o.txt"):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     shift_data = load_shift_data__(shift_data_file)[:problem_size]
     z = solution - shift_data
     return f3_rastrigin__(z)
@@ -34,9 +30,7 @@ def F2(solution=None, name="Shifted Rastrigin’s Function", shift_data_file="f0
 
 def F3(solution=None, name="Shifted Ackley’s Function", shift_data_file="f03_o.txt"):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     shift_data = load_shift_data__(shift_data_file)[:problem_size]
     z = solution - shift_data
     return f4_ackley__(z)
@@ -44,9 +38,7 @@ def F3(solution=None, name="Shifted Ackley’s Function", shift_data_file="f03_o
 
 def F4(solution=None, name="Single-group Shifted and m-rotated Elliptic Function", shift_data_file="f04_op.txt", matrix_data_file="f04_m.txt", m_group=50):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -66,9 +58,7 @@ def F4(solution=None, name="Single-group Shifted and m-rotated Elliptic Function
 
 def F5(solution=None, name="Single-group Shifted and m-rotated Rastrigin’s Function", shift_data_file="f05_op.txt", matrix_data_file="f05_m.txt", m_group=50):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -88,9 +78,7 @@ def F5(solution=None, name="Single-group Shifted and m-rotated Rastrigin’s Fun
 
 def F6(solution=None, name="Single-group Shifted and m-rotated Ackley’s Function", shift_data_file="f06_op.txt", matrix_data_file="f06_m.txt", m_group=50):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -110,9 +98,7 @@ def F6(solution=None, name="Single-group Shifted and m-rotated Ackley’s Functi
 
 def F7(solution=None, name="Single-group Shifted m-dimensional Schwefel’s Problem 1.2", shift_data_file="f07_op.txt", m_group=50):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -131,9 +117,7 @@ def F7(solution=None, name="Single-group Shifted m-dimensional Schwefel’s Prob
 
 def F8(solution=None, name=" Single-group Shifted m-dimensional Rosenbrock’s Function", shift_data_file="f08_op.txt", m_group=50):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -153,12 +137,8 @@ def F8(solution=None, name=" Single-group Shifted m-dimensional Rosenbrock’s F
 def F9(solution=None, name="D/2m-group Shifted and m-rotated Elliptic Function", shift_data_file="f09_op.txt", matrix_data_file="f09_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / (2 * m_group))
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size/(2*m_group) <= 1:
-        print("CEC 2020 F9 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F9", problem_size, 2*m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -183,12 +163,8 @@ def F9(solution=None, name="D/2m-group Shifted and m-rotated Elliptic Function",
 def F10(solution=None, name="D/2m-group Shifted and m-rotated Rastrigin’s Function", shift_data_file="f10_op.txt", matrix_data_file="f10_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / (2 * m_group))
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / (2 * m_group) <= 1:
-        print("CEC 2020 F10 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F10", problem_size, 2*m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -213,12 +189,8 @@ def F10(solution=None, name="D/2m-group Shifted and m-rotated Rastrigin’s Func
 def F11(solution=None, name="D/2m-group Shifted and m-rotated Ackley’s Function", shift_data_file="f11_op.txt", matrix_data_file="f11_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / (2 * m_group))
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / (2 * m_group) <= 1:
-        print("CEC 2020 F11 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F11", problem_size, 2*m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -243,12 +215,8 @@ def F11(solution=None, name="D/2m-group Shifted and m-rotated Ackley’s Functio
 def F12(solution=None, name="D/2m-group Shifted m-dimensional Schwefel’s Problem 1.2", shift_data_file="f12_op.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / (2 * m_group))
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / (2 * m_group) <= 1:
-        print("CEC 2020 F12 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F12", problem_size, 2*m_group)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -270,12 +238,8 @@ def F12(solution=None, name="D/2m-group Shifted m-dimensional Schwefel’s Probl
 def F13(solution=None, name="D/2m-group Shifted m-dimensional Rosenbrock’s Function", shift_data_file="f13_op.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / (2 * m_group))
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / (2 * m_group) <= 1:
-        print("CEC 2020 F12 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F13", problem_size, 2*m_group)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -297,12 +261,8 @@ def F13(solution=None, name="D/2m-group Shifted m-dimensional Rosenbrock’s Fun
 def F14(solution=None, name="D/2m-group Shifted and m-rotated Elliptic Function", shift_data_file="f14_op.txt", matrix_data_file="f14_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / m_group)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / m_group <= 1:
-        print("CEC 2020 F14 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F14", problem_size, m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -323,12 +283,8 @@ def F14(solution=None, name="D/2m-group Shifted and m-rotated Elliptic Function"
 def F15(solution=None, name="D/2m-group Shifted and m-rotated Rastrigin’s Function", shift_data_file="f15_op.txt", matrix_data_file="f15_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / m_group)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / m_group <= 1:
-        print("CEC 2020 F15 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F15", problem_size, m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -349,12 +305,8 @@ def F15(solution=None, name="D/2m-group Shifted and m-rotated Rastrigin’s Func
 def F16(solution=None, name="D/2m-group Shifted and m-rotated Ackley’s Function", shift_data_file="f16_op.txt", matrix_data_file="f16_m.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / m_group)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / m_group <= 1:
-        print("CEC 2020 F16 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F16", problem_size, m_group)
     matrix = load_matrix_data__(matrix_data_file)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
@@ -375,12 +327,8 @@ def F16(solution=None, name="D/2m-group Shifted and m-rotated Ackley’s Functio
 def F17(solution=None, name="D/2m-group Shifted m-dimensional Schwefel’s Problem 1.2", shift_data_file="f17_op.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / m_group)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / m_group <= 1:
-        print("CEC 2020 F17 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F17", problem_size, m_group)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -400,12 +348,8 @@ def F17(solution=None, name="D/2m-group Shifted m-dimensional Schwefel’s Probl
 def F18(solution=None, name="D/2m-group Shifted m-dimensional Rosenbrock’s Function", shift_data_file="f18_op.txt", m_group=50):
     problem_size = len(solution)
     epoch = int(problem_size / m_group)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
-    if problem_size / m_group <= 1:
-        print("CEC 2020 F18 not support {}. You can change m_group smaller or problem size larger!!!".format(problem_size))
-        return 1
+    check_problem_size(problem_size)
+    check_m_group("F18", problem_size, m_group)
     op_data = load_matrix_data__(shift_data_file)
     if problem_size == 1000:
         shift_data = op_data[:1, :].reshape(-1)
@@ -424,9 +368,7 @@ def F18(solution=None, name="D/2m-group Shifted m-dimensional Rosenbrock’s Fun
 
 def F19(solution=None, name="Shifted Schwefel’s Problem 1.2", shift_data_file="f19_o.txt"):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     shift_data = load_shift_data__(shift_data_file)[:problem_size]
     z = solution - shift_data
     return f5_schwefel__(z)
@@ -434,9 +376,7 @@ def F19(solution=None, name="Shifted Schwefel’s Problem 1.2", shift_data_file=
 
 def F20(solution=None, name="Shifted Rosenbrock’s Function", shift_data_file="f20_o.txt"):
     problem_size = len(solution)
-    if problem_size > 1000:
-        print("CEC 2010 not support for problem size > 1000")
-        return 1
+    check_problem_size(problem_size)
     shift_data = load_shift_data__(shift_data_file)[:problem_size]
     z = solution - shift_data
     return f6_rosenbrock__(z)
