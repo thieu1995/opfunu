@@ -177,12 +177,15 @@ def F23(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200, 300, 400]
     fun = [F4, F1, F2, F3, F1]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -195,12 +198,15 @@ def F24(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200]
     fun = [F10, F9, F14]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -213,12 +219,15 @@ def F25(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200]
     fun = [F11, F9, F1]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -231,12 +240,15 @@ def F26(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200, 300, 400]
     fun = [F11, F13, F1, F6, F7]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -249,12 +261,15 @@ def F27(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200, 300, 400]
     fun = [F14, F9, F11, F6, F1]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -267,12 +282,15 @@ def F28(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200, 300, 400]
     fun = [F15, F13, F11, F16, F1]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -285,12 +303,15 @@ def F29(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200]
     fun = [F17, F18, F19]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
@@ -303,12 +324,15 @@ def F30(solution=None, shift_num=1, rotate_num=1, f_bias=0):
     bias = [0, 100, 200]
     fun = [F20, F21, F22]
     dim = len(solution)
-    result = 0
     w = ones(len(shift_arr))
     for i in range(len(shift_arr)):
         x = shift__(solution, shift_arr[i])
-        w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
+        if sum(x ** 2) == 0:
+            w[i] = 1
+        else:
+            w[i] = 1 / sqrt(sum(x ** 2)) * exp(- sum(x ** 2) / (2 * dim * sigma[i] ** 2))
     sumw = sum(w)
+    result = 0
     for i in range(len(shift_arr)):
         result += (w[i] / sumw) * (lamda[i] * fun[i](solution, shift_num, rotate_num, f_bias=0) + bias[i])
     return result + f_bias
