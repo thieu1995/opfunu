@@ -1,5 +1,5 @@
-# Optimization Function in Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.7.0-yellow.svg)]()
+# Optimization Function using Numpy (OpFuNu)
+[![GitHub release](https://img.shields.io/badge/release-0.7.1-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -151,9 +151,7 @@ print(F30(sol))
 ```code 
 @software{thieu_nguyen_2020_3711682,
   author       = {Thieu Nguyen},
-  title        = {A framework of un-constrained Optimization Functions in Numpy (OpFuNu) for global optimization
- problems},
-  month        = march,
+  title        = {A library of unconstrained Optimization Functions using Numpy (OpFuNu) for optimization problems},
   year         = 2020,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.3620960},

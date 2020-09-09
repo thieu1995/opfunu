@@ -1,7 +1,7 @@
 Introduction
 ############
 
-.. image:: https://img.shields.io/badge/release-0.6.7-yellow.svg?style=svg
+.. image:: https://img.shields.io/badge/release-0.7.1-yellow.svg?style=svg
     :target: https://github.com/thieunguyen5991/opfunu
 
 .. image:: https://img.shields.io/pypi/wheel/gensim.svg?style=svg
@@ -27,8 +27,7 @@ If you see my code and data useful and use it, please cites my works here::
 
 	@software{thieu_nguyen_2020_3711682,
 	  author       = {Thieu Nguyen},
-	  title        = {A framework of un-constrained Optimization Functions in Numpy (OpFuNu) for global optimization problems},
-	  month        = march,
+	  title        = {A library of unconstrained Optimization Functions using Numpy (OpFuNu) for optimization problems},
 	  year         = 2020,
 	  publisher    = {Zenodo},
 	  url          = {https://doi.org/10.5281/zenodo.3620960}
