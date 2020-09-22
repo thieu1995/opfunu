@@ -124,6 +124,22 @@ class Functions:
         return ((np.sum(solution**2) - len(solution))**2)**alpha + (0.5*np.sum(solution**2)+np.sum(solution))/len(solution) + 0.5
 
 
+    def _michalewicz__(self, solution=None, m=10):
+        """
+        Class: multimodal, non-convex, differentiable, non-separable, parametric
+        Global: on 2-d space, 1 global min fx = -1.8013, at [2.20, 1.57]
+        Link: https://www.sfu.ca/~ssurjano/michal.html
+
+        @param solution: A numpy array with x_i in [0, pi]
+        @return: fx
+        """
+        d = len(solution)
+        result = 0
+        for i in range(d):
+            result -= np.sin(solution[i])*(np.sin((i+1)*solution[i]**2/np.pi))**(2*m)
+        return result
+
+
     def _periodic__(self, solution=None):
         """
         Class: multimodal, non-convex, differentiable, non-separable, continuous
@@ -462,9 +478,3 @@ class Functions:
         for i in range(0, d):
             t2 += 0.5*(i+1)*solution[i]
         return t1 + t2**2 + t2**4
-
-
-
-
-
-
