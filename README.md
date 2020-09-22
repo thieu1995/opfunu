@@ -1,5 +1,5 @@
 # Optimization Function using Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-0.7.1-yellow.svg)]()
+[![GitHub release](https://img.shields.io/badge/release-0.8.0-yellow.svg)]()
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 [![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
@@ -16,7 +16,7 @@ pip install opfunu
 Or install the development version from GitHub:
 
 ```bash
-pip install git+https://github.com/thieunguyen5991/opfunu
+pip install git+https://github.com/thieu1995/opfunu
 ```
 
 
@@ -140,6 +140,25 @@ sol = np.random.uniform(0, 1, 20)
 
 print(F30(sol))
 
+### CEC 2020 - engineering problem 
+
+from opfunu.cec.cec2020.constant import benchmark_function as BF
+from opfunu.cec.cec2020 import engineering
+from numpy.random import uniform
+
+for i in range(1, 26):
+    out = BF(i)         # Get object contain information about problems
+    D, g, h, xmin, xmax = out["D"], out["g"], out["h"], out["xmin"], out["xmax"]
+
+    solution = uniform(xmin, xmax)                              ## Create solution based on information above
+    problem = "p" + str(i)                                      ## Choice the problem
+    fx, gx, hx = getattr(engineering, problem)(solution)        ## Fitness function, constraint
+    print("\n==============" + problem + "=================")
+    print("fx:", fx)
+    print("gx:", gx)
+    print("hx:", hx)
+
+-- The problem 1-23 and 25 is DONE, the problem 24th is not DONE yet.
 
 ...
 ```
@@ -151,7 +170,7 @@ print(F30(sol))
 ```code 
 @software{thieu_nguyen_2020_3711682,
   author       = {Thieu Nguyen},
-  title        = {A library of unconstrained Optimization Functions using Numpy (OpFuNu) for optimization problems},
+  title        = {A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems},
   year         = 2020,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.3620960},

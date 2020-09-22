@@ -7,14 +7,14 @@ def readme():
 
 setup(
     name="opfunu",
-    version="0.7.1",
+    version="0.8.0",
     author="Thieu Nguyen",
     author_email="nguyenthieu2102@gmail.com",
-    description="A library of unconstrained Optimization Functions using Numpy (OpFuNu) for optimization problems",
+    description="A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems",
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieunguyen5991/opfunu",
-    download_url="https://github.com/thieunguyen5991/opfunu/archive/v0.7.1.zip",
+    download_url="https://github.com/thieunguyen5991/opfunu/archive/v0.8.0.zip",
     packages=find_packages(),
     include_package_data=True,
     license="MIT",

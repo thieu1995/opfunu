@@ -1,7 +1,7 @@
 Introduction
 ############
 
-.. image:: https://img.shields.io/badge/release-0.7.1-yellow.svg?style=svg
+.. image:: https://img.shields.io/badge/release-0.8.0-yellow.svg?style=svg
     :target: https://github.com/thieunguyen5991/opfunu
 
 .. image:: https://img.shields.io/pypi/wheel/gensim.svg?style=svg
@@ -27,7 +27,7 @@ If you see my code and data useful and use it, please cites my works here::
 
 	@software{thieu_nguyen_2020_3711682,
 	  author       = {Thieu Nguyen},
-	  title        = {A library of unconstrained Optimization Functions using Numpy (OpFuNu) for optimization problems},
+	  title        = {A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems},
 	  year         = 2020,
 	  publisher    = {Zenodo},
 	  url          = {https://doi.org/10.5281/zenodo.3620960}
@@ -56,7 +56,7 @@ This is a simple example::
 
 Or install the development version from GitHub::
 
-	pip install git+https://github.com/thieunguyen5991/opfunu
+	pip install git+https://github.com/thieu1995/opfunu
 
 
 Examples
@@ -183,6 +183,23 @@ Examples
 	sol = np.random.uniform(0, 1, 20)
 
 	print(F30(sol))
+
+	## CEC 2020 engineering problems
+	from opfunu.cec.cec2020.constant import benchmark_function as BF
+	from opfunu.cec.cec2020 import engineering
+	from numpy.random import uniform
+
+	for i in range(1, 26):
+	    out = BF(i)         # Get object contain information about problems
+	    D, g, h, xmin, xmax = out["D"], out["g"], out["h"], out["xmin"], out["xmax"]
+
+	    solution = uniform(xmin, xmax)                              ## Create solution based on information above
+	    problem = "p" + str(i)                                      ## Choice the problem
+	    fx, gx, hx = getattr(engineering, problem)(solution)        ## Fitness function, constraint
+	    print("\n==============" + problem + "=================")
+	    print("fx:", fx)
+	    print("gx:", gx)
+	    print("hx:", hx)
 	...
 
 References
