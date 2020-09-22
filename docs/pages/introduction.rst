@@ -2,7 +2,7 @@ Introduction
 ############
 
 .. image:: https://img.shields.io/badge/release-0.8.0-yellow.svg?style=svg
-    :target: https://github.com/thieunguyen5991/opfunu
+    :target: https://github.com/thieu1995/opfunu
 
 .. image:: https://img.shields.io/pypi/wheel/gensim.svg?style=svg
     :target: https://pypi.python.org/pypi/opfunu
@@ -11,7 +11,7 @@ Introduction
     :target: https://badge.fury.io/py/opfunu
 
 .. image:: https://img.shields.io/packagist/l/doctrine/orm.svg?style=svg
-    :target: https://github.com/thieunguyen5991/opfunu/blob/master/LICENSE
+    :target: https://github.com/thieu1995/opfunu/blob/master/LICENSE
 
 
 This is my first open-source library written in python for optimization benchmark functions.
@@ -223,6 +223,6 @@ References::
 
 This project related to my another projects which are "meta-heuristics" and "neural-network", check it here::
 
-	1. https://github.com/thieunguyen5991/metaheuristics
+	1. https://github.com/thieu1995/metaheuristics
 	2. https://github.com/chasebk
 

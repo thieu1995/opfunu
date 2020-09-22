@@ -190,7 +190,7 @@ for i in range(1, 26):
 ```
  
 + This project related to my another projects which are "meta-heuristics" and "neural-network", check it here
-    + https://github.com/thieunguyen5991/metaheuristics
+    + https://github.com/thieu1995/metaheuristics
     + https://github.com/chasebk
     
 

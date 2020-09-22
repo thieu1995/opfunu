@@ -4,7 +4,7 @@
 #                                                                                                       %
 #       Email:      nguyenthieu2102@gmail.com                                                           %
 #       Homepage:   https://www.researchgate.net/profile/Thieu_Nguyen6                                  %
-#       Github:     https://github.com/thieunguyen5991                                                  %
+#       Github:     https://github.com/thieu1995                                                  %
 # -------------------------------------------------------------------------------------------------------%
 
 from numpy import zeros, array, log, abs, exp, sqrt, pi, round, sin, cos, arccos, remainder, arcsin, int, arctan, imag, log10
