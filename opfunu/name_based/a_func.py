@@ -33,7 +33,7 @@ class Ackley01(Benchmark):
 
     def __init__(self, bounds=None):
         super().__init__()
-        self.check_bounds(bounds, np.array([[-35, 35] for _ in range(2)]))
+        self.check_bounds(bounds, np.array([[-35., 35.] for _ in range(2)]))
         self.dim_changeable = True
         self.f_global = 0.0
         self.x_global = np.zeros(self.ndim)
@@ -71,7 +71,7 @@ class Ackley02(Benchmark):
 
     def __init__(self, bounds=None):
         super().__init__()
-        self.check_bounds(bounds, np.array([[-32, 32] for _ in range(2)]))
+        self.check_bounds(bounds, np.array([[-32., 32.] for _ in range(2)]))
         self.dim_changeable = False
         self.f_global = -200.0
         self.x_global = np.zeros(self.ndim)
@@ -107,7 +107,7 @@ class Ackley03(Benchmark):
 
     def __init__(self, bounds=None):
         super().__init__()
-        self.check_bounds(bounds, np.array([[-32, 32] for _ in range(2)]))
+        self.check_bounds(bounds, np.array([[-32., 32.] for _ in range(2)]))
         self.dim_changeable = False
         self.f_global = -195.62902825923879
         self.x_global = np.array([-0.68255758, -0.36070859])
