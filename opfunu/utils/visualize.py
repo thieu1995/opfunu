@@ -17,12 +17,13 @@ cmap = cm.colors.LinearSegmentedColormap.from_list('Custom', cmap, N=256)
 
 
 def plot_latex_formula(latex):
-    base_url = r'https://latex.codecogs.com/png.latex?\dpi{400}\\'
+    base_url = r'https://latex.codecogs.com/png.latex?\dpi{400}'
     url = f'{base_url}{latex}'
     response = requests.get(url)
     img = Image.open(BytesIO(response.content))
 
     plt.imshow(img)
+    plt.axis('off')
     plt.show()
 
 
