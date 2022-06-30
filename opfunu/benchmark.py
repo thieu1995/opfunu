@@ -59,26 +59,50 @@ class Benchmark:
         self._bounds = None
         self._ndim = None
         self.dim_changeable = False
+        self.dim_default = 2
         self.f_global = None
         self.x_global = None
         self.n_fe = 0
 
-    def check_bounds(self, bounds=None, default_bounds=None):
+    def check_ndim_and_bounds(self, ndim=None, bounds=None, default_bounds=None):
         """
         Check the bounds when initializing the object.
 
         Parameters
         ----------
-        bounds : list
-                 List of lower bound and upper bound, should use default None value
-        default_bounds : list
-                 List of initial lower bound and upper bound values
+        ndim : int
+            The number of dimensions (variables)
+        bounds : list, tuple, np.ndarray
+            List of lower bound and upper bound, should use default None value
+        default_bounds : np.ndarray
+            List of initial lower bound and upper bound values
         """
-        if bounds is None:
-            self._bounds = default_bounds
+        if ndim is None:
+            self._bounds = default_bounds if bounds is None else np.array(bounds).T
+            self._ndim = self._bounds.shape[1]
         else:
-            self._bounds = np.array(bounds).T
-        self._ndim = self._bounds.shape[1]
+            if bounds is None:
+                if self.dim_changeable:
+                    if type(ndim) is int and ndim > 1:
+                        self._ndim = int(ndim)
+                        self._bounds = np.array([default_bounds[0] for _ in range(self._ndim)])
+                    else:
+                        raise ValueError('ndim must be an integer and > 1!')
+                else:
+                    self._ndim = self.dim_default
+                    self._bounds = default_bounds
+                    print(f"{self.__class__.__name__} is fixed problem with {self.dim_default} variables!")
+            else:
+                if self.dim_changeable:
+                    self._bounds = np.array(bounds).T
+                    self._ndim = self._bounds.shape[1]
+                    print(f"{self.__class__.__name__} problem is set with {self._ndim} variables!")
+                else:
+                    self._bounds = np.array(bounds).T
+                    if self._bounds.shape[1] != self.dim_default:
+                        raise ValueError(f"{self.__class__.__name__} is fixed problem with {self._ndim} variables. Please setup the correct bounds!")
+                    else:
+                        self._ndim = self.dim_default
 
     def check_solution(self, x):
         """

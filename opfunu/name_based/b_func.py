@@ -31,9 +31,11 @@ class BartelsConn(Benchmark):
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
 
-    def __init__(self, bounds=None):
+    def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.check_bounds(bounds, np.array([[-500., 500.] for _ in range(2)]))
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-500., 500.] for _ in range(self.dim_default)]))
         self.dim_changeable = False
         self.f_global = 1.0
         self.x_global = np.zeros(self.ndim)
@@ -68,9 +70,11 @@ class Beale(Benchmark):
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
 
-    def __init__(self, bounds=None):
+    def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.check_bounds(bounds, np.array([[-4.5, 4.5] for _ in range(2)]))
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-4.5, 4.5] for _ in range(self.dim_default)]))
         self.dim_changeable = False
         self.f_global = 0.0
         self.x_global = np.array([3.0, 0.5])
