@@ -63,6 +63,7 @@ class Benchmark:
         self.f_global = None
         self.x_global = None
         self.n_fe = 0
+        self.paras = {}
 
     def check_ndim_and_bounds(self, ndim=None, bounds=None, default_bounds=None):
         """
@@ -95,11 +96,11 @@ class Benchmark:
             else:
                 if self.dim_changeable:
                     self._bounds = np.array(bounds).T
-                    self._ndim = self._bounds.shape[1]
+                    self._ndim = self._bounds.shape[0]
                     print(f"{self.__class__.__name__} problem is set with {self._ndim} variables!")
                 else:
                     self._bounds = np.array(bounds).T
-                    if self._bounds.shape[1] != self.dim_default:
+                    if self._bounds.shape[0] != self.dim_default:
                         raise ValueError(f"{self.__class__.__name__} is fixed problem with {self._ndim} variables. Please setup the correct bounds!")
                     else:
                         self._ndim = self.dim_default
@@ -116,11 +117,12 @@ class Benchmark:
         if not self.dim_changeable and (len(x) != self._ndim):
             raise ValueError(f"The length of solution should has {self._ndim} variables!")
 
-    def get_param(self):
+    def get_paras(self):
         """
         Return the parameters of the problem. Depended on function
         """
-        return {"bounds": self._bounds, "ndim": self._ndim, }
+        default = {"bounds": self._bounds, "ndim": self._ndim, }
+        return {**default, **self.paras}
 
     def evaluate(self, x):
         """
