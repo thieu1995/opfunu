@@ -257,3 +257,53 @@ class F52005(CecBenchmark):
         return np.max(results) + self.f_bias
 
 
+class F62005(CecBenchmark):
+    """
+    .. [1] Suganthan, P.N., Hansen, N., Liang, J.J., Deb, K., Chen, Y.P., Auger, A. and Tiwari, S., 2005.
+    Problem definitions and evaluation criteria for the CEC 2005 special session on real-parameter optimization.
+    KanGAL report, 2005005(2005), p.2005.
+    """
+    name = "F6: Shifted Rosenbrock’s Function"
+    latex_formula = r'F_6(x) = \sum_{i=1}^D \Big(100(z_i^2 - z_{i+1})^2 + (z_i-1)^2 \Big) + bias; z=x-o+1;' + \
+        '\\x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_6(x^*) = bias = 390.0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    def __init__(self, ndim=None, bounds=None, f_shift="data_rosenbrock", f_bias=390.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2005")
+        self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        ndim = len(x)
+        z = x - self.f_shift + 1
+        results = [(100 * (z[idx]**2 - z[idx+1])**2 + (z[idx] - 1)**2) for idx in range(0, ndim-1)]
+        return np.sum(results) + self.f_bias
+
+
