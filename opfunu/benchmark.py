@@ -164,21 +164,34 @@ class Benchmark:
             else:
                 return ndim == self.ndim
 
-    def change_dimensions(self, ndim):
+    def is_succeed(self, x, tol=1.e-5):
         """
-        Changes the dimensionality of the benchmark problem if suitable.
+        Check if a candidate solution at the global minimum.
 
         Parameters
         ----------
-        ndim : int
-               The new dimensionality for the problem.
+        x : np.ndarray
+            The candidate vector for testing if the global minimum has been reached. Must have ``len(x) == self.ndim``
+        tol : float
+            The evaluated function and known global minimum must differ by less than this amount to be at a global minimum.
+
+        Returns
+        -------
+        bool : is the candidate vector at the global minimum?
         """
 
-        if self.dim_changeable:
-            self._ndim = ndim
-            self._bounds = np.array([self._bounds[0]] * ndim)
-        else:
-            raise ValueError('dimensionality cannot be changed for this problem')
+        # the solution should still be in bounds, otherwise immediate fail.
+        if np.any(x > self.ub) or np.any(x < self.lb):
+            return False
+
+        val = self.evaluate(np.squeeze(x))
+        if np.abs(val - self.f_global) < tol:
+            return True
+
+        # you found a lower global minimum.  This shouldn't happen.
+        if val < self.f_global:
+            raise ValueError("Found a lower global minimum", x, val, self.f_global)
+        return False
 
     @property
     def bounds(self):
