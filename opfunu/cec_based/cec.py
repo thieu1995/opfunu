@@ -4,11 +4,11 @@
 #       Github: https://github.com/thieu1995        %                         
 # --------------------------------------------------%
 
-from abc import ABC
 import numpy as np
-from opfunu.benchmark import Benchmark
+import pandas as pd
 import pkg_resources
-from pandas import read_csv
+from abc import ABC
+from opfunu.benchmark import Benchmark
 
 
 class CecBenchmark(Benchmark, ABC):
@@ -98,17 +98,23 @@ class CecBenchmark(Benchmark, ABC):
                 raise ValueError(f"The matrix data should be an orthogonal matrix (2D np.array)!")
 
     def load_shift_data(self, filename=None):
-        data = read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
+        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
         return data.values.reshape((-1))
 
     def load_matrix_data(self, filename=None):
         try:
-            data = read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
+            data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
             return data.values
         except FileNotFoundError:
             print(f'The matrix file named: {filename}.txt is not found.')
             print(f"{self.__class__.__name__} problem is only supported ndim in {self.dim_supported}!")
             exit(1)
+
+    def load_shift_and_matrix_data(self, filename=None):
+        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
+        shift_data = data.values[:1, :].ravel()
+        matrix_data = data.values[1:, :]
+        return shift_data, matrix_data
 
     def check_solution(self, x, dim_max=None, dim_support=None):
         """
