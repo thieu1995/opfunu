@@ -68,6 +68,7 @@ class CecBenchmark(Benchmark, ABC):
         self.dim_changeable = True
         self.dim_default = 30
         self.dim_max = 100
+        self.dim_supported = None
         self.f_global = None
         self.x_global = None
         self.n_fe = 0
@@ -87,13 +88,27 @@ class CecBenchmark(Benchmark, ABC):
             else:
                 raise ValueError(f"The shift data should be a list/tuple or np.array!")
 
-    def load_shift_data(self, f_shift_file):
-        data = read_csv(f"{self.support_path}/{f_shift_file}", delimiter='\s+', index_col=False, header=None)
+    def check_matrix_data(self, f_matrix):
+        if type(f_matrix) is str:
+            return self.load_matrix_data(f_matrix)
+        else:
+            if type(f_matrix) is np.ndarray:
+                return np.squeeze(f_matrix)
+            else:
+                raise ValueError(f"The matrix data should be an orthogonal matrix (2D np.array)!")
+
+    def load_shift_data(self, filename=None):
+        data = read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
         return data.values.reshape((-1))
 
-    def load_matrix_data(self, data_file=None):
-        data = read_csv(self.support_path + data_file, delimiter='\s+', index_col=False, header=None)
-        return data.values
+    def load_matrix_data(self, filename=None):
+        try:
+            data = read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
+            return data.values
+        except FileNotFoundError:
+            print(f'The matrix file named: {filename}.txt is not found.')
+            print(f"{self.__class__.__name__} problem is only supported ndim in {self.dim_supported}!")
+            exit(1)
 
     def check_solution(self, x, dim_max=None, dim_support=None):
         """
@@ -106,12 +121,13 @@ class CecBenchmark(Benchmark, ABC):
         dim_max : The maximum number of variables that the function is supported
         dim_support : List of the supported dimensions
         """
-        if not self.dim_changeable and (len(x) != self._ndim):
-            raise ValueError(f"The length of solution should has {self._ndim} variables!")
+        # if not self.dim_changeable and (len(x) != self._ndim):
+        if len(x) != self._ndim:
+            raise ValueError(f"{self.__class__.__name__} problem, the length of solution should has {self._ndim} variables!")
         if (dim_max is not None) and (len(x) > dim_max):
-            raise ValueError(f"This function is not supported ndim > {dim_max}!")
+            raise ValueError(f"{self.__class__.__name__} problem is not supported ndim > {dim_max}!")
         if (dim_support is not None) and (len(x) not in dim_support):
-            raise ValueError(f"This function is only supported ndim in {dim_support}!")
+            raise ValueError(f"{self.__class__.__name__} problem is only supported ndim in {dim_support}!")
 
     def check_ndim_and_bounds(self, ndim=None, dim_max=None, bounds=None, default_bounds=None):
         """
