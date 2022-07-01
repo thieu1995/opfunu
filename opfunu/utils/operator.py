@@ -18,3 +18,33 @@ def rosenbrock_func(x):
     x = np.array(x).ravel()
     return np.sum([100*(x[idx]**2 - x[idx+1])**2 + (x[idx] - 1)**2 for idx in range(0, len(x)-1)])
 
+
+def scaffer_func(x):
+    x = np.array(x).ravel()
+    return 0.5 + (np.sin(np.sqrt(np.sum(x**2))) - 0.5) / (1 + 0.001 * (np.sum(x**2)))**2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -163,3 +163,34 @@ def test_F122005_results():
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
+
+
+def test_F132005_results():
+    ndim = 30
+    problem = opfunu.cec_based.F132005(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.cec_based.CecBenchmark)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+def test_F142005_results():
+    ndim = 30
+    problem = opfunu.cec_based.F142005(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.cec_based.CecBenchmark)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
+
