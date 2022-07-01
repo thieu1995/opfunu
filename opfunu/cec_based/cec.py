@@ -55,6 +55,7 @@ class CecBenchmark(Benchmark, ABC):
     randomized_term = False
     parametric = True
     shifted = True
+    rotated = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
 

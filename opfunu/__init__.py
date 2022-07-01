@@ -33,7 +33,7 @@ def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None
 
 
 def get_cecs(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
-             scalable=None, randomized_term=None, parametric=True, shifted=True, modality=None):
+             scalable=None, randomized_term=None, parametric=True, shifted=True, rotated=None , modality=None):
     functions = [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
     functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
 
@@ -47,6 +47,7 @@ def get_cecs(ndim, continuous=None, linear=None, convex=None, unimodal=None, sep
     functions = list(filter(lambda f: (randomized_term is None) or (f.randomized_term == randomized_term), functions))
     functions = list(filter(lambda f: (parametric is None) or (f.parametric == parametric), functions))
     functions = list(filter(lambda f: (shifted is None) or (f.shifted == shifted), functions))
+    functions = list(filter(lambda f: (rotated is None) or (f.rotated == rotated), functions))
     functions = list(filter(lambda f: (modality is None) or (f.modality == modality), functions))
     return functions
 
