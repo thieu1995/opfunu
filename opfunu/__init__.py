@@ -32,7 +32,7 @@ def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None
     return functions
 
 
-def get_cecs(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
+def get_cecs(ndim=None, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
              scalable=None, randomized_term=None, parametric=True, shifted=True, rotated=None , modality=None):
     functions = [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
     functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))

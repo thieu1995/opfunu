@@ -114,7 +114,8 @@ class F32005(CecBenchmark):
     KanGAL report, 2005005(2005), p.2005.
     """
     name = "F3: Shifted Rotated High Conditioned Elliptic Function"
-    latex_formula = r'F_3(x) = \sum_{i=1}^D (10^6)^{\frac{i-1}{D-1}} z_i^2 + bias; \\ z=(x-o).M; x=[x_1, ..., x_D], \\o=[o_1, ..., o_D]: \text{the shifted global optimum}\\ M: \text{orthogonal matrix}'
+    latex_formula = r'F_3(x) = \sum_{i=1}^D (10^6)^{\frac{i-1}{D-1}} z_i^2 + bias; \\ z=(x-o).M; x=[x_1, ..., x_D], ' + \
+                    r'\\o=[o_1, ..., o_D]: \text{the shifted global optimum}\\ M: \text{orthogonal matrix}'
     latex_formula_dimension = r'D \in [10, 30, 50]'
     latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
     latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_3(x^*) = bias = -450.0'
@@ -167,7 +168,8 @@ class F42005(CecBenchmark):
     KanGAL report, 2005005(2005), p.2005.
     """
     name = "F4: Shifted Schwefel’s Problem 1.2 with Noise in Fitness"
-    latex_formula = r'F_4(x) = \Big(\sum_{i=1}^D (\sum_{j=1}^i)^2\Big)*\Big(1 + 0.4|N(0, 1)|\Big)+ bias;\\ z=(x-o).M; x=[x_1, ..., x_D], \\o=[o_1, ..., o_D]: \text{the shifted global optimum}\\ N(0,1): \text{gaussian noise}'
+    latex_formula = r'F_4(x) = \Big(\sum_{i=1}^D (\sum_{j=1}^i)^2\Big)*\Big(1 + 0.4|N(0, 1)|\Big)+ bias;' + \
+                    r'\\ z=(x-o).M; x=[x_1, ..., x_D], \\o=[o_1, ..., o_D]: \text{the shifted global optimum}\\ N(0,1): \text{gaussian noise}'
     latex_formula_dimension = r'2 <= D <= 100'
     latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
     latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_4(x^*) = bias = -450.0'
@@ -1333,25 +1335,19 @@ class F242005(CecBenchmark):
         return np.sum(np.dot(weights, (fits + self.bias))) + self.f_bias
 
 
+class F252005(F242005):
+    """
+    .. [1] Suganthan, P.N., Hansen, N., Liang, J.J., Deb, K., Chen, Y.P., Auger, A. and Tiwari, S., 2005.
+    Problem definitions and evaluation criteria for the CEC 2005 special session on real-parameter optimization.
+    KanGAL report, 2005005(2005), p.2005.
+    """
+    name = "F25: Rotated Hybrid Composition Function without bounds"
+    latex_formula = r'F_6(x) = \sum_{i=1}^D \Big(100(z_i^2 - z_{i+1})^2 + (z_i-1)^2 \Big) + bias; z=x-o+1;' + \
+                    '\\x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_6(x^*) = bias = 390.0'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def __init__(self, ndim=None, bounds=None, f_shift="data_hybrid_func4", f_matrix="hybrid_func4_M_D", f_bias=260.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[2., 5.] for _ in range(self.dim_default)]))

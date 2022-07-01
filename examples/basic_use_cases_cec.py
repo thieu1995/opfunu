@@ -83,3 +83,9 @@ if __name__ == '__main__':
         rotated=True
     )
     print(my_list)  # --> 41
+
+    ## Get all noise function
+    my_list = opfunu.get_cecs(
+        randomized_term=True
+    )
+    print(my_list)
