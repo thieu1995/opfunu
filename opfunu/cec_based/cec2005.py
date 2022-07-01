@@ -805,11 +805,6 @@ class F152005(CecBenchmark):
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
-        self.f12__ = operator.rastrigin_func
-        self.f34__ = operator.weierstrass_func
-        self.f56__ = operator.griewank_func
-        self.f78__ = operator.ackley_func
-        self.f910__ = operator.sphere_func
         self.lamdas = np.array([1, 1, 10, 10, 5.0 / 60, 5.0 / 60, 5.0 / 32, 5.0 / 32, 5.0 / 100, 5.0 / 100])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
@@ -896,11 +891,6 @@ class F162005(CecBenchmark):
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
         self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
-        self.f12__ = operator.rastrigin_func
-        self.f34__ = operator.weierstrass_func
-        self.f56__ = operator.griewank_func
-        self.f78__ = operator.ackley_func
-        self.f910__ = operator.sphere_func
         self.lamdas = np.array([1, 1, 10, 10, 5.0 / 60, 5.0 / 60, 5.0 / 32, 5.0 / 32, 5.0 / 100, 5.0 / 100])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
@@ -946,6 +936,89 @@ class F162005(CecBenchmark):
         return np.sum(np.dot(weights, (fits + self.bias))) + self.f_bias
 
 
+class F172005(CecBenchmark):
+    """
+    .. [1] Suganthan, P.N., Hansen, N., Liang, J.J., Deb, K., Chen, Y.P., Auger, A. and Tiwari, S., 2005.
+    Problem definitions and evaluation criteria for the CEC 2005 special session on real-parameter optimization.
+    KanGAL report, 2005005(2005), p.2005.
+    """
+    name = "F17: F16 with Noise in Fitness"
+    latex_formula = r'F_6(x) = \sum_{i=1}^D \Big(100(z_i^2 - z_{i+1})^2 + (z_i-1)^2 \Big) + bias; z=x-o+1;' + \
+                    '\\x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_6(x^*) = bias = 390.0'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = True
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    def __init__(self, ndim=None, bounds=None, f_shift="data_hybrid_func1", f_matrix="hybrid_func1_M_D", f_bias=120.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.dim_supported = [10, 30, 50]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2005")
+        self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
+        self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
+        self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.lamdas = np.array([1, 1, 10, 10, 5.0 / 60, 5.0 / 60, 5.0 / 32, 5.0 / 32, 5.0 / 100, 5.0 / 100])
+        self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
+        self.n_funcs = 10
+        self.xichmas = np.ones(self.n_funcs)
+        self.C = 2000
+        self.y = 5 * np.ones(self.ndim)
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "lambda": self.lamdas, "bias": self.bias,
+                      "n_funcs": self.n_funcs, "C": self.C, "M": self.M, "y": self.y}
+
+    def fi__(self, x, idx):
+        if idx == 0 or idx == 1:
+            return operator.rastrigin_func(x)
+        elif idx == 2 or idx == 3:
+            return operator.weierstrass_func(x)
+        elif idx == 4 or idx == 5:
+            return operator.griewank_func(x)
+        elif idx == 6 or idx == 7:
+            return operator.ackley_func(x)
+        else:
+            return operator.sphere_func(x)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        ndim = len(x)
+        weights = np.ones(self.n_funcs)
+        fits = np.ones(self.n_funcs)
+        for idx in range(0, self.n_funcs):
+            w_i = np.exp(-np.sum((x - self.f_shift[idx]) ** 2) / (2 * ndim * self.xichmas[idx] ** 2))
+            z = np.dot((x - self.f_shift[idx]) / self.lamdas[idx], self.M[idx*ndim:(idx+1)*ndim, :])
+            fit_i = self.fi__(z, idx)
+            f_max_i = self.fi__(np.dot((self.y / self.lamdas[idx]), self.M[idx*ndim:(idx+1)*ndim, :]), idx)
+            fit_i = self.C * fit_i / f_max_i
+            weights[idx] = w_i
+            fits[idx] = fit_i
+
+        maxw = np.max(weights)
+        weights = np.where(weights != maxw, weights*(1 - maxw**10), weights)
+        weights = weights / np.sum(weights)
+        return np.sum(np.dot(weights, (fits + self.bias)))*(1 + 0.2*np.abs(np.random.normal(0, 1))) + self.f_bias
 
 
 
