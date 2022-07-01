@@ -117,6 +117,13 @@ class CecBenchmark(Benchmark, ABC):
         matrix_data = data.values[1:, :]
         return shift_data, matrix_data
 
+    def load_two_matrix_and_shift_data(self, filename=None):
+        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
+        a_matrix = data.values[:100, :]
+        b_matrix = data.values[100:200, :]
+        shift_data = data.values[200:, :].ravel()
+        return shift_data, a_matrix, b_matrix
+
     def check_solution(self, x, dim_max=None, dim_support=None):
         """
         Raise the error if the problem size is not equal to the solution length
