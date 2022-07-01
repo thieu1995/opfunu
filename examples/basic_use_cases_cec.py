@@ -18,7 +18,7 @@ if __name__ == '__main__':
     #     ndim=2,  # dimension
     #     separable=True,
     # )
-    # print(separable_2d_cec)  # --> 41
+    # print(separable_2d_cec)
     #
     # # Import specific function
     # f12005 = opfunu.cec_based.F12005()
@@ -70,3 +70,16 @@ if __name__ == '__main__':
     print(f32005.evaluate(x))
     print(f32005.f_matrix)
     print(f32005.x_global)
+
+    problem = opfunu.cec_based.F212005(ndim=10)
+    x = np.ones(10)
+    print(problem.evaluate(x))
+    print(problem.x_global)
+    print(problem.is_succeed(problem.x_global))
+
+    # # get all the available separable functions accepting 2D
+    my_list = opfunu.get_cecs(
+        ndim=2,  # dimension
+        rotated=True
+    )
+    print(my_list)  # --> 41
