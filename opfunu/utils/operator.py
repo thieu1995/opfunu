@@ -7,6 +7,21 @@
 import numpy as np
 
 
+def rounder(x, condition):
+    ndim = len(x)
+    temp_2x = 2 * x
+    for idx in range(0, ndim):
+        dec, inter = np.modf(temp_2x[idx])
+        if temp_2x[idx] <= 0 and dec >= 0.5:
+            temp_2x[idx] = inter - 1
+        elif dec < 0.5:
+            temp_2x[idx] = inter
+        else:
+            temp_2x[idx] = inter + 1
+    temp_2x = temp_2x / 2
+    return np.where(condition < 0.5, x, temp_2x)
+
+
 def griewank_func(x):
     x = np.array(x).ravel()
     t1 = np.sum(x**2) / 4000
@@ -63,6 +78,31 @@ def f8f2_func(x):
     results = [griewank_func(rosenbrock_func([x[idx], x[idx+1]])) for idx in range(0, len(x) - 1)]
     return np.sum(results) + griewank_func(rosenbrock_func([x[-1], x[0]]))
 
+
+def non_continuous_expanded_scaffer_func(x):
+    x = np.array(x).ravel()
+    y = rounder(x, np.abs(x))
+    results = [scaffer_func([y[idx], y[idx+1]]) for idx in range(0, len(x) - 1)]
+    return np.sum(results) + scaffer_func([y[-1], y[0]])
+
+
+def non_continuous_rastrigin_func(x):
+    x = np.array(x).ravel()
+    y = rounder(x, np.abs(x))
+    results = [rastrigin_func([y[idx], y[idx + 1]]) for idx in range(0, len(x) - 1)]
+    return np.sum(results) + rastrigin_func([y[-1], y[0]])
+
+
+def elliptic_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    idx = np.arange(0, ndim)
+    return np.sum((10**6)**(idx/(ndim-1)) * x**2)
+
+
+def sphere_noise_func(x):
+    x = np.array(x).ravel()
+    return np.sum(x**2)*(1 + 0.1 * np.abs(np.random.normal(0, 1)))
 
 
 
