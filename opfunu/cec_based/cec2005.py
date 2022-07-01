@@ -486,6 +486,58 @@ class F92005(CecBenchmark):
         return np.sum(z**2 - 10*np.cos(2*np.pi*z) + 10) + self.f_bias
 
 
+class F102005(CecBenchmark):
+    """
+    .. [1] Suganthan, P.N., Hansen, N., Liang, J.J., Deb, K., Chen, Y.P., Auger, A. and Tiwari, S., 2005.
+    Problem definitions and evaluation criteria for the CEC 2005 special session on real-parameter optimization.
+    KanGAL report, 2005005(2005), p.2005.
+    """
+    name = "F10: Shifted Rotated Rastrigin’s Function"
+    latex_formula = r'F_6(x) = \sum_{i=1}^D \Big(100(z_i^2 - z_{i+1})^2 + (z_i-1)^2 \Big) + bias; z=x-o+1;' + \
+                    '\\x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r"x_i \in [-100.0, 100.0], \forall i \in [1, D]"
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_6(x^*) = bias = 390.0'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = True
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    # n_basins = 1
+    # n_valleys = 1
+
+    def __init__(self, ndim=None, bounds=None, f_shift="data_rastrigin", f_matrix="rastrigin_M_D", f_bias=-330.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.dim_supported = [10, 30, 50]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2005")
+        self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
+        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift
+        self.paras = {"f_shift": self.f_shift, "f_matrix": self.f_matrix, "f_bias": self.f_bias}
+        a = np.arange(0, self.ndim)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot((x - self.f_shift), self.f_matrix)
+        return np.sum(z ** 2 - 10 * np.cos(2 * np.pi * z) + 10) + self.f_bias
+
 
 
 
