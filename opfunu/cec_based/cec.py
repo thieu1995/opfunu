@@ -124,6 +124,20 @@ class CecBenchmark(Benchmark, ABC):
         shift_data = data.values[200:, :].ravel()
         return shift_data, a_matrix, b_matrix
 
+    def rounder(self, x, condition):
+        ndim = len(x)
+        temp_2x = 2 * x
+        for idx in range(0, ndim):
+            dec, inter = np.modf(temp_2x[idx])
+            if temp_2x[idx] <= 0 and dec >= 0.5:
+                temp_2x[idx] = inter - 1
+            elif dec < 0.5:
+                temp_2x[idx] = inter
+            else:
+                temp_2x[idx] = inter + 1
+        temp_2x = temp_2x / 2
+        return np.where(condition < 0.5, x, temp_2x)
+
     def check_solution(self, x, dim_max=None, dim_support=None):
         """
         Raise the error if the problem size is not equal to the solution length
