@@ -52,6 +52,19 @@ def sphere_func(x):
     return np.sum(x**2)
 
 
+def rotated_expanded_scaffer_func(x):
+    x = np.array(x).ravel()
+    results = [scaffer_func([x[idx], x[idx+1]]) for idx in range(0, len(x)-1)]
+    return np.sum(results) + scaffer_func([x[-1], x[0]])
+
+
+def f8f2_func(x):
+    x = np.array(x).ravel()
+    results = [griewank_func(rosenbrock_func([x[idx], x[idx+1]])) for idx in range(0, len(x) - 1)]
+    return np.sum(results) + griewank_func(rosenbrock_func([x[-1], x[0]]))
+
+
+
 
 
 
