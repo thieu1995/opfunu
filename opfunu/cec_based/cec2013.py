@@ -304,6 +304,39 @@ class F82013(F32013):
         return operator.ackley_func(z) + self.f_bias
 
 
+class F92013(F32013):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F9: Rotated Weierstrass Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = -600.0'
+
+    unimodal = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    characteristics = ["Asymmetrical", "Continuous but differentiable only on a set of points"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=-600., a=0.5, b=3., k_max=20):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.a = a
+        self.b = b
+        self.k_max = k_max
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix,
+                      "a": self.a, "b": self.b, "k_max": self.k_max}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        M1 = self.f_matrix[:self.ndim, :]
+        M2 = self.f_matrix[self.ndim:, :]
+        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
+        temp = operator.tasy_func(np.dot(M1, 0.5*(x - self.f_shift)/100), beta=0.5)
+        z = np.dot(np.matmul(alpha, M2), temp)
+        return operator.weierstrass_func(z, a=0.5, b=3., k_max=20) + self.f_bias
 
 
 
