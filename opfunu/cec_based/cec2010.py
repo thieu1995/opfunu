@@ -577,6 +577,36 @@ class F172010(F72010):
         return result
 
 
+class F182010(F72010):
+    """
+    .. [1] Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization
+    """
+    name = "F18: D/m-group Shifted m-dimensional Rosenbrock’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+
+    unimodal = False
+
+    def __init__(self, ndim=None, bounds=None, f_shift="f18_op", m_group=50):
+        super().__init__(ndim, bounds, f_shift, m_group)
+        self.count_up = int(self.ndim / self.m_group)
+        self.x_global = self.f_shift + 1
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        result = 0.0
+        for k in range(0, self.count_up):
+            idx1 = self.P[k*self.m_group: (k + 1)*self.m_group]
+            result += operator.rosenbrock_func(z[idx1])
+        return result
+
+
+
+
 
 
 
