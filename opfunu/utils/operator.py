@@ -131,6 +131,10 @@ def fractal_1d_func(x):
     return result1
 
 
+def schwefel_12_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    return np.sum([np.sum(x[:idx])**2 for idx in range(0, ndim)])
 
 
 
