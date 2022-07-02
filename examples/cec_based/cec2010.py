@@ -187,6 +187,16 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+## Test CEC2010 F16
+print("====================F16")
+problem = opfunu.cec_based.F162010(ndim=210)
+x = np.ones(210)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
 
 
 
