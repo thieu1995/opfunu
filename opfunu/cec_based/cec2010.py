@@ -436,6 +436,35 @@ class F122010(F72010):
         return result + operator.sphere_func(z2)
 
 
+class F132010(F72010):
+    """
+    .. [1] Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization
+    """
+    name = "F13: D/2m-group Shifted m-dimensional Rosenbrock’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+    unimodal = False
+
+    def __init__(self, ndim=None, bounds=None, f_shift="f13_op", m_group=50):
+        super().__init__(ndim, bounds, f_shift, m_group)
+        self.count_up = int(self.ndim / (2 * self.m_group))
+        self.x_global = self.f_shift.copy()
+        self.x_global[self.P[:int(self.ndim/2)]] = self.f_shift[self.P[:int(self.ndim/2)]] + 1
+        self.x_global[self.P[int(self.ndim/2):]] = self.f_shift[self.P[int(self.ndim/2):]]
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        result = 0.0
+        for k in range(0, self.count_up):
+            idx1 = self.P[k*self.m_group: (k + 1)*self.m_group]
+            result += operator.rosenbrock_func(z[idx1])
+        z2 = z[self.P[int(self.ndim/2):]]
+        return result + operator.sphere_func(z2)
+
 
 
 
