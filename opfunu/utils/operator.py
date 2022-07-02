@@ -137,7 +137,31 @@ def schwefel_12_func(x):
     return np.sum([np.sum(x[:idx])**2 for idx in range(0, ndim)])
 
 
+def tosz_func(x):
+    def transform(xi):
+        if xi > 0:
+            c1, c2, x_sign = 10., 7.9, 1.0
+            x_star = np.log(np.abs(xi))
+        elif xi == 0:
+            c1, c2, x_sign, x_star = 5.5, 3.1, 0., 0.
+        else:
+            c1, c2, x_sign = 5.5, 3.1, -1.
+            x_star = np.log(np.abs(xi))
+        return x_sign * np.exp(x_star + 0.049 * (np.sin(c1*x_star) + np.sin(c2*x_star)))
 
+    x = np.array(x).ravel()
+    x[0] = transform(x[0])
+    x[-1] = transform(x[-1])
+    return x
+
+
+def tasy_func(x, beta=0.5):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    idx = np.arange(0, ndim)
+    up = 1 + beta * ((idx - 1) / (ndim-1)) * np.sqrt(x)
+    x_temp = x ** up
+    return np.where(x > 0, x_temp, x)
 
 
 
