@@ -352,6 +352,34 @@ class F92010(CecBenchmark):
         return result + operator.elliptic_func(z2)
 
 
+class F102010(F92010):
+    """
+    .. [1] Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization
+    """
+    name = "F10: D/2m-group Shifted and m-rotated Rastrigin’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+
+    unimodal = False
+
+    def __init__(self, ndim=None, bounds=None, f_shift="f10_op", f_matrix="f10_m", m_group=50):
+        super().__init__(ndim, bounds, f_shift, f_matrix, m_group)
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        result = 0.0
+        for k in range(0, self.count_up):
+            idx1 = self.P[k*self.m_group: (k + 1)*self.m_group]
+            z1 = np.dot(z[idx1], self.f_matrix[:len(idx1), :len(idx1)])
+            result += operator.rastrigin_func(z1)
+        z2 = z[self.P[int(self.ndim/2):]]
+        return result + operator.rastrigin_func(z2)
+
 
 
 
