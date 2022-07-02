@@ -79,11 +79,13 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+## Test CEC2008 F7
+print("====================F7")
+problem = opfunu.cec_based.F72008(ndim=100)
+x = np.random.uniform(0, 1, 100)
+print(problem.evaluate(x))
+print(problem.x_global)
 
-
-
-
-
-
-
-
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))

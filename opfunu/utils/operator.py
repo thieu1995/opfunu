@@ -105,7 +105,30 @@ def sphere_noise_func(x):
     return np.sum(x**2)*(1 + 0.1 * np.abs(np.random.normal(0, 1)))
 
 
+def twist_func(x):
+    # This function in CEC-2008 F7
+    return 4 * (x ** 4 - 2 * x ** 3 + x ** 2)
 
+
+def doubledip(x, c, s):
+    # This function in CEC-2008 F7
+    if -0.5 < x < 0.5:
+        return (-6144 * (x - c) ** 6 + 3088 * (x - c) ** 4 - 392 * (x - c) ** 2 + 1) * s
+    else:
+        return 0
+
+
+def fractal_1d_func(x):
+    # This function in CEC-2008 F7
+    result1 = 0.0
+    for k in range(1, 4):
+        result2 = 0.0
+        upper = 2 ** (k-1)
+        for t in range(1, upper):
+            selected = np.random.choice([0, 1, 2], p=1/3*np.ones(3))
+            result2 += np.sum([doubledip(x, np.random.uniform(0, 1), 1.0/(upper * (2 - np.random.uniform(0, 1)))) for _ in range(0, selected)])
+        result1 += result2
+    return result1
 
 
 
