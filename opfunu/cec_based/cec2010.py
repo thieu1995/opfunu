@@ -139,7 +139,7 @@ class F42010(CecBenchmark):
         else:
             np.random.seed(0)
             self.P = np.random.permutation(self.ndim)
-        self.m_group = m_group
+        self.m_group = self.check_m_group(m_group)
         self.f_global = 0
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "P": self.P, "f_matrix": self.f_matrix, "m_group": self.m_group}
@@ -250,7 +250,7 @@ class F72010(CecBenchmark):
         else:
             np.random.seed(0)
             self.P = np.random.permutation(self.ndim)
-        self.m_group = m_group
+        self.m_group = self.check_m_group(m_group)
         self.f_global = 0
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "P": self.P, "m_group": self.m_group}
@@ -290,6 +290,66 @@ class F82010(F72010):
         z_sphere = z[self.P[self.m_group:]]
         return operator.rosenbrock_func(z_rosen)*10**6 + operator.sphere_func(z_sphere)
 
+
+class F92010(CecBenchmark):
+    """
+    .. [1] Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization
+    """
+    name = "F9: D/2m-group Shifted and m-rotated Elliptic Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = True
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    def __init__(self, ndim=None, bounds=None, f_shift="f09_op", f_matrix="f09_m", m_group=50):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 1000
+        self.dim_max = 1000
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2010")
+        self.f_matrix = self.check_matrix_data(f_matrix)
+        f_shift = self.load_matrix_data(f_shift)
+        self.f_shift = f_shift[:1, :].ravel()[:self.ndim]
+        if self.ndim == 1000:
+            self.P = (f_shift[1:, :].ravel() - np.ones(self.ndim)).astype(int)
+        else:
+            np.random.seed(0)
+            self.P = np.random.permutation(self.ndim)
+        self.m_group = self.check_m_group(m_group)
+        self.f_global = 0
+        self.x_global = self.f_shift
+        self.count_up = int(self.ndim / (2*self.m_group))
+        self.paras = {"f_shift": self.f_shift, "P": self.P, "f_matrix": self.f_matrix, "m_group": self.m_group}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        result = 0.0
+        for k in range(0, self.count_up):
+            idx1 = self.P[k*self.m_group: (k + 1)*self.m_group]
+            z1 = np.dot(z[idx1], self.f_matrix[:len(idx1), :len(idx1)])
+            result += operator.elliptic_func(z1)
+        z2 = z[self.P[int(self.ndim/2):]]
+        return result + operator.elliptic_func(z2)
 
 
 

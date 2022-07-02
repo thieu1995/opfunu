@@ -98,6 +98,15 @@ class CecBenchmark(Benchmark, ABC):
             else:
                 raise ValueError(f"The matrix data should be an orthogonal matrix (2D np.array)!")
 
+    def check_m_group(self, m_group=None):
+        if type(m_group) is int:
+            if int(self.ndim / m_group) > 1:
+                return m_group
+            else:
+                raise ValueError(f"ndim is too small or m_group is too large!")
+        else:
+            raise ValueError(f"m_group is positive integer!")
+
     def load_shift_data(self, filename=None):
         data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
         return data.values.reshape((-1))
