@@ -182,6 +182,13 @@ def different_powers_func(x):
     return np.sqrt(np.sum(np.abs(x)**up))
 
 
+def generate_diagonal_matrix(size, alpha=10):
+    idx = np.arange(0, size)
+    diagonal = alpha**(idx / (2*(size-1)))
+    matrix = np.zeros((size, size), float)
+    np.fill_diagonal(matrix, diagonal)
+    return matrix
+
 
 
 
