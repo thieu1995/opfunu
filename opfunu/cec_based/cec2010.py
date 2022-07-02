@@ -18,6 +18,7 @@ class F12010(CecBenchmark):
     latex_formula_dimension = r'2 <= D <= 100'
     latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
     latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+
     continuous = True
     linear = False
     convex = True
@@ -605,6 +606,25 @@ class F182010(F72010):
         return result
 
 
+class F192010(F12010):
+    """
+    .. [1] Benchmark Functions for the CEC’2010 Special Session and Competition on Large-Scale Global Optimization
+    """
+    name = "F19: Shifted Schwefel’s Problem 1.2"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = 0'
+
+    separable = False
+
+    def __init__(self, ndim=None, bounds=None, f_shift="f19_o"):
+        super().__init__(ndim, bounds, f_shift)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        return operator.schwefel_12_func(x - self.f_shift)
 
 
 
