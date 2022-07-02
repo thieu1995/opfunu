@@ -46,3 +46,39 @@ def test_F32008_results():
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
+
+
+def test_F42008_results():
+    ndim = 1000
+    problem = opfunu.cec_based.F42008(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.cec_based.CecBenchmark)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
