@@ -169,6 +169,10 @@ def bent_cigar_func(x):
     return x[0]**2 + 10**6 * np.sum(x[1:]**2)
 
 
+def discus_func(x):
+    x = np.array(x).ravel()
+    return 10**6 * x[0]**2 + np.sum(x[1:]**2)
+
 
 
 
