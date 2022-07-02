@@ -159,12 +159,14 @@ def tasy_func(x, beta=0.5):
     x = np.array(x).ravel()
     ndim = len(x)
     idx = np.arange(0, ndim)
-    up = 1 + beta * ((idx - 1) / (ndim-1)) * np.sqrt(x)
-    x_temp = x ** up
+    up = 1 + beta * ((idx - 1) / (ndim-1)) * np.sqrt(np.abs(x))
+    x_temp = np.abs(x) ** up
     return np.where(x > 0, x_temp, x)
 
 
-
+def bent_cigar_func(x):
+    x = np.array(x).ravel()
+    return x[0]**2 + 10**6 * np.sum(x[1:]**2)
 
 
 
