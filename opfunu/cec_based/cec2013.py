@@ -339,6 +339,34 @@ class F92013(F32013):
         return operator.weierstrass_func(z, a=0.5, b=3., k_max=20) + self.f_bias
 
 
+class F102013(F22013):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F10: Rotated Griewank’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = -500.0'
+
+    unimodal = False
+
+    characteristics = []
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=-500.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
+        temp = np.matmul(alpha, self.f_matrix)
+        z = np.dot(temp, 600.0*(x - self.f_shift)/100)
+        return operator.griewank_func(z)+ self.f_bias
+
 
 
 
