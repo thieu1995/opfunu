@@ -7,5 +7,6 @@
 from .cec2005 import *
 from .cec2008 import *
 from .cec2010 import *
+from .cec2013 import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]

@@ -80,9 +80,12 @@ class CecBenchmark(Benchmark, ABC):
     def make_support_data_path(self, data_name):
         self.support_path = pkg_resources.resource_filename("opfunu", f"cec_based/{data_name}")
 
-    def check_shift_data(self, f_shift):
+    def check_shift_data(self, f_shift, kind="vector"):
         if type(f_shift) is str:
-            return self.load_shift_data(f_shift)
+            if kind == "vector":
+                return self.load_shift_data(f_shift)
+            else:
+                return self.load_matrix_data(f_shift)
         else:
             if type(f_shift) in [list, tuple, np.ndarray]:
                 return np.squeeze(f_shift)
@@ -116,7 +119,7 @@ class CecBenchmark(Benchmark, ABC):
             data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
             return data.values
         except FileNotFoundError:
-            print(f'The matrix file named: {filename}.txt is not found.')
+            print(f'The file named: {filename}.txt is not found.')
             print(f"{self.__class__.__name__} problem is only supported ndim in {self.dim_supported}!")
             exit(1)
 
