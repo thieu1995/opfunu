@@ -174,6 +174,13 @@ def discus_func(x):
     return 10**6 * x[0]**2 + np.sum(x[1:]**2)
 
 
+def different_powers_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    idx = np.arange(0, ndim)
+    up = 2 + 4*idx/(ndim-1)
+    return np.sqrt(np.sum(np.abs(x)**up))
+
 
 
 
