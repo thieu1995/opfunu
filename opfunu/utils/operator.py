@@ -210,6 +210,17 @@ def gz_func(x):
     return y
 
 
+def katsuura_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    result = 1.0
+    for idx in range(0, ndim):
+        temp = np.sum([ np.abs(2**j * x[idx] - np.round(2**j * x[idx])) / 2**j for j in range(1, 33)])
+        result *= (1 + (idx+1)*temp) ** (10.0 / ndim**1.2)
+    return (result - 1)*10 / ndim**2
+
+
+
 
 
 
