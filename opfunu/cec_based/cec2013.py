@@ -1029,3 +1029,90 @@ class F252013(F242013):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
         self.xichmas = [10, 30, 50]
 
+
+class F262013(CecBenchmark):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F26: Composition Function 6"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1200.0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=1200.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.dim_supported = [2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2013")
+        self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
+        self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.n_funcs = 5
+        self.xichmas = [10, 10, 10, 10, 10]
+        self.lamdas = [0.25, 1., 1e-7, 2.5, 10.]
+        self.bias = [0, 100, 200, 300, 400]
+        self.g0 = F152013(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim, :self.ndim], f_bias=0)
+        self.g1 = F122013(self.ndim, None, self.f_shift[1], self.f_matrix[:2*self.ndim, :self.ndim], f_bias=0)
+        self.g2 = F22013(self.ndim, None, self.f_shift[2], self.f_matrix[:self.ndim, :self.ndim], f_bias=0)
+        self.g3 = F92013(self.ndim, None, self.f_shift[3], self.f_matrix[:2*self.ndim, :self.ndim], f_bias=0)
+        self.g4 = F102013(self.ndim, None, self.f_shift[4], self.f_matrix[:self.ndim, :self.ndim], f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # g1: Rotated Schwefel's Function f15’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # g2: Rotated Rastrigin’s Function f12
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # g3: Rotated High Conditioned Elliptic Function f2’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # g4: Rotated Weierstrass Function f9’
+        g3 = self.lamdas[3] * self.g3.evaluate(x) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        # g5: Rotated Griewank’s Function f10’
+        g4 = self.lamdas[4] * self.g4.evaluate(x) + self.bias[4]
+        w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
+
+        ws = np.array([w0, w1, w2, w3, w4])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3, g4])
+        return np.dot(ws, gs) + self.f_bias
+
+
+
+
