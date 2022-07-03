@@ -80,21 +80,33 @@ class CecBenchmark(Benchmark, ABC):
     def make_support_data_path(self, data_name):
         self.support_path = pkg_resources.resource_filename("opfunu", f"cec_based/{data_name}")
 
-    def check_shift_data(self, f_shift, kind="vector"):
+    def check_shift_data(self, f_shift):
         if type(f_shift) is str:
-            if kind == "vector":
-                return self.load_shift_data(f_shift)
-            else:
-                return self.load_matrix_data(f_shift)
+            return self.load_shift_data(f_shift)
         else:
             if type(f_shift) in [list, tuple, np.ndarray]:
                 return np.squeeze(f_shift)
             else:
                 raise ValueError(f"The shift data should be a list/tuple or np.array!")
 
-    def check_matrix_data(self, f_matrix):
+    def check_shift_matrix(self, f_shift, selected_idx=None):
+        if type(f_shift) is str:
+            if selected_idx is None:
+                return self.load_matrix_data(f_shift)
+            else:
+                return self.load_matrix_data(f_shift)[selected_idx, :self.ndim]
+        else:
+            if type(f_shift) in [list, tuple, np.ndarray]:
+                return np.squeeze(f_shift)
+            else:
+                raise ValueError(f"The shift data should be a list/tuple or np.array!")
+
+    def check_matrix_data(self, f_matrix, needed_dim=True):
         if type(f_matrix) is str:
-            return self.load_matrix_data(f_matrix)
+            if needed_dim:
+                return self.load_matrix_data(f"{f_matrix}{self.ndim}")
+            else:
+                return self.load_matrix_data(f"{f_matrix}")
         else:
             if type(f_matrix) is np.ndarray:
                 return np.squeeze(f_matrix)

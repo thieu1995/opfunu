@@ -146,7 +146,7 @@ class F32005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -361,7 +361,7 @@ class F72005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[0., 600.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -416,7 +416,7 @@ class F82005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-32., 32.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -528,7 +528,7 @@ class F102005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -581,7 +581,7 @@ class F112005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-0.5, 0.5] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -753,7 +753,7 @@ class F142005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.f_matrix = self.check_matrix_data(f_matrix)
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
@@ -890,7 +890,7 @@ class F162005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
-        self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.M = self.check_matrix_data(f_matrix)
         self.lamdas = np.array([1, 1, 10, 10, 5.0 / 60, 5.0 / 60, 5.0 / 32, 5.0 / 32, 5.0 / 100, 5.0 / 100])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
@@ -1012,7 +1012,7 @@ class F182005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
-        self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.M = self.check_matrix_data(f_matrix)
         self.lamdas = np.array([2*5.0/32, 5.0/32, 2*1, 1, 2*5.0/100, 5.0/100, 2*10, 10, 2*5.0/60, 5.0/60])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
@@ -1138,7 +1138,7 @@ class F212005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
-        self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.M = self.check_matrix_data(f_matrix)
         self.lamdas = np.array([5.0 * 5.0 / 100.0, 5.0 / 100.0, 5.0 * 1.0, 1.0, 5.0 * 1.0, 1.0, 5.0 * 10.0, 10.0, 5.0 * 5.0 / 200.0, 5.0 / 200.0])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
@@ -1279,7 +1279,7 @@ class F242005(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
         self.f_shift = self.load_matrix_data(f_shift)[:, :self.ndim]        # This shift as matrix for M functions
-        self.M = self.check_matrix_data(f"{f_matrix}{self.ndim}")
+        self.M = self.check_matrix_data(f_matrix)
         self.lamdas = np.array([10.0, 5.0 / 20.0, 1.0, 5.0 / 32.0, 1.0, 5.0 / 100.0, 5.0 / 50.0, 1.0, 5.0 / 100.0, 5.0 / 100.0])
         self.bias = np.array([0, 100, 200, 300, 400, 500, 600, 700, 800, 900])      # ==> f_shift[0] is the global optimum
         self.n_funcs = 10
