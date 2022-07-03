@@ -320,7 +320,7 @@ class F72008(CecBenchmark):
 
     differentiable = False
     scalable = True
-    randomized_term = False
+    randomized_term = True
     parametric = True
     shifted = True
     rotated = False
@@ -339,7 +339,7 @@ class F72008(CecBenchmark):
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_shift = self.f_shift / np.max(self.f_shift)
         self.f_bias = f_bias
-        self.f_global = f_bias
+        self.f_global = -1e32
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
 
@@ -347,5 +347,5 @@ class F72008(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         ndim = len(x)
-        results = [x[idx] + operator.twist_func(x[idx+1]) for idx in range(0, ndim-1)]
-        return np.sum(results) + x[-1] + operator.twist_func(x[0]) + self.f_bias
+        results = [operator.fractal_1d_func(x[idx] + operator.twist_func(x[idx+1])) for idx in range(0, ndim-1)]
+        return np.sum(results) + operator.fractal_1d_func(x[-1] + operator.twist_func(x[0])) + self.f_bias
