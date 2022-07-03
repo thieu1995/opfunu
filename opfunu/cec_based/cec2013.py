@@ -608,3 +608,42 @@ class F172013(F12013):
         z = np.dot(alpha, x_hat - miu0)
         return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
 
+
+class F182013(F32013):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F18: Rotated Lunacek bi-Rastrigin Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 400.0'
+
+    continuous = True
+    convex = False
+    unimodal = False
+    differentiable = False
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Asymmetrical", "Continuous everywhere yet differentiable nowhere"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=400.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        miu0 = 2.5
+        M1 = self.f_matrix[:self.ndim, :]
+        M2 = self.f_matrix[self.ndim:, :]
+        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
+        y = 10.0*(x - self.f_shift)/100
+        x_hat = 2*np.sign(y)*y + miu0
+        z = np.dot(np.matmul(M2, alpha), np.dot(M1, x_hat - miu0))
+        return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
+
+
