@@ -796,4 +796,75 @@ class F212013(CecBenchmark):
         return np.dot(ws, gs) + self.f_bias
 
 
+class F222013(CecBenchmark):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F22: Composition Function 2"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 800.0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_bias=800.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.dim_supported = [2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2013")
+        self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.n_funcs = 5
+        self.xichmas = [20, 20, 20]
+        self.lamdas = [1., 1., 1.]
+        self.bias = [0, 100, 200]
+        self.g0 = F142013(self.ndim, None, self.f_shift[0], f_bias=0)
+        self.g1 = F142013(self.ndim, None, self.f_shift[1], f_bias=0)
+        self.g2 = F142013(self.ndim, None, self.f_shift[2], f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # g1-3: Schwefel's Function f14’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # g2: Rotated Different Powers Function f5’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # g3 Rotated Bent Cigar Function f3’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
 
