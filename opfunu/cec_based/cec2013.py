@@ -500,28 +500,44 @@ class F142013(F12013):
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_bias=-100.):
         super().__init__(ndim, bounds, f_shift, f_bias)
 
-    def gz_func(self, x):
-        ndim = len(x)
-        t1 = (500 - np.mod(x, 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x, 500)))) - (x - 500)**2/(10000*ndim)
-        t2 = (np.mod(x, 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x+500)**2/(10000*ndim)
-        t3 = x*np.sin(np.abs(x)**0.5)
-        conditions = [x < -500, (-500 <= x) & (x <= 500), x > 500]
-        choices = [t2, t3, t1]
-        y = np.select(conditions, choices, default=np.nan)
-        # y = x.copy()
-        # for idx in range(0, ndim):
-        #     if x[idx] > 500:
-        #         y[idx] = (500 - np.mod(x[idx], 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x[idx], 500)))) - (x[idx] - 500)**2/(10000*ndim)
-        #     elif x[idx] < -500:
-        #         y[idx] = (np.mod(x[idx], 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x[idx]), 500) - 500))) - (x[idx]+500)**2/(10000*ndim)
-        #     else:
-        #         y[idx] = x[idx]*np.sin(np.abs(x[idx])**0.5)
-        return y
-
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
         z = np.dot(alpha, 1000*(x - self.f_shift)/100) + 4.209687462275036e+002
-        return 418.9829 * self.ndim - np.sum(self.gz_func(z)) + self.f_bias
+        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+
+
+class F152013(F22013):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., Suganthan, P. N., & Hernández-Díaz, A. G. (2013). Problem definitions and evaluation criteria
+    for the CEC 2013 special session on real-parameter optimization. Computational Intelligence Laboratory, Zhengzhou University,
+    Zhengzhou, China and Nanyang Technological University, Singapore, Technical Report, 201212(34), 281-295..
+    """
+    name = "F15: Rotated Schwefel’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 100.0'
+
+    continuous = True
+    convex = False
+    unimodal = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Asymmetrical", "Local optima’s number is huge", "The second better local optimum is far from the global optimum"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=100.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
+        z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100) + 4.209687462275036e+002
+        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+
+
 

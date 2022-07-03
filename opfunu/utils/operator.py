@@ -190,7 +190,24 @@ def generate_diagonal_matrix(size, alpha=10):
     return matrix
 
 
-
+def gz_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    t1 = (500 - np.mod(x, 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x, 500)))) - (x - 500)**2/(10000*ndim)
+    t2 = (np.mod(x, 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x+500)**2/(10000*ndim)
+    t3 = x*np.sin(np.abs(x)**0.5)
+    conditions = [x < -500, (-500 <= x) & (x <= 500), x > 500]
+    choices = [t2, t3, t1]
+    y = np.select(conditions, choices, default=np.nan)
+    # y = x.copy()
+    # for idx in range(0, ndim):
+    #     if x[idx] > 500:
+    #         y[idx] = (500 - np.mod(x[idx], 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x[idx], 500)))) - (x[idx] - 500)**2/(10000*ndim)
+    #     elif x[idx] < -500:
+    #         y[idx] = (np.mod(x[idx], 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x[idx]), 500) - 500))) - (x[idx]+500)**2/(10000*ndim)
+    #     else:
+    #         y[idx] = x[idx]*np.sin(np.abs(x[idx])**0.5)
+    return y
 
 
 
