@@ -220,6 +220,16 @@ def katsuura_func(x):
     return (result - 1)*10 / ndim**2
 
 
+def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    s = 1 - 1.0 / (2 * np.sqrt(ndim + 20) - 8.2)
+    miu1 = -np.sqrt((miu0**2 - d)/s)
+    temp1 = np.sum((x - miu0)**2)
+    temp2 = d*ndim + s*np.sum((x - miu1)**2)
+    result1 = min(temp1, temp2)
+    return result1 + 10*(ndim - np.sum(np.cos(2*np.pi*z)))
+
 
 
 
