@@ -120,13 +120,14 @@ def doubledip(x, c, s):
 
 def fractal_1d_func(x):
     # This function in CEC-2008 F7
+    np.random.seed(0)
     result1 = 0.0
     for k in range(1, 4):
         result2 = 0.0
-        upper = 2 ** (k-1)
+        upper = 2 ** (k-1) + 1
         for t in range(1, upper):
             selected = np.random.choice([0, 1, 2], p=1/3*np.ones(3))
-            result2 += np.sum([doubledip(x, np.random.uniform(0, 1), 1.0/(upper * (2 - np.random.uniform(0, 1)))) for _ in range(0, selected)])
+            result2 += np.sum([doubledip(x, np.random.uniform(0, 1), 1.0/(2**(k-1) * (2 - np.random.uniform(0, 1)))) for _ in range(0, selected)])
         result1 += result2
     return result1
 
@@ -231,7 +232,13 @@ def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
     return result1 + 10*(ndim - np.sum(np.cos(2*np.pi*z)))
 
 
-
+def calculate_weight(x, xichma=1.):
+    ndim = len(x)
+    weight = 1
+    temp = np.sum(x ** 2)
+    if temp != 0:
+        weight = (1.0 / np.sqrt(temp)) * np.exp(-temp / (2 * ndim * xichma ** 2))
+    return weight
 
 
 

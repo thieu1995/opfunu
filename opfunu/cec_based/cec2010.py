@@ -133,7 +133,7 @@ class F42010(CecBenchmark):
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2010")
         f_shift = self.load_matrix_data(f_shift)
-        self.f_matrix = self.check_matrix_data(f_matrix)
+        self.f_matrix = self.check_matrix_data(f_matrix, False)
         self.f_shift = f_shift[:1, :].ravel()[:self.ndim]
         if self.ndim == 1000:
             self.P = (f_shift[1:, :].ravel() - np.ones(self.ndim)).astype(int)
@@ -326,7 +326,7 @@ class F92010(CecBenchmark):
         self.dim_max = 1000
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2010")
-        self.f_matrix = self.check_matrix_data(f_matrix)
+        self.f_matrix = self.check_matrix_data(f_matrix, False)
         f_shift = self.load_matrix_data(f_shift)
         self.f_shift = f_shift[:1, :].ravel()[:self.ndim]
         if self.ndim == 1000:
