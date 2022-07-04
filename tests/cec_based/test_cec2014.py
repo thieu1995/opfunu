@@ -11,7 +11,7 @@ import pytest
 
 def test_F12014_results():
     ndim = 50
-    problem = opfunu.cec_based.F12013(ndim=ndim)
+    problem = opfunu.cec_based.F12014(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)

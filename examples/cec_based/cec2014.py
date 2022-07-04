@@ -7,10 +7,11 @@
 import opfunu
 import numpy as np
 
-## Test CEC2013 F1
+
+## Test CEC2014 F1
 print("====================F1")
-problem = opfunu.cec_based.F12013(ndim=50)
-x = np.ones(50)
+problem = opfunu.cec_based.F12014(ndim=100)
+x = np.ones(100)
 print(problem.evaluate(x))
 print(problem.x_global)
 
