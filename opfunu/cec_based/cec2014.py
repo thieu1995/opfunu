@@ -351,4 +351,36 @@ class F112014(F12014):
         return operator.modified_schwefel_func(z) + self.f_bias
 
 
+class F122014(F12014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F12: Shifted and Rotated Katsuura Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1200.0'
+
+    convex = False
+    unimodal = False
+    separable = False
+    differentiable = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Continuous everywhere yet differentiable nowhere"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_12", f_matrix="M_12_D", f_bias=1200.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
+        return operator.katsuura_func(z) + self.f_bias
+
+
 
