@@ -247,7 +247,7 @@ class F82014(CecBenchmark):
 
     characteristics = ["Local optima’s number is huge"]
 
-    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_1", f_bias=800.):
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_8", f_bias=800.):
         super().__init__()
         self.dim_changeable = True
         self.dim_default = 30
@@ -267,6 +267,35 @@ class F82014(CecBenchmark):
         return operator.rastrigin_func(5.12 * (x - self.f_shift) / 100) + self.f_bias
 
 
+class F92014(F12014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F9: Shifted and Rotated Rastrigin’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 900.0'
+
+    unimodal = False
+    separable = False
+    parametric = True
+    shifted = True
+    rotated = True
+    modality = True
+
+    characteristics = ["Local optima’s number is huge"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_9", f_matrix="M_9_D", f_bias=900.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
+        return operator.rastrigin_func(z) + self.f_bias
 
 
 
