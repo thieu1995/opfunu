@@ -241,6 +241,31 @@ def calculate_weight(x, xichma=1.):
     return weight
 
 
+def modified_schwefel_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    z = x + 4.209687462275036e+002
+    return 418.9829 * ndim - np.sum(gz_func(z))
+
+
+def happy_cat_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    t1 = np.sum(x)
+    t2 = np.sum(x**2)
+    return np.abs(t2 - ndim)**0.25 + (0.5*t2 + t1) / ndim + 0.5
+
+
+def hgbat_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    t1 = np.sum(x)
+    t2 = np.sum(x**2)
+    return np.abs(t2**2 - t1**2)**0.5 + (0.5*t2 + t1) / ndim + 0.5
+
+
+expanded_griewank_rosenbrock_func = f8f2_func
+expanded_scaffer_f6_func = rotated_expanded_scaffer_func
 
 
 
