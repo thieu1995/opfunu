@@ -36,7 +36,7 @@ def rosenbrock_func(x):
 
 def scaffer_func(x):
     x = np.array(x).ravel()
-    return 0.5 + (np.sin(np.sqrt(np.sum(x**2))) - 0.5) / (1 + 0.001 * (np.sum(x**2)))**2
+    return 0.5 + (np.sin(np.sqrt(np.sum(x**2)))**2 - 0.5) / (1 + 0.001 * np.sum(x**2))**2
 
 
 def rastrigin_func(x):
