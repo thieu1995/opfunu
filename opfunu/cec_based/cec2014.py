@@ -1052,7 +1052,7 @@ class F272014(F232014):
     convex = False
     characteristics = ["Asymmetrical", "Different properties around different local optima"]
 
-    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_26", f_matrix="M_26_D", f_bias=2700.):
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_27", f_matrix="M_27_D", f_bias=2700.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
         self.n_funcs = 5
         self.xichmas = [10, 10, 10, 20, 20]
@@ -1082,6 +1082,64 @@ class F272014(F232014):
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Rotated Weierstrass Function F6’
+        g3 = self.lamdas[3] * self.g3.evaluate(x) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        # 5. Rotated High Conditioned Elliptic Function F1’
+        g4 = self.lamdas[4] * self.g4.evaluate(x) + self.bias[4]
+        w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
+
+        ws = np.array([w0, w1, w2, w3, w4])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3, g4])
+        return np.dot(ws, gs) + self.f_bias
+
+
+class F282014(F232014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F28: Composition Function 6"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2800.0'
+
+    convex = False
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_28", f_matrix="M_28_D", f_bias=2800.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 5
+        self.xichmas = [10, 20, 30, 40, 50]
+        self.lamdas = [2.5, 10, 2.5, 5e-4, 1e-6]
+        self.bias = [0, 100, 200, 300, 400]
+        self.g0 = F152014(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim,:], f_bias=0)
+        self.g1 = F132014(self.ndim, None, self.f_shift[1], self.f_matrix[self.ndim:2*self.ndim,:], f_bias=0)
+        self.g2 = F112014(self.ndim, None, self.f_shift[2], self.f_matrix[2*self.ndim:3*self.ndim,:], f_bias=0)
+        self.g3 = F162014(self.ndim, None, self.f_shift[3], self.f_matrix[3*self.ndim:4*self.ndim,:], f_bias=0)
+        self.g4 = F12014(self.ndim, None, self.f_shift[4], self.f_matrix[4*self.ndim:5*self.ndim,:], f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rotated Expanded Griewank’s plus Rosenbrock’s Function F15’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rotated HappyCat Function F13’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Rotated Schwefel's Function F11’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # 4. Rotated Expanded Scaffer’s F6 Function F16'
         g3 = self.lamdas[3] * self.g3.evaluate(x) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
