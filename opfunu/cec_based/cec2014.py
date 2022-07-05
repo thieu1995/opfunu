@@ -978,4 +978,63 @@ class F252014(F232014):
         return np.dot(ws, gs) + self.f_bias
 
 
+class F262014(F232014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F26: Composition Function 4"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2600.0'
+
+    convex = False
+    modality = True
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_26", f_matrix="M_26_D", f_bias=2600.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 5
+        self.xichmas = [10, 10, 10, 10, 10]
+        self.lamdas = [0.25, 1, 1e-7, 2.5, 10]
+        self.bias = [0, 100, 200, 300, 400]
+        self.g0 = F112014(self.ndim, None, self.f_shift[0], f_bias=0)
+        self.g1 = F132014(self.ndim, None, self.f_shift[1], f_bias=0)
+        self.g2 = F12014(self.ndim, None, self.f_shift[2], f_bias=0)
+        self.g3 = F62014(self.ndim, None, self.f_shift[1], f_bias=0)
+        self.g4 = F72014(self.ndim, None, self.f_shift[2], f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rotated Schwefel's Function F11’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rotated HappyCat Function F13’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Rotated High Conditioned Elliptic Function F1’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # 4. Rotated Weierstrass Function F6’
+        g3 = self.lamdas[3] * self.g3.evaluate(x) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        # 5. Rotated Griewank’s Function F7’
+        g4 = self.lamdas[4] * operator.elliptic_func(x) + self.bias[4]
+        w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
+
+        ws = np.array([w0, w1, w2, w3, w4])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3, g4])
+        return np.dot(ws, gs) + self.f_bias
+
+
 
