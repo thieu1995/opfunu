@@ -3,6 +3,7 @@
 tut_upcode.md
 drafts/
 
+docs/refs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

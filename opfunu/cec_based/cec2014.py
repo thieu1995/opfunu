@@ -796,3 +796,85 @@ class F222014(F212014):
         self.g5 = operator.ackley_func
 
 
+class F232014(CecBenchmark):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F23: Composition Function 1"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2300.0'
+
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_23", f_matrix="M_23_D", f_bias=2300.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 30
+        self.dim_max = 100
+        self.dim_supported = [10, 20, 30, 50, 100]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2014")
+        self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
+        self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.n_funcs = 5
+        self.xichmas = [10, 20, 30, 40, 50]
+        self.lamdas = [1., 1e-6, 1e-26, 1e-6, 1e-6]
+        self.bias = [0, 100, 200, 300, 400]
+        self.g0 = F42014(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim,:], f_bias=0)
+        self.g1 = F12014(self.ndim, None, self.f_shift[1], self.f_matrix[self.ndim:2*self.ndim:], f_bias=0)
+        self.g2 = F22014(self.ndim, None, self.f_shift[2], self.f_matrix[2*self.ndim:3*self.ndim,:], f_bias=0)
+        self.g3 = F32014(self.ndim, None, self.f_shift[3], self.f_matrix[3*self.ndim:4*self.ndim,:], f_bias=0)
+        self.g4 = F12014(self.ndim, None, self.f_shift[4], self.f_matrix[4*self.ndim:5*self.ndim, :],f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rotated Rosenbrock’s Function F4’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. High Conditioned Elliptic Function F1’
+        g1 = self.lamdas[1] * operator.elliptic_func(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Rotated Bent Cigar Function F2’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # 4. Rotated Discus Function F3’
+        g3 = self.lamdas[3] * self.g3.evaluate(x) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        # 5. High Conditioned Elliptic Function F1’
+        g4 = self.lamdas[4] * operator.elliptic_func(x) + self.bias[4]
+        w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
+
+        ws = np.array([w0, w1, w2, w3, w4])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3, g4])
+        return np.dot(ws, gs) + self.f_bias
