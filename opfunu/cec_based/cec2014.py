@@ -699,5 +699,60 @@ class F202014(F192014):
         self.g4 = operator.rastrigin_func
 
 
+class F212014(F172014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F21: Hybrid Function 5"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2100.0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Different properties for different variables subcomponents"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_21", f_matrix="M_21_D", f_shuffle="shuffle_data_21_D", f_bias=2100.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
+        self.n_funcs = 5
+        self.p = np.array([0.1, 0.2, 0.2, 0.2, 0.3])
+        self.n1 = int(np.ceil(self.p[0] * self.ndim))
+        self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
+        self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
+        self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
+        self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
+        self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:]
+        self.g1 = operator.expanded_scaffer_f6_func
+        self.g2 = operator.hgbat_func
+        self.g3 = operator.rosenbrock_func
+        self.g4 = operator.modified_schwefel_func
+        self.g5 = operator.elliptic_func
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5]))
+        mz = np.dot(self.f_matrix, z1)
+        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) +\
+               self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:]) + self.f_bias
 
 
