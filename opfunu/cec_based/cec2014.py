@@ -534,7 +534,7 @@ class F172014(CecBenchmark):
 
     characteristics = ["Different properties for different variables subcomponents"]
 
-    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_1", f_matrix="M_17_D", f_shuffle="shuffle_data_17_D", f_bias=1700.):
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_17", f_matrix="M_17_D", f_shuffle="shuffle_data_17_D", f_bias=1700.):
         super().__init__()
         self.dim_changeable = True
         self.dim_default = 30
@@ -568,7 +568,42 @@ class F172014(CecBenchmark):
         return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:]) + self.f_bias
 
 
+class F182014(F172014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F18: Hybrid Function 2"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1800.0'
 
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Different properties for different variables subcomponents"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_18", f_matrix="M_18_D", f_shuffle="shuffle_data_18_D", f_bias=1800.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
+        self.g1 = operator.bent_cigar_func
+        self.g2 = operator.hgbat_func
+        self.g3 = operator.rastrigin_func
 
 
 
