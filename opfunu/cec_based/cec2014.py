@@ -844,7 +844,7 @@ class F232014(CecBenchmark):
         self.lamdas = [1., 1e-6, 1e-26, 1e-6, 1e-6]
         self.bias = [0, 100, 200, 300, 400]
         self.g0 = F42014(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim,:], f_bias=0)
-        self.g1 = F12014(self.ndim, None, self.f_shift[1], self.f_matrix[self.ndim:2*self.ndim:], f_bias=0)
+        self.g1 = F12014(self.ndim, None, self.f_shift[1], self.f_matrix[self.ndim:2*self.ndim,:], f_bias=0)
         self.g2 = F22014(self.ndim, None, self.f_shift[2], self.f_matrix[2*self.ndim:3*self.ndim,:], f_bias=0)
         self.g3 = F32014(self.ndim, None, self.f_shift[3], self.f_matrix[3*self.ndim:4*self.ndim,:], f_bias=0)
         self.g4 = F12014(self.ndim, None, self.f_shift[4], self.f_matrix[4*self.ndim:5*self.ndim, :],f_bias=0)
@@ -878,3 +878,56 @@ class F232014(CecBenchmark):
         ws = ws / np.sum(ws)
         gs = np.array([g0, g1, g2, g3, g4])
         return np.dot(ws, gs) + self.f_bias
+
+
+class F242014(F232014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F24: Composition Function 2"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2400.0'
+
+    convex = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_24", f_matrix="M_24_D", f_bias=2400.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 3
+        self.xichmas = [20, 20, 20]
+        self.lamdas = [1., 1., 1.]
+        self.bias = [0, 100, 200]
+        self.g0 = F102014(self.ndim, None, self.f_shift[0], f_bias=0)
+        self.g1 = F92014(self.ndim, None, self.f_shift[1], f_bias=0)
+        self.g2 = F142014(self.ndim, None, self.f_shift[2], f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Schwefel's Function F10’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rotated Rastrigin’s Function F9'
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Rotated HGBat Function F14'
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
+
+
+

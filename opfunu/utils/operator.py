@@ -195,7 +195,7 @@ def gz_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
     t1 = (500 - np.mod(x, 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x, 500)))) - (x - 500)**2/(10000*ndim)
-    t2 = (np.mod(x, 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x+500)**2/(10000*ndim)
+    t2 = (np.mod(np.abs(x), 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x+500)**2/(10000*ndim)
     t3 = x*np.sin(np.abs(x)**0.5)
     conditions = [x < -500, (-500 <= x) & (x <= 500), x > 500]
     choices = [t2, t3, t1]
