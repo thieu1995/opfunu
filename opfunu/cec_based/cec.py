@@ -106,12 +106,24 @@ class CecBenchmark(Benchmark, ABC):
             if needed_dim:
                 return self.load_matrix_data(f"{f_matrix}{self.ndim}")
             else:
-                return self.load_matrix_data(f"{f_matrix}")
+                return self.load_matrix_data(f_matrix)
         else:
             if type(f_matrix) is np.ndarray:
                 return np.squeeze(f_matrix)
             else:
                 raise ValueError(f"The matrix data should be an orthogonal matrix (2D np.array)!")
+
+    def check_shuffle_data(self, f_shuffle, needed_dim=True):
+        if type(f_shuffle) is str:
+            if needed_dim:
+                return self.load_shift_data(f"{f_shuffle}{self.ndim}")
+            else:
+                return self.load_shift_data(f_shuffle)
+        else:
+            if type(f_shuffle) in [list, tuple, np.ndarray]:
+                return np.squeeze(f_shuffle)
+            else:
+                raise ValueError(f"The shuffle data should be a list/tuple or np.array!")
 
     def check_m_group(self, m_group=None):
         if type(m_group) is int:
