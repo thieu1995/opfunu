@@ -756,3 +756,43 @@ class F212014(F172014):
                self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:]) + self.f_bias
 
 
+class F222014(F212014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F22: Hybrid Function 6"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2200.0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Different properties for different variables subcomponents"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_22", f_matrix="M_22_D", f_shuffle="shuffle_data_22_D", f_bias=2200.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
+        self.g1 = operator.katsuura_func
+        self.g2 = operator.happy_cat_func
+        self.g3 = operator.expanded_griewank_rosenbrock_func
+        self.g4 = operator.modified_schwefel_func
+        self.g5 = operator.ackley_func
+
+
