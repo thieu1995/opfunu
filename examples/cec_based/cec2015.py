@@ -163,3 +163,15 @@ print(problem.evaluate(problem.x_global))
 print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
+
+## Test CEC2015 F13
+print("====================F13")
+problem = opfunu.cec_based.F132015(ndim=30)
+x = np.ones(30)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
