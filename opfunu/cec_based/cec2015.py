@@ -449,7 +449,7 @@ class F132015(CecBenchmark):
     modality = True  # Number of ambiguous peaks, unknown # peaks
     # n_basins = 1
     # n_valleys = 1
-    characteristics = []
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_13_D", f_matrix="M_13_D", f_bias=1300.):
         super().__init__()
@@ -481,7 +481,7 @@ class F132015(CecBenchmark):
 
         # 1. Rotated Rosenbrock’s Function f10
         z0 = np.dot(self.f_matrix[:self.ndim, :], x - self.f_shift[0])
-        g0 = self.lamdas[0] * operator.rosenbrock_func(z0) + self.bias[0]
+        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. High Conditioned Elliptic Function f13
@@ -506,6 +506,66 @@ class F132015(CecBenchmark):
         ws = ws / np.sum(ws)
         gs = np.array([g0, g1, g2, g3, g4])
         return np.dot(ws, gs) + self.f_bias
+
+
+class F142015(F132015):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F14: Composition Function 2 (N=3)"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1400.0'
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = []
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_14_D", f_matrix="M_14_D", f_bias=1400.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.f_shift = self.check_matrix_data(f_shift, needed_dim=True).ravel().reshape((3, -1))
+        self.f_matrix = self.check_matrix_data(f_matrix, needed_dim=True)
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.n_funcs = 3
+        self.xichmas = [10, 30, 50]
+        self.lamdas = [0.25, 1.0, 1e-7]
+        self.bias = [0, 100, 200]
+        self.g0 = operator.modified_schwefel_func
+        self.g1 = operator.rastrigin_func
+        self.g2 = operator.elliptic_func
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rotated Schwefel's Function f4
+        z0 = np.dot(self.f_matrix[:self.ndim, :], x - self.f_shift[0])
+        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rotated Rastrigin’s Function f12
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], x - self.f_shift[1])
+        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Rotated High Conditioned Elliptic Function f13
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[2])
+        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
+
+
 
 
 
