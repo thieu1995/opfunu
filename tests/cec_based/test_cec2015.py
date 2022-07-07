@@ -48,7 +48,6 @@ def test_F32015_results():
     assert len(problem.x_global) == ndim
 
 
-
 def test_F42015_results():
     ndim = 30
     problem = opfunu.cec_based.F42015(ndim=ndim)
@@ -60,3 +59,41 @@ def test_F42015_results():
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
+
+
+def test_F52015_results():
+    ndim = 30
+    problem = opfunu.cec_based.F52015(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.cec_based.CecBenchmark)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

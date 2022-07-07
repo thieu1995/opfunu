@@ -127,6 +127,7 @@ class F42015(F12015):
 
     convex = False
     unimodal = False
+    modality = True
 
     characteristics = ["Local optima’s number is huge",  "The second better local optimum is far from the global optimum"]
 
@@ -139,5 +140,33 @@ class F42015(F12015):
         z = np.dot(self.f_matrix, 1000*(x - self.f_shift)/100)
         return operator.modified_schwefel_func(z) + self.f_bias
 
+
+class F52015(F12015):
+    """
+    .. [1] Chen, Q., Liu, B., Zhang, Q., Liang, J., Suganthan, P., & Qu, B. (2014). Problem definitions and evaluation criteria for CEC 2015
+    special session on bound constrained single-objective computationally expensive numerical optimization. Technical Report,
+    Computational Intelligence Laboratory, Zhengzhou University, Zhengzhou, China and Technical Report, Nanyang Technological University.
+    """
+    name = "F5: Shifted and Rotated Katsuura Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 500.0'
+
+    convex = False
+    unimodal = False
+    differentiable = False
+    modality = True
+
+    characteristics = ["Continuous everywhere yet differentiable nowhere"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_5_D", f_matrix="M_5_D", f_bias=500.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
+        return operator.katsuura_func(z) + self.f_bias
 
 
