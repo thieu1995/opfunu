@@ -254,6 +254,33 @@ class F82015(F12015):
         return operator.expanded_griewank_rosenbrock_func(z) + self.f_bias
 
 
+class F92015(F12015):
+    """
+    .. [1] Chen, Q., Liu, B., Zhang, Q., Liang, J., Suganthan, P., & Qu, B. (2014). Problem definitions and evaluation criteria for CEC 2015
+    special session on bound constrained single-objective computationally expensive numerical optimization. Technical Report,
+    Computational Intelligence Laboratory, Zhengzhou University, Zhengzhou, China and Technical Report, Nanyang Technological University.
+    """
+    name = "F9: Shifted and Rotated Expanded Scaffer’s F6 Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 900.0'
+
+    unimodal = False
+    convex = False
+    separable = False
+    differentiable = True
+    modality = True
+    characteristics = []
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_9_D", f_matrix="M_9_D", f_bias=900.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, x - self.f_shift)
+        return operator.expanded_scaffer_f6_func(z) + self.f_bias
 
 
 
