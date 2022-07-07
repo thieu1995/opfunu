@@ -553,7 +553,7 @@ class F172014(CecBenchmark):
         self.p = np.array([0.3, 0.3, 0.4])
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
-        self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:]
+        self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
         self.g1 = operator.modified_schwefel_func
         self.g2 = operator.rastrigin_func
         self.g3 = operator.elliptic_func
@@ -645,7 +645,7 @@ class F192014(F172014):
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
-        self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:]
+        self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
         self.g1 = operator.griewank_func
         self.g2 = operator.weierstrass_func
         self.g3 = operator.rosenbrock_func
@@ -739,7 +739,7 @@ class F212014(F172014):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
-        self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:]
+        self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
         self.g1 = operator.expanded_scaffer_f6_func
         self.g2 = operator.hgbat_func
         self.g3 = operator.rosenbrock_func
@@ -1152,4 +1152,52 @@ class F282014(F232014):
         gs = np.array([g0, g1, g2, g3, g4])
         return np.dot(ws, gs) + self.f_bias
 
+
+class F292014(F232014):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F29: Composition Function 7"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2900.0'
+
+    convex = False
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_29", f_matrix="M_29_D", f_shuffle="shuffle_data_29_D", f_bias=2900.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 3
+        self.xichmas = [10, 30, 50]
+        self.lamdas = [1, 1, 1]
+        self.bias = [0, 100, 200]
+        self.x_global = self.f_shift[0]
+        self.g0 = F172014(self.ndim, None, self.f_shift[0], f_shuffle=f_shuffle, f_bias=0)
+        self.g1 = F182014(self.ndim, None, self.f_shift[1], f_shuffle=f_shuffle,f_bias=0)
+        self.g2 = F192014(self.ndim, None, self.f_shift[2], f_shuffle=f_shuffle, f_bias=0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Hybrid Function 1 F17’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Hybrid Function 2 F18’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Hybrid Function 3 F19’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
 
