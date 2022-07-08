@@ -92,6 +92,18 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+## Test CEC2017 F8
+print("====================F8")
+problem = opfunu.cec_based.F82017(ndim=50)
+x = np.ones(50)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
+
 
 
 
