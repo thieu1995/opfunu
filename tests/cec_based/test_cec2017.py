@@ -9,9 +9,9 @@ import opfunu
 import pytest
 
 
-def test_F12015_results():
+def test_F12017_results():
     ndim = 30
-    problem = opfunu.cec_based.F12015(ndim=ndim)
+    problem = opfunu.cec_based.F12017(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
