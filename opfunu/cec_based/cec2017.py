@@ -781,6 +781,64 @@ class F212017(F202017):
         return np.dot(ws, gs) + self.f_bias
 
 
+class F222017(F202017):
+    """
+    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
+    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
+    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    """
+    name = "F22: Composition Function 3"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2200.0'
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_23", f_matrix="M_23_D", f_bias=2200.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 4
+        self.xichmas = [10, 20, 30, 40]
+        self.lamdas = [1., 10., 1., 1.]
+        self.bias = [0, 100, 200, 300]
+        self.g0 = operator.rosenbrock_func
+        self.g1 = operator.ackley_func
+        self.g2 = operator.modified_schwefel_func
+        self.g3 = operator.rastrigin_func
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rosenbrock’s Function F4’
+        z0 = np.dot(self.f_matrix[:self.ndim, :], x - self.f_shift[0])
+        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Ackley’s Function F13’
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], x - self.f_shift[1])
+        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Modified Schwefel's Function F10’
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[2])
+        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # 4. Rastrigin’s Function F5’
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[3])
+        g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        ws = np.array([w0, w1, w2, w3])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3])
+        return np.dot(ws, gs) + self.f_bias
+
 
 
 
