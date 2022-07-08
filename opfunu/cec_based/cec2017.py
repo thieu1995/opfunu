@@ -197,6 +197,33 @@ class F62017(F12017):
         return operator.schaffer_f7_func(z) + self.f_bias
 
 
+class F72017(F12017):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
+    """
+    name = "F7: Shifted and Rotated Non-Continuous Rastrigin’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 700.0'
+
+    unimodal = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+
+    characteristics = ["Asymmetrical", "Local optima’s number is huge"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_7", f_matrix="M_7_D", f_bias=700.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
+        return operator.schaffer_f7_func(z) + self.f_bias
+
 
 
 
