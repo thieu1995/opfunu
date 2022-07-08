@@ -264,6 +264,30 @@ def hgbat_func(x):
     return np.abs(t2**2 - t1**2)**0.5 + (0.5*t2 + t1) / ndim + 0.5
 
 
+def zakharov_func(x):
+    x = np.array(x).ravel()
+    temp = np.sum(0.5*x)
+    return np.sum(x**2) + temp**2 + temp**4
+
+
+def levy_func(x):
+    x = np.array(x).ravel()
+    w = 1 + (x - 1) / 4
+    t1 = np.sin(np.pi*w[0])**2 + (w[-1] - 1)**2 * (1 + np.sin(2*np.pi*w[-1])**2)
+    t2 = np.sum((w[:-1] - 1)**2 * (1 + 10*np.sin(np.pi*w[:-1] + 1)**2))
+    return t1 + t2
+
+
+def schaffer_f7_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    result = 0.0
+    for idx in range(0, ndim-1):
+        t = x[idx]**2 + x[idx+1]**2
+        result += np.sqrt(t) * (np.sin(50.*t**0.2) + 1)
+    return (result/(ndim-1))**2
+
+
 expanded_griewank_rosenbrock_func = f8f2_func
 expanded_scaffer_f6_func = rotated_expanded_scaffer_func
 
