@@ -935,22 +935,22 @@ class F242017(F202017):
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Happycat Function F17’
-        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], x - self.f_shift[1])
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], x - self.f_shift[0])
         g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Ackley Function F13’
-        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[2])
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[0])
         g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Discus Function F12’
-        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[3])
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[0])
         g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5. Rosenbrock’s Function F4’
-        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], 2.048*(x - self.f_shift[4])/100) + 1
+        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], 2.048*(x - self.f_shift[0])/100) + 1
         g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
@@ -1000,22 +1000,22 @@ class F252017(F202017):
 
         # 2. Modified Schwefel's Function F10’
         # z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], x - self.f_shift[1])
-        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 1000*(x - self.f_shift[1]) / 100)
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 1000*(x - self.f_shift[0]) / 100)
         g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Griewank’s Function F15’
-        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 600*(x - self.f_shift[2])/100)
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 600*(x - self.f_shift[0])/100)
         g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Rosenbrock’s Function F4’
-        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], 2.048*(x - self.f_shift[3])/100) + 1
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], 2.048*(x - self.f_shift[0])/100) + 1
         g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5. Rastrigin’s Function F5’
-        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[4])
+        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[0])
         g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
@@ -1065,27 +1065,27 @@ class F262017(F202017):
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Rastrigin’s Function F5’
-        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[1]) / 100)
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[0]) / 100)
         g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Modified Schwefel's Function F10’
-        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 1000*(x - self.f_shift[2])/100)
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 1000*(x - self.f_shift[0])/100)
         g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Bent-Cigar Function F11’
-        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[3])
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[0])
         g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5. High Conditioned Elliptic Function F11’
-        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[4])
+        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[0])
         g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
         # 6. Expanded Scaffer’s F6 Function F6’
-        z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[5]) + 1
+        z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[0]) + 1
         g5 = self.lamdas[5] * self.g5(z5) + self.bias[5]
         w5 = operator.calculate_weight(x - self.f_shift[5], self.xichmas[5])
 
@@ -1132,27 +1132,27 @@ class F272017(F202017):
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Griewank’s Function F15’
-        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 600*(x - self.f_shift[1]) / 100)
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 600*(x - self.f_shift[0]) / 100)
         g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Discus Function F12’
-        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[2])
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], x - self.f_shift[0])
         g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Rosenbrock’s Function F4’
-        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], 2.048*(x - self.f_shift[3])/100) + 1
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], 2.048*(x - self.f_shift[0])/100) + 1
         g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5. HappyCat Function F17’
-        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], 5*(x - self.f_shift[4])/100)
+        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], 5*(x - self.f_shift[0])/100)
         g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
         # 6. Expanded Scaffer’s F6 Function F6’
-        z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[5]) + 1
+        z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[0]) + 1
         g5 = self.lamdas[5] * self.g5(z5) + self.bias[5]
         w5 = operator.calculate_weight(x - self.f_shift[5], self.xichmas[5])
 
@@ -1162,6 +1162,53 @@ class F272017(F202017):
         return np.dot(ws, gs) + self.f_bias
 
 
+class F282017(F202017):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
+    """
+    name = "F28: Composition Function 9"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2800.0'
+
+    characteristics = ["Asymmetrical", "Different properties around different local optima",
+                       "Different properties for different variables subcomponents"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_29", f_matrix="M_29_D", f_shuffle="shuffle_data_29_D", f_bias=2800.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.dim_supported = [10, 30, 50, 100]
+        self.f_shuffle = self.check_shuffle_data(f_shuffle, needed_dim=True).reshape((10, -1))
+        self.n_funcs = 3
+        self.xichmas = [10, 30, 50]
+        self.lamdas = [1., 1., 1.]
+        self.bias = [0, 100, 200]
+        self.g0 = F142017(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim, :], self.f_shuffle[0], 0)
+        self.g1 = F152017(self.ndim, None, self.f_shift[0], self.f_matrix[self.ndim:2*self.ndim, :], self.f_shuffle[1], 0)
+        self.g2 = F162017(self.ndim, None, self.f_shift[0], self.f_matrix[2*self.ndim:3*self.ndim, :], self.f_shuffle[2], 0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Hybrid Function 5 F5’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Hybrid Function 6 F6’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Hybrid Function 7 F7’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
 
 
 
