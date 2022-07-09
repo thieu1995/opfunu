@@ -653,9 +653,8 @@ class F192017(F102017):
 
 class F202017(CecBenchmark):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F20: Composition Function 1"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -730,9 +729,8 @@ class F202017(CecBenchmark):
 
 class F212017(F202017):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F21: Composition Function 2"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -784,9 +782,8 @@ class F212017(F202017):
 
 class F222017(F202017):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F22: Composition Function 3"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -843,9 +840,8 @@ class F222017(F202017):
 
 class F232017(F202017):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F23: Composition Function 4"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -902,9 +898,8 @@ class F232017(F202017):
 
 class F242017(F202017):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F24: Composition Function 5"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -967,9 +962,8 @@ class F242017(F202017):
 
 class F252017(F202017):
     """
-    .. [1] Liang, J. J., Qu, B. Y., & Suganthan, P. N. (2013). Problem definitions and evaluation criteria for the CEC 2014
-    special session and competition on single objective real-parameter numerical optimization. Computational Intelligence Laboratory,
-    Zhengzhou University, Zhengzhou China and Technical Report, Nanyang Technological University, Singapore, 635, 490.
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
     """
     name = "F25: Composition Function 6"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -1030,6 +1024,75 @@ class F252017(F202017):
         gs = np.array([g0, g1, g2, g3, g4])
         return np.dot(ws, gs) + self.f_bias
 
+
+class F262017(F202017):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
+    """
+    name = "F26: Composition Function 7"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2600.0'
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_27", f_matrix="M_27_D", f_bias=2600.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.n_funcs = 6
+        self.xichmas = [10, 20, 30, 40, 50, 60,]
+        self.lamdas = [10, 10, 2.5, 1e-26, 1e-6, 5e-4]
+        self.bias = [0, 100, 200, 300, 400, 500]
+        self.g0 = operator.hgbat_func
+        self.g1 = operator.rastrigin_func
+        self.g2 = operator.modified_schwefel_func
+        self.g3 = operator.bent_cigar_func
+        self.g4 = operator.elliptic_func
+        self.g5 = operator.expanded_scaffer_f6_func
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. HGBat Function F18’
+        z0 = np.dot(self.f_matrix[:self.ndim, :], 5*(x - self.f_shift[0])/100)
+        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rastrigin’s Function F5’
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[1]) / 100)
+        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. Modified Schwefel's Function F10’
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 1000*(x - self.f_shift[2])/100)
+        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        # 4. Bent-Cigar Function F11’
+        z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[3])
+        g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
+        w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
+
+        # 5. High Conditioned Elliptic Function F11’
+        z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[4])
+        g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
+        w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
+
+        # 6. Expanded Scaffer’s F6 Function F6’
+        z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[5]) + 1
+        g5 = self.lamdas[5] * self.g5(z5) + self.bias[5]
+        w5 = operator.calculate_weight(x - self.f_shift[5], self.xichmas[5])
+
+        ws = np.array([w0, w1, w2, w3, w4, w5])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2, g3, g4, g5])
+        return np.dot(ws, gs) + self.f_bias
 
 
 
