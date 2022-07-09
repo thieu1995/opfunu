@@ -1211,24 +1211,50 @@ class F282017(F202017):
         return np.dot(ws, gs) + self.f_bias
 
 
+class F292017(F202017):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2017
+    Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
+    """
+    name = "F29: Composition Function 10"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2900.0'
 
+    characteristics = ["Asymmetrical", "Different properties around different local optima",
+                       "Different properties for different variables subcomponents"]
 
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_30", f_matrix="M_30_D", f_shuffle="shuffle_data_30_D", f_bias=2900.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.dim_supported = [10, 30, 50, 100]
+        self.f_shuffle = self.check_shuffle_data(f_shuffle, needed_dim=True).reshape((10, -1))
+        self.n_funcs = 3
+        self.xichmas = [10, 30, 50]
+        self.lamdas = [1., 1., 1.]
+        self.bias = [0, 100, 200]
+        self.g0 = F142017(self.ndim, None, self.f_shift[0], self.f_matrix[:self.ndim, :], self.f_shuffle[0], 0)
+        self.g1 = F172017(self.ndim, None, self.f_shift[0], self.f_matrix[self.ndim:2*self.ndim, :], self.f_shuffle[1], 0)
+        self.g2 = F182017(self.ndim, None, self.f_shift[0], self.f_matrix[2*self.ndim:3*self.ndim, :], self.f_shuffle[2], 0)
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
 
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
 
+        # 1. Hybrid Function 5 F5’
+        g0 = self.lamdas[0] * self.g0.evaluate(x) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
+        # 2. Hybrid Function 8 F8’
+        g1 = self.lamdas[1] * self.g1.evaluate(x) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
+        # 3. Hybrid Function 9 F9’
+        g2 = self.lamdas[2] * self.g2.evaluate(x) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
