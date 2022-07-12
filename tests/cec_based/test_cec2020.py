@@ -22,6 +22,18 @@ def test_F12020_results():
     assert len(problem.x_global) == ndim
 
 
+def test_F22020_results():
+    ndim = 30
+    problem = opfunu.cec_based.F22020(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.cec_based.CecBenchmark)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
 
 
 
