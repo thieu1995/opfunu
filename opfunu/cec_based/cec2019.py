@@ -312,6 +312,30 @@ class F82019(F42019):
         return operator.expanded_scaffer_f6_func(z) + self.f_bias
 
 
+class F92019(F42019):
+    """
+    .. [1] The 100-Digit Challenge: Problem Definitions and Evaluation Criteria for the 100-Digit
+    Challenge Special Session and Competition on Single Objective Numerical Optimization
+    """
+    name = "F9: Shifted and Rotated Happy Cat Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1.0'
+
+    convex = False
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    characteristics = []
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_9", f_matrix="M_9_D", f_bias=1.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, x - self.f_shift)
+        return operator.happy_cat_func(z) + self.f_bias
 
 
 
