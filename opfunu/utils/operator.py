@@ -331,11 +331,14 @@ def lennard_jones_minimum_energy_cluster_func(x):
     ndim = len(x)
     result = 12.7120622568
     n_upper = int(ndim/3)
-    for i in range(0, n_upper-1):
-        for j in range(i+1, n_upper):
-            idx1, idx2 = 3*(i+1), 3*(j+1)
-            dij = ((x[idx1-2] - x[idx2-2])**2 + (x[idx1-1] - x[idx2-1])**2 + (x[idx1] - x[idx2])**2)**3
-            result += (1./dij**2 - 2./dij)
+    for i in range(1, n_upper):
+        for j in range(i+1, n_upper+1):
+            idx1, idx2 = 3*i, 3*j
+            dij = ((x[idx1-3] - x[idx2-3])**2 + (x[idx1-2] - x[idx2-2])**2 + (x[idx1-1] - x[idx2-1])**2)**3
+            if dij == 0:
+                result += 0
+            else:
+                result += (1./dij**2 - 2./dij)
     return result
 
 
