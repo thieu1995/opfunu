@@ -225,23 +225,42 @@ class F52019(F42019):
     characteristics = []
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_5", f_matrix="M_5_D", f_bias=1.):
-        super().__init__()
-        self.dim_changeable = True
-        self.dim_default = 10
-        self.dim_max = 10
-        self.dim_supported = [2, 10]
-        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
-        self.make_support_data_path("data_2019")
-        self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
-        self.f_matrix = self.check_matrix_data(f_matrix, needed_dim=True)
-        self.f_bias = f_bias
-        self.f_global = f_bias
-        self.x_global = self.f_shift
-        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
         return operator.griewank_func(z) + self.f_bias
+
+
+class F62019(F42019):
+    """
+    .. [1] The 100-Digit Challenge: Problem Definitions and Evaluation Criteria for the 100-Digit
+    Challenge Special Session and Competition on Single Objective Numerical Optimization
+    """
+    name = "F6: Shifted and Rotated Weierstrass Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1.0'
+
+    convex = True
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    characteristics = []
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_6", f_matrix="M_6_D", f_bias=1.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, x - self.f_shift)
+        return operator.weierstrass_func(z) + self.f_bias
+
+
+
+
+
 
