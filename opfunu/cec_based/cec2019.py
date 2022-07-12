@@ -245,10 +245,10 @@ class F62019(F42019):
     latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
     latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1.0'
 
-    convex = True
-    modality = False  # Number of ambiguous peaks, unknown # peaks
+    convex = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
 
-    characteristics = []
+    characteristics = ["Local optima’s number is huge"]
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_6", f_matrix="M_6_D", f_bias=1.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
@@ -258,6 +258,32 @@ class F62019(F42019):
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
         return operator.weierstrass_func(z) + self.f_bias
+
+
+class F72019(F42019):
+    """
+    .. [1] The 100-Digit Challenge: Problem Definitions and Evaluation Criteria for the 100-Digit
+    Challenge Special Session and Competition on Single Objective Numerical Optimization
+    """
+    name = "F7: Shifted and Rotated Schwefel’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 1.0'
+
+    convex = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    characteristics = ["Local optima’s number is huge"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_7", f_matrix="M_7_D", f_bias=1.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, x - self.f_shift)
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 
 
