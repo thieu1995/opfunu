@@ -288,9 +288,56 @@ def schaffer_f7_func(x):
     return (result/(ndim-1))**2
 
 
+def storn_chebyshev_polynomial_fitting_func(x, d=72.661):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    m = 32*ndim
+    j1 = np.arange(0, ndim)
+    upper = ndim - j1
+
+    u = np.sum(x * 1.2**upper)
+    v = np.sum(x * (-1.2) ** upper)
+    p1 = 0 if u >= d else (u-d)**2
+    p2 = 0 if v >=d else (v-d)**2
+
+    wk = np.array([np.sum(x * (2.*k/m - 1)**upper) for k in range(0, m+1)])
+    conditions = [wk < 1, (1 <= wk) & (wk <= 1), wk > 1]
+    t1 = (wk + 1)**2
+    t2 = np.zeros(len(wk))
+    t3 = (wk - 1)**2
+    choices = [t1, t2, t3]
+    pk = np.select(conditions, choices, default=np.nan)
+    p3 = np.sum(pk)
+    return p1 + p2 +p3
+
+
+def inverse_hilbert_matrix_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    n = int(np.sqrt(ndim))
+    I = np.identity(n)
+    H = np.zeros((n, n))
+    Z = np.zeros((n, n))
+    for i in range(0, n):
+        for k in range(0, n):
+            Z[i, k] = x[i + n*k]
+            H[i, k] = 1./(i+k+1)
+    W = np.matmul(H,Z) - I
+    return np.sum(W)
+
+
+def lennard_jones_minimum_energy_cluster_func(x):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    result = 12.7120622568
+    n_upper = int(ndim/3)
+    for i in range(0, n_upper-1):
+        for j in range(i+1, n_upper):
+            idx1, idx2 = 3*(i+1), 3*(j+1)
+            dij = ((x[idx1-2] - x[idx2-2])**2 + (x[idx1-1] - x[idx2-1])**2 + (x[idx1] - x[idx2])**2)**3
+            result += (1./dij**2 - 2./dij)
+    return result
+
+
 expanded_griewank_rosenbrock_func = f8f2_func
 expanded_scaffer_f6_func = rotated_expanded_scaffer_func
-
-
-
-
