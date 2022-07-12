@@ -76,6 +76,7 @@ class CecBenchmark(Benchmark, ABC):
         self.f_shift = None
         self.f_bias = None
         self.support_path = None
+        self.verbose = False
 
     def make_support_data_path(self, data_name):
         self.support_path = pkg_resources.resource_filename("opfunu", f"cec_based/{data_name}")
@@ -213,7 +214,8 @@ class CecBenchmark(Benchmark, ABC):
                 else:
                     self._ndim = self.dim_default
                     self._bounds = default_bounds
-                    print(f"{self.__class__.__name__} is fixed problem with {self.dim_default} variables!")
+                    if self.verbose:
+                        print(f"{self.__class__.__name__} is fixed problem with {self.dim_default} variables!")
             else:
                 if self.dim_changeable:
                     self._bounds = np.array(bounds).T

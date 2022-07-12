@@ -10,8 +10,8 @@ import numpy as np
 
 ## Test CEC2019 F1
 print("====================F1")
-problem = opfunu.cec_based.F12019(ndim=50)
-x = np.ones(50)
+problem = opfunu.cec_based.F12019(ndim=9)
+x = np.ones(9)
 print(problem.evaluate(x))
 print(problem.x_global)
 
