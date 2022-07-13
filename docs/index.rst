@@ -7,24 +7,23 @@ Opfunu's documentation!
 =======================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: opfunu's documentation!
 
    pages/introduction.rst
+   pages/notes.rst
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Models
 
-   pages/cec/cec_index.rst
-   pages/cec_basic/cec_basic.rst
-   pages/dimension_based/dimension_based.rst
-   pages/type_based/type_based.rst
-
+   pages/cec_based
+   pages/name_based
+   pages/utils
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Need Helps
 
    pages/license.rst
