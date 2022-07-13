@@ -68,14 +68,14 @@ setup.py
 from opfunu.cec_based.cec2014 import F12014
 
 func = F12014(ndim=30)
-func.evaluate(solution)
+func.evaluate(func.create_solution())
 
 ## or
 
 from opfunu.cec_based import F12014
 
-func = F12014(ndim=30)
-func.evaluate(solution)
+func = F102014(ndim=50)
+func.evaluate(func.create_solution())
 ```
 
 
@@ -85,8 +85,9 @@ func.evaluate(solution)
 
 import opfunu
 
-func = opfunu.get_functions_by_classname("F12014")
-func.evaluate(solution)
+funcs = opfunu.get_functions_by_classname("F12014")
+func = funcs[0](ndim=10)
+func.evaluate(func.create_solution())
 
 ## or
 

@@ -236,3 +236,7 @@ class Benchmark:
             The upper bounds for the problem
         """
         return np.array([x[1] for x in self.bounds])
+
+    def create_solution(self):
+        return np.random.uniform(self.lb, self.ub)
+
