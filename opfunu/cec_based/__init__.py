@@ -14,5 +14,6 @@ from .cec2017 import *
 from .cec2019 import *
 from .cec2020 import *
 from .cec2021 import *
+from .cec2022 import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]
