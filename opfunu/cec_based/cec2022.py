@@ -398,14 +398,14 @@ class F92022(CecBenchmark):
     # n_valleys = 1
     characteristics = ["Asymmetrical", "Different properties around different local optima"]
 
-    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_10", f_matrix="M_10_D", f_bias=2300.):
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_9", f_matrix="M_9_D", f_bias=2300.):
         super().__init__()
         self.dim_changeable = True
         self.dim_default = 10
         self.dim_max = 20
         self.dim_supported = [2, 10, 20]
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
-        self.make_support_data_path("data_2021")
+        self.make_support_data_path("data_2022")
         self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
         self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
         self.f_bias = f_bias
@@ -456,6 +456,81 @@ class F92022(CecBenchmark):
         gs = np.array([g0, g1, g2, g3, g4])
         return np.dot(ws, gs) + self.f_bias
 
+
+class F102022(CecBenchmark):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2022
+    Special Session and Competition on Single Objective Bound Constrained Numerical Optimization
+    """
+    name = "F10: Composition Function 2"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 2400.0'
+
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = True
+    shifted = True
+    rotated = True
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    # n_basins = 1
+    # n_valleys = 1
+    characteristics = ["Asymmetrical", "Different properties around different local optima"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_10", f_matrix="M_10_D", f_bias=2400.):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 10
+        self.dim_max = 20
+        self.dim_supported = [2, 10, 20]
+        self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.make_support_data_path("data_2022")
+        self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
+        self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
+        self.f_bias = f_bias
+        self.f_global = f_bias
+        self.x_global = self.f_shift[0]
+        self.n_funcs = 3
+        self.xichmas = [20, 10, 10]
+        self.lamdas = [1, 1, 1]
+        self.bias = [0, 200, 100]
+        self.g0 = operator.modified_schwefel_func
+        self.g1 = operator.rastrigin_func
+        self.g2 = operator.hgbat_func
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+
+        # 1. Rotated Schwefel's Function f12
+        z0 = np.dot(self.f_matrix[:self.ndim, :], 1000.*(x - self.f_shift[0])/100) + 1
+        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
+
+        # 2. Rotated Rastrigin’s Function f4
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[0])/100)
+        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
+
+        # 3. HGBat Function f7
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 5*(x - self.f_shift[0])/100)
+        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
+
+        ws = np.array([w0, w1, w2])
+        ws = ws / np.sum(ws)
+        gs = np.array([g0, g1, g2])
+        return np.dot(ws, gs) + self.f_bias
 
 
 
