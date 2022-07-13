@@ -80,5 +80,18 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+## Test CEC2020 F7
+print("====================F7")
+problem = opfunu.cec_based.F72020(ndim=10)
+x = np.ones(10)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
+
+
 
 
