@@ -1,11 +1,8 @@
 #!/usr/bin/env python
-# ------------------------------------------------------------------------------------------------------%
-# Created by "Thieu Nguyen" at 11:19, 22/09/2020                                                        %
-#                                                                                                       %
-#       Email:      nguyenthieu2102@gmail.com                                                           %
-#       Homepage:   https://www.researchgate.net/profile/Thieu_Nguyen6                                  %
-#       Github:     https://github.com/thieu1995                                                  %
-# -------------------------------------------------------------------------------------------------------%
+# Created by "Thieu" at 11:19, 22/09/2020 ----------%
+#       Email: nguyenthieu2102@gmail.com            %
+#       Github: https://github.com/thieu1995        %
+# --------------------------------------------------%
 
 from opfunu.cec.cec2020.constant import benchmark_function as BF
 from opfunu.cec.cec2020 import engineering
