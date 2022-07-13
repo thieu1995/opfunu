@@ -3,9 +3,9 @@
 
 + Refactoring project with 1 abstract class: Benchmark
 + Two sub-packages: name_based and cec_based
-+ In name_based package contains all letter modules in order of alphabet
-+ In cec_based package contains all cec competition modules
-  + CEC-2013 fully completed
++ In name_based package contains all letter modules in order of the alphabet
++ In cec_based package contains all CEC competition modules from years: 2005, 2008, 2010, 2013, 2014, 2015, 2017, 
+  2019, 2020, 2021, 2022
 
 
 ---------------------------------------------------------------------

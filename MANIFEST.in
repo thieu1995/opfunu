@@ -1,7 +1,18 @@
-include README.md LICENSE
+include README.md LICENSE CODE_OF_CONDUCT.md ChangeLog.md examples.md
 include opfunu/cec/cec2005/support_data/*.txt
 include opfunu/cec/cec2008/support_data/*.txt
 include opfunu/cec/cec2010/support_data/*.txt
 include opfunu/cec/cec2013/support_data/*.txt
 include opfunu/cec/cec2014/support_data/*.txt
 include opfunu/cec/cec2015/support_data/*.txt
+include opfunu/cec_based/data_2005/*.txt
+include opfunu/cec_based/data_2008/*.txt
+include opfunu/cec_based/data_2010/*.txt
+include opfunu/cec_based/data_2013/*.txt
+include opfunu/cec_based/data_2014/*.txt
+include opfunu/cec_based/data_2015/*.txt
+include opfunu/cec_based/data_2017/*.txt
+include opfunu/cec_based/data_2019/*.txt
+include opfunu/cec_based/data_2020/*.txt
+include opfunu/cec_based/data_2021/*.txt
+include opfunu/cec_based/data_2022/*.txt
