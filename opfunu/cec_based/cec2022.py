@@ -58,3 +58,45 @@ class F12022(CecBenchmark):
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
         return operator.zakharov_func(z) + self.f_bias
+
+
+class F22022(F12022):
+    """
+    .. [1] Problem Definitions and Evaluation Criteria for the CEC 2022
+    Special Session and Competition on Single Objective Bound Constrained Numerical Optimization
+    """
+    name = "F2: Shifted and Rotated Rosenbrock’s Function"
+    latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
+    latex_formula_dimension = r'2 <= D <= 100'
+    latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = 400.0'
+
+    unimodal = False
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+    characteristics = ["Local optima’s number is huge"]
+
+    def __init__(self, ndim=None, bounds=None, f_shift="shift_data_2", f_matrix="M_2_D", f_bias=400.):
+        super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100) + 1
+        return operator.rosenbrock_func(z) + self.f_bias
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
