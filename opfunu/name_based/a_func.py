@@ -158,6 +158,45 @@ class Adjiman(Benchmark):
         return np.cos(x[0]) * np.sin(x[1]) - x[0] / (x[1] ** 2 + 1)
 
 
+class Alpine01(Benchmark):
+    """
+    [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark FunctionsFor Global Optimization Problems Int.
+    Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Alpine01 Function"
+    latex_formula = r'f_{\text{Alpine01}}(x) = \sum_{i=1}^{n} \lvert {x_i \sin \left( x_i\right) + 0.1 x_i} \rvert'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-10.0, 10.0], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(x*)\approx 0, at$$ $$x*=0.0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.zeros(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return np.sum(np.abs(x * np.sin(x) + 0.1 * x))
+
+
+
+
 
 
 
