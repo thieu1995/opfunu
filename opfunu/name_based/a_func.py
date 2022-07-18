@@ -195,6 +195,41 @@ class Alpine01(Benchmark):
         return np.sum(np.abs(x * np.sin(x) + 0.1 * x))
 
 
+class Alpine02(Benchmark):
+    """
+    [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark FunctionsFor Global Optimization Problems Int.
+    Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Alpine02 Function"
+    latex_formula = r'f_{\text{Alpine02}(x) = \prod_{i=1}^{n} \sqrt{x_i} \sin(x_i)'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [0., 10.0], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(x*)\approx -6.12950, at$$ $$x_1=7.91705268, x_2=4.81584232'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 10.] for _ in range(self.dim_default)]))
+        self.f_global = -6.12950
+        self.x_global = np.array([7.91705268, 4.81584232] + list(np.random.uniform(0, 10, self.ndim-2)))
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return np.prod(np.sqrt(x) * np.sin(x))
 
 
 

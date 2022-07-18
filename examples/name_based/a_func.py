@@ -63,6 +63,18 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+print("====================Test Alpine02")
+problem = opfunu.name_based.Alpine02(ndim=3)
+x = np.ones(3)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
+
+
 
 
 

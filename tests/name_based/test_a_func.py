@@ -69,6 +69,18 @@ def test_Alpine01_results():
     assert len(problem.x_global) == ndim
 
 
+def test_Alpine02_results():
+    ndim = 18
+    problem = opfunu.name_based.Alpine02(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
 
 
 
