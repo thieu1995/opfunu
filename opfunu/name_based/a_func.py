@@ -89,7 +89,7 @@ class Ackley03(Benchmark):
     .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark FunctionsFor Global Optimization Problems Int.
     Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
     """
-    name = "Ackley 02"
+    name = "Ackley 03"
     latex_formula = r'f_{\text{Ackley03}}(x) = -200 e^{-0.02 \sqrt{x_1^2 + x_2^2}} + 5e^{\cos(3x_1) + \sin(3x_2)}'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-32.0, 32.0], \forall i \in \llbracket 1, d\rrbracket'
@@ -119,6 +119,44 @@ class Ackley03(Benchmark):
         self.check_solution(x)
         self.n_fe += 1
         return -200 * np.exp(-0.02 * np.sqrt(x[0] ** 2 + x[1] ** 2)) + 5 * np.exp(np.cos(3 * x[0]) + np.sin(3 * x[1]))
+
+
+class Adjiman(Benchmark):
+    """
+    [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark FunctionsFor Global Optimization Problems Int.
+    Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Adjiman Function"
+    latex_formula = r'f_{\text{Adjiman}}(x) = \cos(x_1)\sin(x_2) - \frac{x_1}{(x_2^2 + 1)}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_1 \in [-1.0, 2.0], x_2 \in [-1., 1.]'
+    latex_formula_global_optimum = r'f(x1, x2)\approx-2.02181, at$$ $$x1=2.0, and$$ $$ x2=0.10578'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1.0, 2.0], [-1.0, 1.0]]))
+        self.f_global = -2.02180678
+        self.x_global = np.array([2.0, 0.10578])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return np.cos(x[0]) * np.sin(x[1]) - x[0] / (x[1] ** 2 + 1)
+
 
 
 
