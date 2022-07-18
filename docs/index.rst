@@ -18,6 +18,7 @@ Opfunu's documentation!
    :maxdepth: 4
    :caption: Models
 
+   pages/benchmark
    pages/cec_based
    pages/name_based
    pages/utils

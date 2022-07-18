@@ -177,7 +177,8 @@ class Benchmark:
 
         Returns
         -------
-        bool : is the candidate vector at the global minimum?
+        is_succeed : bool
+            Answer the question: is the candidate vector at the global minimum?
         """
 
         # the solution should still be in bounds, otherwise immediate fail.
@@ -238,5 +239,13 @@ class Benchmark:
         return np.array([x[1] for x in self.bounds])
 
     def create_solution(self):
+        """
+        Create a random solution for the current problem
+
+        Returns
+        -------
+        solution: 1D-vector
+            The random solution
+        """
         return np.random.uniform(self.lb, self.ub)
 
