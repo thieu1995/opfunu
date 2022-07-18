@@ -232,6 +232,44 @@ class Alpine02(Benchmark):
         return np.prod(np.sqrt(x) * np.sin(x))
 
 
+class AMGM(Benchmark):
+    """
+    [1] The AMGM (Arithmetic Mean - Geometric Mean Equality).
+    [2] Gavana, A. Global Optimization Benchmarks and AMPGO, retrieved 2015
+    """
+    name = "AMGM Function"
+    latex_formula = r'f_{\text{AMGM}}(x) = \left ( \frac{1}{n} \sum_{i=1}^{n} x_i - \sqrt[n]{ \prod_{i=1}^{n} x_i} \right )^2'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [0., 10.0], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(x*)\approx 0, at$$ $$x_1=x_2=...=x_n'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = False
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 10.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.ones(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        f1 = np.sum(x) / self.ndim
+        f2 = np.prod(x) ** (1.0 / self.ndim)
+        return (f1 - f2) ** 2
+
 
 
 
