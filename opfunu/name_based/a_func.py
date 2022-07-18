@@ -120,3 +120,6 @@ class Ackley03(Benchmark):
         self.n_fe += 1
         return -200 * np.exp(-0.02 * np.sqrt(x[0] ** 2 + x[1] ** 2)) + 5 * np.exp(np.cos(3 * x[0]) + np.sin(3 * x[1]))
 
+
+
+
