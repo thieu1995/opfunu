@@ -85,6 +85,27 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+print("====================Test Bohachevsky1")
+problem = opfunu.name_based.Bohachevsky1(ndim=2)
+x = np.ones(2)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
