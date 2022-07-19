@@ -430,6 +430,44 @@ class Booth(Benchmark):
         return (x[0] + 2*x[1] - 7)**2 + (2*x[0] + x[1] - 5)**2
 
 
+class BoxBetts(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Box-Betts Quadratic Sum Function"
+    latex_formula = r'f_{\text{BoxBetts}}(x) = \sum_{i=1}^k g(x_i)^2; g(x) = e^{-0.1i x_1} - e^{-0.1i x_2} - x_3\left[e^{-0.1i} - e^{-i}\right]; k=10'
+    latex_formula_dimension = r'd = 3'
+    latex_formula_bounds = r'x_1 \in [0.9, 1.2], x_2 \in [9, 11.2], x_3 \in [0.9, 1.2]'
+    latex_formula_global_optimum = r'f(1, 10, 1) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 3
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0.9, 1.2], [9.0, 11.2], [0.9, 1.2]]))
+        self.f_global = 0.0
+        self.x_global = np.array([1.0, 10.0, 1.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        i = np.arange(1, 11)
+        g = (np.exp(-0.1 * i * x[0]) - np.exp(-0.1 * i * x[1]) - (np.exp(-0.1 * i) - np.exp(-i)) * x[2])
+        return np.sum(g ** 2)
+
 
 
 
