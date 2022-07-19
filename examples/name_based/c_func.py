@@ -20,5 +20,16 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+print("====================Test CamelSixHump")
+ndim = 2
+problem = opfunu.name_based.CamelSixHump(ndim=ndim)
+x = np.ones(ndim)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
 
 
