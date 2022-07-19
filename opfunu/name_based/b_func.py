@@ -509,6 +509,45 @@ class Branin01(Benchmark):
         return ((x[1] - (5.1 / (4 * np.pi ** 2)) * x[0] ** 2 + 5 * x[0] / np.pi - 6) ** 2 + 10 * (1 - 1 / (8 * np.pi)) * np.cos(x[0]) + 10)
 
 
+class Branin02(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Branin RCOS 2 Function"
+    latex_formula = r'f_{\text{Branin02}}(x) = \left(- 1.275 \frac{x_1^{2}}{\pi^{2}} + 5 \frac{x_1}{\pi} + x_2 - 6 \right)^{2} + ' \
+                    r'\left(10 - \frac{5}{4 \pi} \right) \cos\left(x_1\right) \cos\left(x_2\right) + \log(x_1^2+x_2^2 + 1) + 10'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_1 \in [-5, 15], x_2 \in [-5, 15]'
+    latex_formula_global_optimum = r'f(x_i) = 5.559037, x_i = [-3.2, 12.53]'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-5., 15.] for _ in range(self.dim_default)]))
+        self.f_global = 5.559037
+        self.x_global = np.array([-3.2, 12.53])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return ((x[1] - (5.1 / (4 * np.pi ** 2)) * x[0] ** 2 + 5 * x[0] / np.pi - 6) ** 2
+                + 10 * (1 - 1 / (8 * np.pi)) * np.cos(x[0]) * np.cos(x[1]) + np.log(x[0] ** 2.0 + x[1] ** 2.0 + 1.0) + 10)
+
+
 
 
 
