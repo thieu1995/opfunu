@@ -637,7 +637,7 @@ class Bukin02(Benchmark):
     continuous = True
     linear = False
     convex = True
-    unimodal = True
+    unimodal = False
     separable = False
 
     differentiable = True
@@ -660,6 +660,42 @@ class Bukin02(Benchmark):
         self.n_fe += 1
         return 100 * (x[1] ** 2 - 0.01 * x[0] ** 2 + 1.0) + 0.01 * (x[0] + 10.0) ** 2.0
 
+
+class Bukin04(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Bukin 4 Function"
+    latex_formula = r'f_{\text{Bukin04}}(x) = 100 x_2^{2} + 0.01 \lvert{x_1 + 10}\rvert'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_1 \in [-15, -5], x_2 \in [-3, 3]'
+    latex_formula_global_optimum = r'f(x_i) = 0, x_i = [-10, 0]'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = False
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-15., -5.], [-3., 3.]]))
+        self.f_global = 0.0
+        self.x_global = np.array([-10., 0.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return 100 * x[1] ** 2 + 0.01 * abs(x[0] + 10)
 
 
 
