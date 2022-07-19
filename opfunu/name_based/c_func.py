@@ -165,6 +165,45 @@ class ChenV(Benchmark):
         return -0.001/(0.001**2 + (x[0]**2 + x[1]**2 - 1)**2) - 0.001/(0.001**2 + (x[0]**2 + x[1]**2 - 0.5)**2) - 0.001/(0.001**2 + (x[0]**2 - x[1]**2)**2)
 
 
+class Chichinadze(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Chichinadze Function"
+    latex_formula = r'f(x) = x_{1}^{2} - 12 x_{1} + 8 \sin\left(\frac{5}{2} \pi x_{1}\right)' +\
+        r'+ 10 \cos\left(\frac{1}{2} \pi x_{1}\right) + 11 - 0.2 \frac{\sqrt{5}}{e^{\frac{1}{2} \left(x_{2} -0.5 \right)^{2}}}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-30, 30], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(6.189866586965680, 0.5) = -42.94438701899098'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-30., 30.] for _ in range(self.dim_default)]))
+        self.dim_changeable = False
+        self.f_global = -42.94438701899098
+        self.x_global = np.array([6.189866586965680, 0.5])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (x[0] ** 2 - 12 * x[0] + 11 + 10 * np.cos(np.pi * x[0] / 2)
+                + 8 * np.sin(5 * np.pi * x[0] / 2) - 1.0 / np.sqrt(5) * np.exp(-((x[1] - 0.5) ** 2) / 2))
+
 
 
 
