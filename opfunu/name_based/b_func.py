@@ -124,6 +124,45 @@ class BiggsExp02(Benchmark):
         return np.sum((np.exp(-t * x[0]) - 5 * np.exp(-t * x[1]) - y) ** 2)
 
 
+class BiggsExp03(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Biggs EXP3 Function"
+    latex_formula = r'\begin{matrix}\ f_{\text{BiggsExp03}}(x) = \sum_{i=1}^{10} (e^{-t_i x_1} - x_3e^{-t_i x_2} - y_i)^2\\' + \
+        r't_i = 0.1i\\ y_i = e^{-t_i} - 5e^{-10 t_i}\\ \end{matrix}'
+    latex_formula_dimension = r'd = 3'
+    latex_formula_bounds = r'x_i \in [0., 20.], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1.0, 10., 5.0) = 0.0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 3
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 20.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.array([1.0, 10., 5.0])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        t = np.arange(1., 11.) * 0.1
+        y = np.exp(-t) - 5 * np.exp(-10 * t)
+        return np.sum((np.exp(-t * x[0]) - x[2] * np.exp(-t * x[1]) - y) ** 2)
+
 
 
 
