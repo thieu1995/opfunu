@@ -58,8 +58,8 @@ def test_BiggsExp03_results():
 
 
 def test_BiggsExp04_results():
-    ndim = 3
-    problem = opfunu.name_based.BiggsExp03(ndim=ndim)
+    ndim = 4
+    problem = opfunu.name_based.BiggsExp04(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
     assert isinstance(problem, opfunu.name_based.Benchmark)
@@ -68,6 +68,17 @@ def test_BiggsExp04_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+
+def test_BiggsExp05_results():
+    ndim = 5
+    problem = opfunu.name_based.BiggsExp05(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
 
 
 
