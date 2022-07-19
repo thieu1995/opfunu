@@ -33,10 +33,9 @@ class BartelsConn(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.dim_changeable = True
+        self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-500., 500.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = 1.0
         self.x_global = np.zeros(self.ndim)
 

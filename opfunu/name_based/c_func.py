@@ -33,10 +33,9 @@ class CamelThreeHump(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.dim_changeable = True
+        self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = 0.0
         self.x_global = np.zeros(self.ndim)
 
@@ -74,7 +73,6 @@ class CamelSixHump(Benchmark):
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = -1.0316284229280819
         self.x_global = np.array([-0.0898, 0.7126])
         self.x_globals = np.array([[-0.0898, 0.7126], [0.0898, -0.7126]])
@@ -113,7 +111,6 @@ class ChenBird(Benchmark):
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-500., 500.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = -1000.
         self.x_global = np.array([-113.11622344, 227.73244688])
 
@@ -151,7 +148,6 @@ class ChenV(Benchmark):
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-500., 500.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = -2000.0039999840005
         self.x_global = np.array([-0.70710678, -0.70710678])
         self.x_globals = np.array([[-0.70710678, -0.70710678],
@@ -194,7 +190,6 @@ class Chichinadze(Benchmark):
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-30., 30.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = -42.94438701899098
         self.x_global = np.array([6.189866586965680, 0.5])
 
@@ -233,7 +228,6 @@ class ChungReynolds(Benchmark):
         self.dim_changeable = True
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = 0.
         self.x_global = np.zeros(self.ndim)
 
@@ -270,7 +264,6 @@ class Cigar(Benchmark):
         self.dim_changeable = True
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
-        self.dim_changeable = False
         self.f_global = 0.
         self.x_global = np.zeros(self.ndim)
 
@@ -287,7 +280,7 @@ class Cola(Benchmark):
     """
     name = "Cola Function"
     latex_formula = r'f(x) = x_1^2 + 10^6\sum_{i=2}^{n} x_i^2'
-    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_dimension = r'd = 17'
     latex_formula_bounds = r'x_0 \in [0, 4], x_i \in [-4, 4], \forall i \in \llbracket 1, d-1\rrbracket'
     latex_formula_global_optimum = r'f(0,...,0) = 11.7464'
     continuous = True
@@ -301,14 +294,13 @@ class Cola(Benchmark):
     randomized_term = False
     parametric = False
 
-    modality = False  # Number of ambiguous peaks, unknown # peaks
+    modality = True  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 17
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0.0, 4.0]] + [[-4., 4.] for _ in range(self.dim_default-1)]))
-        self.dim_changeable = False
         self.f_global = 11.7464
         self.x_global = np.array([0.651906, 1.30194, 0.099242, -0.883791, -0.8796, 0.204651, -3.28414, 0.851188,
                                 -3.46245, 2.53245, -0.895246, 1.40992, -3.07367, 1.96257, -2.97872, -0.807849, -1.68978])
@@ -337,6 +329,45 @@ class Cola(Benchmark):
         inner = (np.sqrt(((xi - xj) ** 2 + (yi - yj) ** 2)) - self.d) ** 2
         inner = np.tril(inner, -1)
         return np.sum(np.sum(inner, axis=1))
+
+
+class Colville(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Colville Function"
+    latex_formula = r'f(x) = \left(x_{1} -1\right)^{2} + 100 \left(x_{1}^{2} - x_{2}\right)^{2} + 10.1 \left(x_{2} -1\right)^{2} + ' \
+                    r'\left(x_{3} -1\right)^{2} + 90 \left(x_{3}^{2} - x_{4}\right)^{2} + 10.1 \left(x_{4} -1\right)^{2} + 19.8 \frac{x_{4} -1}{x_{2}}'
+    latex_formula_dimension = r'd = 4'
+    latex_formula_bounds = r'x_i \in [-10, 10], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1,...,1) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 4
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10.0, 10.0] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.ones(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (100 * (x[0] - x[1] ** 2) ** 2 + (1 - x[0]) ** 2 + (1 - x[2]) ** 2 + 90 * (x[3] - x[2] ** 2) ** 2 +
+                10.1 * ((x[1] - 1) ** 2 + (x[3] - 1) ** 2) + 19.8 * (x[1] - 1) * (x[3] - 1))
 
 
 
