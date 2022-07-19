@@ -105,9 +105,9 @@ def test_Bohachevsky1_results():
     assert len(problem.x_global) == ndim
 
 
-def test_Bohachevsky1_results():
+def test_Bohachevsky2_results():
     ndim = 2
-    problem = opfunu.name_based.Bohachevsky1(ndim=ndim)
+    problem = opfunu.name_based.Bohachevsky2(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
     assert isinstance(problem, opfunu.name_based.Benchmark)
@@ -116,6 +116,17 @@ def test_Bohachevsky1_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+
+def test_Bohachevsky3_results():
+    ndim = 2
+    problem = opfunu.name_based.Bohachevsky3(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
 
 
 
