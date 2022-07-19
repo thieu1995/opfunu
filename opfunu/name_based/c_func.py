@@ -370,6 +370,50 @@ class Colville(Benchmark):
                 10.1 * ((x[1] - 1) ** 2 + (x[3] - 1) ** 2) + 19.8 * (x[1] - 1) * (x[3] - 1))
 
 
+class Corana(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Corana Function"
+    latex_formula = r'f(x) = '
+    latex_formula_dimension = r'd = 4'
+    latex_formula_bounds = r'x_i \in [-5, 5], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1,...,1) = 0'
+    continuous = False
+    linear = False
+    convex = False
+    unimodal = False
+    separable = True
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 4
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-5.0, 5.0] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.zeros(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        d = [1., 1000., 10., 100.]
+        r = 0
+        for j in range(4):
+            zj = np.floor(np.abs(x[j] / 0.2) + 0.49999) * np.sign(x[j]) * 0.2
+            if np.abs(x[j] - zj) < 0.05:
+                r += 0.15 * ((zj - 0.05 * np.sign(zj)) ** 2) * d[j]
+            else:
+                r += d[j] * x[j] * x[j]
+        return r
+
 
 
 
