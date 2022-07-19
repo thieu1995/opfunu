@@ -494,6 +494,46 @@ class CrossInTray(Benchmark):
         return (-0.0001 * (np.abs(np.sin(x[0]) * np.sin(x[1]) * np.exp(abs(100 - np.sqrt(x[0] ** 2 + x[1] ** 2) / np.pi)))+ 1) ** (0.1))
 
 
+class CrossLegTable(Benchmark):
+    """
+    .. [1] Mishra, S. Global Optimization by Differential Evolution and Particle Swarm Methods:
+    Evaluation on Some Benchmark Functions Munich University, 2006
+    """
+    name = "Cross-Leg-Table Function"
+    latex_formula = r'- \frac{1}{\left(\left|{e^{\left|{100 - \frac{\sqrt{x_{1}^{2} + x_{2}^{2}}}{\pi}}\right|}' + \
+        r'\sin\left(x_{1}\right) \sin\left(x_{2}\right)}\right| + 1\right)^{0.1}}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-10, 10], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0, 0) = -1'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10.0, 10.0] for _ in range(self.dim_default)]))
+        self.f_global = -1.
+        self.x_global = np.array([0., 0.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        u = 100 - np.sqrt(x[0] ** 2 + x[1] ** 2) / np.pi
+        v = np.sin(x[0]) * np.sin(x[1])
+        return -(np.abs(v * np.exp(np.abs(u))) + 1) ** (-0.1)
+
+
 
 
 
