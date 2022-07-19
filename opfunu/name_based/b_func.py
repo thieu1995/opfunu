@@ -582,7 +582,7 @@ class Brent(Benchmark):
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return ((x[0] + 10.0) ** 2.0 + (x[1] + 10.0) ** 2.0 + np.exp(-x[0] ** 2.0 - x[1] ** 2.0))
+        return (x[0] + 10.0) ** 2.0 + (x[1] + 10.0) ** 2.0 + np.exp(-x[0] ** 2.0 - x[1] ** 2.0)
 
 
 class Brown(Benchmark):
@@ -623,6 +623,42 @@ class Brown(Benchmark):
         x1 = x[1:]
         return np.sum((x0 ** 2.0) ** (x1 ** 2.0 + 1.0) + (x1 ** 2.0) ** (x0 ** 2.0 + 1.0))
 
+
+class Bukin02(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Bukin 2 Function"
+    latex_formula = r'f_{\text{Bukin02}}(x) = 100 (x_2^2 - 0.01x_1^2 + 1) + 0.01(x_1 + 10)^2'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_1 \in [-15, -5], x_2 \in [-3, 3]'
+    latex_formula_global_optimum = r'f(x_i) = -124.75, x_i = [-15, 0]'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = True
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-15., -5.], [-3., 3.]]))
+        self.f_global = -124.75
+        self.x_global = np.array([-15., 0.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return 100 * (x[1] ** 2 - 0.01 * x[0] ** 2 + 1.0) + 0.01 * (x[0] + 10.0) ** 2.0
 
 
 
