@@ -280,6 +280,65 @@ class Cigar(Benchmark):
         return x[0] ** 2 + 1e6 * np.sum(x[1:] ** 2)
 
 
+class Cola(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Cola Function"
+    latex_formula = r'f(x) = x_1^2 + 10^6\sum_{i=2}^{n} x_i^2'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_0 \in [0, 4], x_i \in [-4, 4], \forall i \in \llbracket 1, d-1\rrbracket'
+    latex_formula_global_optimum = r'f(0,...,0) = 11.7464'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 17
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0.0, 4.0]] + [[-4., 4.] for _ in range(self.dim_default-1)]))
+        self.dim_changeable = False
+        self.f_global = 11.7464
+        self.x_global = np.array([0.651906, 1.30194, 0.099242, -0.883791, -0.8796, 0.204651, -3.28414, 0.851188,
+                                -3.46245, 2.53245, -0.895246, 1.40992, -3.07367, 1.96257, -2.97872, -0.807849, -1.68978])
+        self.d = np.asarray([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [1.27, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [1.69, 1.43, 0, 0, 0, 0, 0, 0, 0, 0],
+                 [2.04, 2.35, 2.43, 0, 0, 0, 0, 0, 0, 0],
+                 [3.09, 3.18, 3.26, 2.85, 0, 0, 0, 0, 0, 0],
+                 [3.20, 3.22, 3.27, 2.88, 1.55, 0, 0, 0, 0, 0],
+                 [2.86, 2.56, 2.58, 2.59, 3.12, 3.06, 0, 0, 0, 0],
+                 [3.17, 3.18, 3.18, 3.12, 1.31, 1.64, 3.00, 0, 0, 0],
+                 [3.21, 3.18, 3.18, 3.17, 1.70, 1.36, 2.95, 1.32, 0, 0],
+                 [2.38, 2.31, 2.42, 1.94, 2.85, 2.81, 2.56, 2.91, 2.97, 0.]])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        xi = np.atleast_2d(np.asarray([0.0, x[0]] + list(x[1::2])))
+        xj = np.repeat(xi, np.size(xi, 1), axis=0)
+        xi = xi.T
+
+        yi = np.atleast_2d(np.asarray([0.0, 0.0] + list(x[2::2])))
+        yj = np.repeat(yi, np.size(yi, 1), axis=0)
+        yi = yi.T
+
+        inner = (np.sqrt(((xi - xj) ** 2 + (yi - yj) ** 2)) - self.d) ** 2
+        inner = np.tril(inner, -1)
+        return np.sum(np.sum(inner, axis=1))
+
+
 
 
 
