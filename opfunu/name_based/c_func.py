@@ -452,6 +452,48 @@ class CosineMixture(Benchmark):
         return -0.1 * np.sum(np.cos(5.0 * np.pi * x)) - np.sum(x ** 2.0)
 
 
+class CrossInTray(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Cross-in-Tray Function"
+    latex_formula = r'f(x) = - 0.0001 \left(\left|{e^{\left|{100' +\
+        r'- \frac{\sqrt{x_{1}^{2} + x_{2}^{2}}}{\pi}}\right|} \sin\left(x_{1}\right) \sin\left(x_{2}\right)}\right| + 1\right)^{0.1}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-10, 10], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(±1.349406608602084, ±1.349406608602084) = -2.062611870822739'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10.0, 10.0] for _ in range(self.dim_default)]))
+        self.f_global = -2.062611870822739
+        self.x_global = np.array([1.349406608602084, 1.349406608602084])
+        self.x_globals = np.array([(1.349406685353340, 1.349406608602084),
+                               (-1.349406685353340, 1.349406608602084),
+                               (1.349406685353340, -1.349406608602084),
+                               (-1.349406685353340, -1.349406608602084)])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (-0.0001 * (np.abs(np.sin(x[0]) * np.sin(x[1]) * np.exp(abs(100 - np.sqrt(x[0] ** 2 + x[1] ** 2) / np.pi)))+ 1) ** (0.1))
+
+
 
 
 
