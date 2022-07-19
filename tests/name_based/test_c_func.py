@@ -129,3 +129,16 @@ def test_Corana_results():
     assert len(problem.x_global) == ndim
 
 
+def test_CosineMixture_results():
+    ndim = 11
+    problem = opfunu.name_based.CosineMixture(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+

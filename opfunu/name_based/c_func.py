@@ -415,6 +415,42 @@ class Corana(Benchmark):
         return r
 
 
+class CosineMixture(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Cosine Mixture Function"
+    latex_formula = r'f(x) = -0.1 \sum_{i=1}^n \cos(5 \pi x_i) - \sum_{i=1}^n x_i^2'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(-1,...,-1) = -0.9*D'
+    continuous = False
+    linear = False
+    convex = False
+    unimodal = False
+    separable = True
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1.0, 1.0] for _ in range(self.dim_default)]))
+        self.f_global = -0.9*self.ndim
+        self.x_global = -1 * np.ones(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return -0.1 * np.sum(np.cos(5.0 * np.pi * x)) - np.sum(x ** 2.0)
+
 
 
 
