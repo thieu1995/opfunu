@@ -611,9 +611,38 @@ class Csendes(Benchmark):
         return np.sum((x ** 6.0) * (2.0 + np.sin(1.0/(x+self.epsilon))))
 
 
+class Cube(Benchmark):
+    """
+    .. [1] Mishra, S. Global Optimization by Differential Evolution and Particle Swarm Methods:
+    Evaluation on Some Benchmark Functions Munich University, 2006
+    """
+    name = "Cube Function"
+    latex_formula = r'f(x) = 100(x_2 - x_1^3)^2 + (1 - x1)^2'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-10, 10], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1, 1) = 0'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
 
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
 
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10.0, 10.0] for _ in range(self.dim_default)]))
+        self.f_global = 0.
+        self.x_global = np.array([1., 1.])
 
-
-
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return 100.0 * (x[1] - x[0] ** 3.0) ** 2.0 + (1.0 - x[0]) ** 2.0

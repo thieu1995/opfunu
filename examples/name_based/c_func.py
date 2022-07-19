@@ -190,6 +190,18 @@ print(problem.is_succeed(problem.x_global))
 
 
 
+print("====================Test Cube")
+ndim = 2
+problem = opfunu.name_based.Cube(ndim=ndim)
+x = np.ones(ndim)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
+
 
 # problem_dict = {
 #     "fit_func": problem.evaluate,
