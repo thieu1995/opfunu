@@ -69,5 +69,16 @@ def test_Chichinadze_results():
     assert len(problem.x_global) == ndim
 
 
+def test_ChungReynolds_results():
+    ndim = 9
+    problem = opfunu.name_based.ChungReynolds(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
 
 
