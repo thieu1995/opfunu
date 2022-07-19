@@ -225,6 +225,18 @@ def test_Bukin04_results():
     assert len(problem.x_global) == ndim
 
 
+def test_Bukin06_results():
+    ndim = 2
+    problem = opfunu.name_based.Bukin06(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
 
 
 
