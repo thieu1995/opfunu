@@ -6,5 +6,6 @@
 
 from .a_func import *
 from .b_func import *
+from .c_func import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]
