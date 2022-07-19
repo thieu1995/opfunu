@@ -9,11 +9,11 @@ from opfunu.benchmark import Benchmark
 
 
 class BartelsConn(Benchmark):
-    r"""
+    """
     .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
     Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
     """
-    name = "Beale"
+    name = "Bartels Conn Function"
     latex_formula = r'f_{\text{BartelsConn}}(x) = \lvert {x_1^2 + x_2^2 + x_1x_2} \rvert + \lvert {\sin(x_1)} \rvert + \lvert {\cos(x_2)} \rvert'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-500, 500], \forall i \in \llbracket 1, d\rrbracket'
@@ -47,11 +47,11 @@ class BartelsConn(Benchmark):
 
 
 class Beale(Benchmark):
-    r"""
+    """
     .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
     Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
     """
-    name = "Bartels Conn"
+    name = "Beale Function"
     latex_formula = r'f_{\text{Beale}}(x) = \left(x_1 x_2 - x_1 + 1.5\right)^{2} +' + \
                     '\left(x_1 x_2^{2} - x_1 + 2.25\right)^{2} + \left(x_1 x_2^{3} - x_1 + 2.625\right)^{2}'
     latex_formula_dimension = r'd = 2'
@@ -82,6 +82,51 @@ class Beale(Benchmark):
         self.check_solution(x)
         self.n_fe += 1
         return (1.5 - x[0] + x[0] * x[1])**2 + (2.25 - x[0] + x[0] * x[1]**2)**2 + (2.625 - x[0] + x[0] * x[1]**3)**2
+
+
+class BiggsExp02(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Biggs EXP2 Function"
+    latex_formula = r'\begin{matrix}f_{\text{BiggsExp02}}(x) = \sum_{i=1}^{10} (e^{-t_i x_1} - 5 e^{-t_i x_2} - y_i)^2 \\' + \
+        r't_i = 0.1 i\\y_i = e^{-t_i} - 5 e^{-10t_i}\\ \end{matrix}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [0., 20.], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1.0, 10.) = 0.0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 20.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.array([1.0, 10.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        t = np.arange(1, 11.) * 0.1
+        y = np.exp(-t) - 5 * np.exp(-10 * t)
+        return np.sum((np.exp(-t * x[0]) - 5 * np.exp(-t * x[1]) - y) ** 2)
+
+
+
+
+
 
 
 
