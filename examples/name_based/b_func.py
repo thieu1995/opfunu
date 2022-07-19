@@ -52,6 +52,16 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+print("====================Test BiggsExp04")
+problem = opfunu.name_based.BiggsExp04(ndim=4)
+x = np.ones(4)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
 
 
 
