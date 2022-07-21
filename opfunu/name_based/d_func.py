@@ -450,8 +450,38 @@ class Dolan(Benchmark):
                     - 0.1 * x[3] * np.cos(x[3] + x[4] - x[0]) + 0.2 * x[4] ** 2 - x[1] - 1))
 
 
+class DropWave(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+    name = "DropWave Function"
+    latex_formula = r'f(x) = - \frac{1 + \cos\left(12 \sqrt{\sum_{i=1}^{n} x_i^{2}}\right)}{2 + 0.5 \sum_{i=1}^{n} x_i^{2}}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-5.12, 5.12], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0, 0) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
 
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
 
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-5.12, 5.12] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = np.array([0., 0.])
 
-
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        norm_x = np.sum(x ** 2)
+        return -(1 + np.cos(12 * np.sqrt(norm_x))) / (0.5 * norm_x + 2)
