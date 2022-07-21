@@ -77,7 +77,7 @@ class Deb01(Benchmark):
         super().__init__()
         self.dim_changeable = True
         self.dim_default = 2
-        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 14.] for _ in range(self.dim_default)]))
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1, -1.] for _ in range(self.dim_default)]))
         self.f_global = -1.0
         self.x_global = np.zeros(self.ndim)
 
@@ -86,5 +86,41 @@ class Deb01(Benchmark):
         self.n_fe += 1
         return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * x) ** 6.0)
 
+
+class Deb03(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Deb 3 Function"
+    latex_formula = r'f(x) = - \frac{1}{N} \sum_{i=1}^n \sin^6 \left[ 5 \pi\left ( x_i^{3/4} - 0.05 \right) \right ]'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0.3, -0.3) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1., 1.] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = np.zeros(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * (x ** 0.75 - 0.05)) ** 6.0)
 
 

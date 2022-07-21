@@ -33,6 +33,17 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
+print("====================Test Deb03")
+ndim = 18
+problem = opfunu.name_based.Deb03(ndim=ndim)
+x = np.ones(ndim)
+print(problem.evaluate(x))
+print(problem.x_global)
+
+print(problem.evaluate(problem.x_global))
+print(problem.is_succeed(x))
+print(problem.is_succeed(problem.x_global))
+
 
 
 # problem_dict = {
