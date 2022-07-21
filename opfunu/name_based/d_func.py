@@ -150,7 +150,7 @@ class Decanomial(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.dim_changeable = True
+        self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
         self.f_global = 0.
@@ -172,17 +172,17 @@ class Deceptive(Benchmark):
     """
     name = "Deceptive Function"
     latex_formula = r'f(x) = - \left [\frac{1}{n} \sum_{i=1}^{n} g_i(x_i) \right ]^{\beta}'
-    latex_formula_dimension = r'd = 2'
+    latex_formula_dimension = r'd \in N^+'
     latex_formula_bounds = r'x_i \in [0, 1], \forall i \in \llbracket 1, d\rrbracket'
-    latex_formula_global_optimum = r'f(2, -3) = 0'
-    continuous = False
+    latex_formula_global_optimum = r'f(alpha_i) = -1'
+    continuous = True
     linear = False
     convex = False
     unimodal = False
     separable = False
 
-    differentiable = False
-    scalable = False
+    differentiable = True
+    scalable = True
     randomized_term = False
     parametric = False
 
@@ -217,6 +217,43 @@ class Deceptive(Benchmark):
                 g[i] = x[i] - 1.0
         return -((1.0 / self.ndim) * np.sum(g)) ** beta
 
+
+class DeckkersAarts(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Deckkers-Aarts Function"
+    latex_formula = r'f(x) = 10^5x_1^2 + x_2^2 - (x_1^2 + x_2^2)^2 + 10^{-5}(x_1^2 + x_2^2)^4'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-20, 20], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0, \pm 14.9451209) = -24776.518242168'
+    continuous = True
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-20., 20.] for _ in range(self.dim_default)]))
+        self.f_global = -24776.5183421814
+        self.x_global = np.array([0, 14.9451209])
+        self.x_globals = np.array([[0, 14.9451209], [0, -14.9451209]])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (1.e5 * x[0] ** 2 + x[1] ** 2 - (x[0] ** 2 + x[1] ** 2) ** 2 + 1.e-5 * (x[0] ** 2 + x[1] ** 2) ** 4)
 
 
 
