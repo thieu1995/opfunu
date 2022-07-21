@@ -198,4 +198,43 @@ class Exponential(Benchmark):
         return -np.exp(-0.5 * np.sum(x ** 2.0))
 
 
+class Exp2(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Exp 2 Function"
+    latex_formula = r'f(x) = \sum_{i=0}^9 \left ( e^{-ix_1/10} - 5e^{-ix_2/10} - e^{-i/10} + 5e^{-i} \right )^2'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [0, 20], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(1, 10) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 20.] for _ in range(self.dim_default)]))
+        self.f_global = 0.
+        self.x_global = np.array([1., 10.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        i = np.arange(10.)
+        vec = (np.exp(-i * x[0] / 10.) - 5 * np.exp(-i * x[1] / 10.) - np.exp(-i / 10.) + 5 * np.exp(-i)) ** 2
+        return np.sum(vec)
+
+
 
