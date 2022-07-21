@@ -122,6 +122,43 @@ class EggCrate(Benchmark):
         return x[0] ** 2 + x[1] ** 2 + 25 * (np.sin(x[0]) ** 2 + np.sin(x[1]) ** 2)
 
 
+class EggHolder(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Egg Holder Function"
+    latex_formula = r'f(x) = \sum_{1}^{n - 1}\left[-\left(x_{i + 1}' +\
+        r'+ 47 \right ) \sin\sqrt{\lvert x_{i+1} + x_i/2 + 47 \rvert} - x_i \sin\sqrt{\lvert x_i - (x_{i + 1} + 47)\rvert}\right ]'
+    latex_formula_dimension = r'd \in N^+'
+    latex_formula_bounds = r'x_i \in [-512, 512], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(512, 404.2319) = -959.640662711'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-512., 512.] for _ in range(self.dim_default)]))
+        self.f_global = -959.640662711
+        self.x_global = np.zeros(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        vec = (-(x[1:] + 47) * np.sin(np.sqrt(abs(x[1:] + x[:-1] / 2. + 47))) - x[:-1] * np.sin(np.sqrt(np.abs(x[:-1] - (x[1:] + 47)))))
+        return np.sum(vec)
 
 
 
