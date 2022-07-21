@@ -20,3 +20,20 @@ def test_Damavandi_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+
+def test_Deb01_results():
+    ndim = 11
+    problem = opfunu.name_based.Deb01(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
+
+
