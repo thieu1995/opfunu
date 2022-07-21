@@ -355,7 +355,7 @@ class DeVilliersGlasser02(Benchmark):
     randomized_term = False
     parametric = False
 
-    modality = True  # Number of ambiguous peaks, unknown # peaks
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -394,7 +394,7 @@ class DixonPrice(Benchmark):
     randomized_term = False
     parametric = False
 
-    modality = True  # Number of ambiguous peaks, unknown # peaks
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -412,7 +412,42 @@ class DixonPrice(Benchmark):
         return np.sum(s) + (x[0] - 1.0) ** 2.0
 
 
+class Dolan(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Dolan Function"
+    latex_formula = r'f(x) = \lvert (x_1 + 1.7 x_2)\sin(x_1) - 1.5 x_3 - 0.1 x_4\cos(x_5 + x_5 - x_1) + 0.2 x_5^2 - x_2 - 1 \rvert'
+    latex_formula_dimension = r'd = 5'
+    latex_formula_bounds = r'x_i \in [-100, 100], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(8.39045925, 4.81424707, 7.34574133, 68.88246895, 3.85470806) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
 
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.array([-74.10522498, 44.33511286, 6.21069214, 18.42772233, -16.5839403])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (abs((x[0] + 1.7 * x[1]) * np.sin(x[0]) - 1.5 * x[2]
+                    - 0.1 * x[3] * np.cos(x[3] + x[4] - x[0]) + 0.2 * x[4] ** 2 - x[1] - 1))
 
 
 

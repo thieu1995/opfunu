@@ -129,6 +129,20 @@ def test_DixonPrice():
     assert len(problem.x_global) == ndim
 
 
+def test_Dolan():
+    ndim = 5
+    problem = opfunu.name_based.Dolan(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
 
 
 
