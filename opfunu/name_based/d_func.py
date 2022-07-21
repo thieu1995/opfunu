@@ -294,6 +294,45 @@ class DeflectedCorrugatedSpring(Benchmark):
         return -np.cos(K * np.sqrt(np.sum((x - self.alpha) ** 2))) + 0.1 * np.sum((x - self.alpha) ** 2)
 
 
+class DeVilliersGlasser01(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "DeVilliers-Glasser 1 Function"
+    latex_formula = r'f(x) = \sum_{i=1}^{24} \left[ x_1x_2^{t_i}\sin(x_3t_i + x_4) - y_i \right ]^2'
+    latex_formula_dimension = r'd = 4'
+    latex_formula_bounds = r'x_i \in [1, 100], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(60.137, 1.371, 3.112, 1.761) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 4
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[1., 100.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.array([60.137, 1.371, 3.112, 1.761])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        t = 0.1 * np.arange(24)
+        y = 60.137 * (1.371 ** t) * np.sin(3.112 * t + 1.761)
+        return sum((x[0] * (x[1] ** t) * np.sin(x[2] * t + x[3]) - y) ** 2.0)
+
+
 
 
 
