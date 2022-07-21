@@ -256,6 +256,51 @@ class DeckkersAarts(Benchmark):
         return (1.e5 * x[0] ** 2 + x[1] ** 2 - (x[0] ** 2 + x[1] ** 2) ** 2 + 1.e-5 * (x[0] ** 2 + x[1] ** 2) ** 4)
 
 
+class DeflectedCorrugatedSpring(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+    name = "Deflected Corrugated Spring Function"
+    latex_formula = r'f(x) = 0.1\sum_{i=1}^n \left[ (x_i - \alpha)^2 - \cos \left( K \sqrt {\sum_{i=1}^n (x_i - \alpha)^2}\right ) \right ]'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-0, 2\alpha], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(x_i) = f(alpha_i) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None, alpha=5.0):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.alpha = alpha
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 2.*self.alpha] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = self.alpha * np.ones(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        K = 5.0
+        return -np.cos(K * np.sqrt(np.sum((x - self.alpha) ** 2))) + 0.1 * np.sum((x - self.alpha) ** 2)
+
+
+
+
+
+
+
+
+
 
 
 
