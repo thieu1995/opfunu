@@ -57,6 +57,20 @@ def test_Decanomial_results():
     assert len(problem.x_global) == ndim
 
 
+def test_Deceptive_results():
+    ndim = 17
+    problem = opfunu.name_based.Deceptive(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+
+
+
+
 
 
 

@@ -146,7 +146,7 @@ class Decanomial(Benchmark):
     randomized_term = False
     parametric = False
 
-    modality = True  # Number of ambiguous peaks, unknown # peaks
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -164,6 +164,59 @@ class Decanomial(Benchmark):
         val2 += 3360 * x[0] ** 6 - 8064 * x[0] ** 5 + 13340 * x[0] ** 4
         val2 += - 15360 * x[0] ** 3 + 11520 * x[0] ** 2 - 5120 * x[0] + 2624
         return 0.001 * (abs(val) + abs(val2)) ** 2.
+
+
+class Deceptive(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+    name = "Deceptive Function"
+    latex_formula = r'f(x) = - \left [\frac{1}{n} \sum_{i=1}^{n} g_i(x_i) \right ]^{\beta}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [0, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(2, -3) = 0'
+    continuous = False
+    linear = False
+    convex = False
+    unimodal = False
+    separable = False
+
+    differentiable = False
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 1.] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = np.arange(1.0, self.ndim + 1.0) / (self.ndim + 1.0)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        alpha = np.arange(1.0, self.ndim + 1.0) / (self.ndim + 1.0)
+        beta = 2.0
+        g = np.zeros((self.ndim,))
+        for i in range(self.ndim):
+            if x[i] <= 0.0:
+                g[i] = x[i]
+            elif x[i] < 0.8 * alpha[i]:
+                g[i] = -x[i] / alpha[i] + 0.8
+            elif x[i] < alpha[i]:
+                g[i] = 5.0 * x[i] / alpha[i] - 4.0
+            elif x[i] < (1.0 + 4 * alpha[i]) / 5.0:
+                g[i] = 5.0 * (x[i] - alpha[i]) / (alpha[i] - 1.0) + 1.0
+            elif x[i] <= 1.0:
+                g[i] = (x[i] - 1.0) / (1.0 - alpha[i]) + 4.0 / 5.0
+            else:
+                g[i] = x[i] - 1.0
+        return -((1.0 / self.ndim) * np.sum(g)) ** beta
+
 
 
 
