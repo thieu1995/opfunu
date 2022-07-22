@@ -258,6 +258,42 @@ class Hosaki(Benchmark):
         return val * x[1] ** 2 * np.exp(-x[1])
 
 
+class HolderTable(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+    name = "Hosaki Function"
+    latex_formula = r'f(x) = - \left|{e^{\left|{1' +\
+        r'- \frac{\sqrt{x_{1}^{2} + x_{2}^{2}}}{\pi} }\right|} \sin\left(x_{1}\right) \cos\left(x_{2}\right)}\right|'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r' 0 <= x_1 <= 5, 0 <= x2 <= 6'
+    latex_formula_global_optimum = r'f(\pm 9.664590028909654) = -19.20850256788675'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
 
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
 
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.f_global = -19.20850256788675
+        self.x_global = np.array([8.055023472141116, 9.664590028909654])
+        self.x_globals = np.array([[8.055023472141116, 9.664590028909654],
+                                   [-8.055023472141116, 9.664590028909654],
+                                   [8.055023472141116, -9.664590028909654],
+                                   [-8.055023472141116, -9.664590028909654]])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return -np.abs(np.sin(x[0]) * np.cos(x[1]) * np.exp(np.abs(1 - np.sqrt(x[0] ** 2 + x[1] ** 2) / np.pi)))
