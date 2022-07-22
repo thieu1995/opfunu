@@ -96,5 +96,53 @@ class Hartmann3(Benchmark):
         return -np.sum(self.c * np.exp(-d))
 
 
+class Hartmann6(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Hartman 6 Function"
+    latex_formula = r'f(x) = -\sum\limits_{i=1}^{4} c_i e^{-\sum\limits_{j=1}^{n}a_{ij}(x_j - p_{ij})^2}'
+    latex_formula_dimension = r'd = 3'
+    latex_formula_bounds = r'x_i \in [0, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f([0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054]) = -3.32236801141551'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 6
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 1.] for _ in range(self.dim_default)]))
+        self.f_global = -3.32236801141551
+        self.x_global = np.array([0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054])
+        self.a = np.asarray([[10., 3., 17., 3.5, 1.7, 8.],
+                          [0.05, 10., 17., 0.1, 8., 14.],
+                          [3., 3.5, 1.7, 10., 17., 8.],
+                          [17., 8., 0.05, 10., 0.1, 14.]])
+        self.p = np.asarray([[0.1312, 0.1696, 0.5569, 0.0124, 0.8283, 0.5886],
+                          [0.2329, 0.4135, 0.8307, 0.3736, 0.1004, 0.9991],
+                          [0.2348, 0.1451, 0.3522, 0.2883, 0.3047, 0.665],
+                          [0.4047, 0.8828, 0.8732, 0.5743, 0.1091, 0.0381]])
+        self.c = np.asarray([1.0, 1.2, 3.0, 3.2])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        XX = np.atleast_2d(x)
+        d = np.sum(self.a * (XX - self.p) ** 2, axis=1)
+        return -np.sum(self.c * np.exp(-d))
+
+
 
 
