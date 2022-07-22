@@ -144,5 +144,44 @@ class Hartmann6(Benchmark):
         return -np.sum(self.c * np.exp(-d))
 
 
+class HelicalValley(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Helical Valley"
+    latex_formula = r'f(x) = 100{[z-10\Psi(x_1,x_2)]^2 +(\sqrt{x_1^2+x_2^2}-1)^2}+x_3^2'
+    latex_formula_dimension = r'd \in N^+'
+    latex_formula_bounds = r'x_i \in [-100, 100], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f([1.0, 0.0, 0.0]) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 3
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.f_global = 0.0
+        self.x_global = np.array([1.0, 0.0, 0.0])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        r = np.sqrt(x[0] ** 2 + x[1] ** 2)
+        theta = 1 / (2. * np.pi) * np.arctan2(x[1], x[0])
+        return x[2] ** 2 + 100 * ((x[2] - 10 * theta) ** 2 + (r - 1) ** 2)
+
+
 
 
