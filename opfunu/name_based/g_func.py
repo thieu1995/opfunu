@@ -154,7 +154,7 @@ class Gulf(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.dim_changeable = True
+        self.dim_changeable = False
         self.dim_default = 3
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 50.] for _ in range(self.dim_default)]))
         self.f_global = 0.
@@ -170,8 +170,38 @@ class Gulf(Benchmark):
         return np.sum(vec ** 2)
 
 
+class Gear(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+    """
+    name = "Gear Problem"
+    latex_formula = r'f(x) = \left \{ \frac{1.0}{6.931}' + \
+       r'- \frac{\lfloor x_1\rfloor \lfloor x_2 \rfloor } {\lfloor x_3 \rfloor \lfloor x_4 \rfloor } \right\}^2'
+    latex_formula_dimension = r'd = 4'
+    latex_formula_bounds = r'x_i \in [12, 60], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(16, 19, 43, 49) = 2.7 \cdot 10^{-12}'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
 
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
 
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 4
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[12., 60.] for _ in range(self.dim_default)]))
+        self.f_global = 2.7e-12
+        self.x_global = np.array([16, 19, 43, 49])
 
-
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return (1. / 6.931 - np.floor(x[0]) * np.floor(x[1]) / np.floor(x[2]) / np.floor(x[3])) ** 2
