@@ -12,5 +12,6 @@ from .e_func import *
 from .f_func import *
 from .g_func import *
 from .h_func import *
+from .i_func import *
 
 __all__ = [s for s in dir() if not s.startswith('_')]
