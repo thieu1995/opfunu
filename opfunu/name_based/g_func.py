@@ -129,6 +129,48 @@ class Griewank(Benchmark):
         return np.sum(x ** 2 / 4000) - np.prod(np.cos(x / np.sqrt(i))) + 1
 
 
+class Gulf(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Gulf Research Problem"
+    latex_formula = r'f(x) = \sum_{i=1}^99 \left( e^{-\frac{\lvert y_i - x_2 \rvert^{x_3}}{x_1}}  - t_i \right)'
+    latex_formula_dimension = r'd = 3'
+    latex_formula_bounds = r'x_i \in [0, 60], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(50, 25, 1.5) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 3
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 50.] for _ in range(self.dim_default)]))
+        self.f_global = 0.
+        self.x_global = np.array([50.0, 25.0, 1.5])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        m = 99.
+        i = np.arange(1., m + 1)
+        u = 25 + (-50 * np.log(i / 100.)) ** (2 / 3.)
+        vec = (np.exp(-((np.abs(u - x[1])) ** x[2] / x[0])) - i / 100.)
+        return np.sum(vec ** 2)
+
+
+
 
 
 
