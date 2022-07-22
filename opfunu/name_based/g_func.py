@@ -91,6 +91,44 @@ class GoldsteinPrice(Benchmark):
         return a * b
 
 
+class Griewank(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Griewank Function"
+    latex_formula = r'f(x) = \frac{1}{4000}\sum_{i=1}^n x_i^2 - \prod_{i=1}^n\cos\left(\frac{x_i}{\sqrt{i}}\right) + 1'
+    latex_formula_dimension = r'd \in N^+'
+    latex_formula_bounds = r'x_i \in [-100, 100], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0,...,0) = 0'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.f_global = 0.
+        self.x_global = np.zeros(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        i = np.arange(1., np.size(x) + 1.)
+        return np.sum(x ** 2 / 4000) - np.prod(np.cos(x / np.sqrt(i))) + 1
+
+
 
 
 
