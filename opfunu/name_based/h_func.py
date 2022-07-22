@@ -220,6 +220,44 @@ class Himmelblau(Benchmark):
         return (x[0] ** 2 + x[1] - 11) ** 2 + (x[0] + x[1] ** 2 - 7) ** 2
 
 
+class Hosaki(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+    """
+    name = "Hosaki Function"
+    latex_formula = r'f(x) = \left ( 1 - 8 x_1 + 7 x_1^2 - \frac{7}{3} x_1^3 + \frac{1}{4} x_1^4 \right ) x_2^2 e^{-x_1}'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r' 0 <= x_1 <= 5, 0 <= x2 <= 6'
+    latex_formula_global_optimum = r'f(4, 2) = −2.3458'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = False
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 5.], [0., 6.]]))
+        self.f_global = -2.345811576101292
+        self.x_global = np.array([4., 2.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        val = (1 - 8 * x[0] + 7 * x[0] ** 2 - 7 / 3. * x[0] ** 3 + 0.25 * x[0] ** 4)
+        return val * x[1] ** 2 * np.exp(-x[1])
+
+
 
 
 
