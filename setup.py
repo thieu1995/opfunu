@@ -50,6 +50,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities",
     ],
-    install_requires=["numpy>=1.15.1", "matplotlib>=3.1.3", "pandas>=1.0.0", "scipy>=1.8.0"],
+    install_requires=["numpy>=1.15.1", "matplotlib>=3.1.3", "pandas>=1.0.0", "Pillow>=9.1.0", "requests>=2.27.0", "scipy>=1.8.0"],
     python_requires='>=3.6',
 )
