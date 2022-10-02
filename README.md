@@ -1,25 +1,41 @@
-# Optimization Function using Numpy (OpFuNu)
-[![GitHub release](https://img.shields.io/badge/release-1.0.0-yellow.svg)]()
+
+<p align="center"><img src=".github/img/logo2.svg" alt="OPFUNU" title="OPFUNU"/></p>
+
+---
+
+
+[![GitHub release](https://img.shields.io/badge/release-1.0.1-yellow.svg)](https://github.com/thieu1995/opfunu/releases)
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
-[![DOI version](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/opfunu.svg)
+![PyPI - Status](https://img.shields.io/pypi/status/opfunu.svg)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/opfunu.svg)
 [![Downloads](https://pepy.tech/badge/opfunu)](https://pepy.tech/project/opfunu)
+![GitHub Release Date](https://img.shields.io/github/release-date/thieu1995/opfunu.svg)
+[![Documentation Status](https://readthedocs.org/projects/opfunu/badge/?version=latest)](https://opfunu.readthedocs.io/en/latest/?badge=latest)
+![GitHub contributors](https://img.shields.io/github/contributors/thieu1995/opfunu.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## Quick Notification
 
-* The structure of version 1.0.0 is based on Object-Oriented Programming, which is entirely different from the previous version (<= 0.8.0). 
-* All CEC functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022 are implemented. This version is well-organized, faster and has no more bugs.
-* All old code-based functions from previous version <= 0.8.0 will be removed in version 1.0.1
+OPFUNU is the largest python library for cutting-edge optimization problems (benchmark, mathematical, engineering, real-world). Contains all CEC competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300 traditional functions with different dimensions are implemented.
+
+* **Free software:** GNU General Public License (GPL) V3 license
+* **Total problems**: > 500 problems
+* **Documentation:** https://opfunu.readthedocs.io/en/latest/
+* **Python versions:** 3.6.x, 3.7.x, 3.8.x, 3.9.x, 3.10.x
+* **Dependencies:** numpy, scipy, pandas, matplotlib
 
 
 
-## Installation
+
+# Installation
+
+### Install with pip
 
 Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
-
-```bash
-pip install opfunu==1.0.0
+```sh 
+$ pip install opfunu==1.0.1
 ```
 
 Or install the development version from GitHub:
@@ -27,6 +43,16 @@ Or install the development version from GitHub:
 ```bash
 pip install git+https://github.com/thieu1995/opfunu
 ```
+
+### Install from source
+
+In case you want to install directly from the source code, use:
+```sh 
+$ git clone https://github.com/thieu1995/mealpy.git
+$ cd mealpy
+$ python setup.py install
+```
+
 
 ## Lib's structure
 
@@ -42,6 +68,9 @@ opfunu
         ...
         cec2021.py
         cec2022.py
+    engineering_based
+        pdo_2022.py
+        rwco_2020.py
     name_based
         a_func.py
         b_func.py
@@ -58,13 +87,27 @@ README.md
 setup.py
 ```
 
-## Examples
 
-### How to get the function and use it
+# Usage
 
-* 1st way
+After installation, you can import Opfunu as any other Python module:
 
-```python 
+```sh
+$ python
+>>> import opfunu
+>>> opfunu.__version__
+```
+
+Let's go through some examples.
+
+
+### Examples
+
+How to get the function and use it
+
+#### 1st way
+
+```python
 from opfunu.cec_based.cec2014 import F12014
 
 func = F12014(ndim=30)
@@ -72,14 +115,14 @@ func.evaluate(func.create_solution())
 
 ## or
 
-from opfunu.cec_based import F12014
+from opfunu.cec_based import F102014
 
 func = F102014(ndim=50)
 func.evaluate(func.create_solution())
 ```
 
 
-* 2nd way
+#### 2nd way
 
 ```python
 
@@ -96,38 +139,55 @@ print(all_funcs_2014)
 
 ```
 
+For more usage examples please look at [examples](/examples) folder.
 
-## References
 
-#### Publications
 
-+ If you see my code and data useful and use it, please cite my works here
+### Get helps (questions, problems)
+
+* Official source code repo: https://github.com/thieu1995/opfunu
+* Official document: https://opfunu.readthedocs.io/
+* Download releases: https://pypi.org/project/opfunu/
+* Issue tracker: https://github.com/thieu1995/opfunu/issues
+* Notable changes log: https://github.com/thieu1995/opfunu/blob/master/ChangeLog.md
+* Examples with different meapy version: https://github.com/thieu1995/opfunu/blob/master/examples.md
+
+* This project also related to our another projects which are "meta-heuristics" and "neural-network", check it here
+    * https://github.com/thieu1995/mealpy
+    * https://github.com/thieu1995/metaheuristics
+    * https://github.com/thieu1995/permetrics
+    * https://github.com/aiir-team
+
+
+**Want to have an instant assistant? Join our telegram community at [link](https://t.me/+fRVCJGuGJg1mNDg1)**
+We share lots of information, questions, and answers there. You will get more support and knowledge there.
+
+
+### Cite Us
+
+If you are using opfunu in your project, we would appreciate citations:
 
 ```code 
 @software{thieu_nguyen_2020_3711682,
-  author       = {Thieu Nguyen},
-  title        = {A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems},
+  author       = {Nguyen Van Thieu},
+  title        = {Opfunu: A Python Library For Optimization Functions in Numpy},
   year         = 2020,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.3620960},
   url          = {https://doi.org/10.5281/zenodo.3620960.}
 }
-
 ```
 
-#### Documentation 
+
+### References 
+
 ```code 
-1. dimension_based references
-    1. http://benchmarkfcns.xyz/fcns
-    2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
-    3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
-    4. http://www.sfu.ca/~ssurjano/optimization.html
 
-2. type_based
-    A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
-
-3. cec
-    Problem Definitions and Evaluation Criteria for the CEC 2014 
-Special Session and Competition on Single Objective Real-Parameter Numerical Optimization 
+1. http://benchmarkfcns.xyz/fcns
+2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
+3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
+4. http://www.sfu.ca/~ssurjano/optimization.html
+5. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
+6. Problem Definitions and Evaluation Criteria for the CEC 2014 Special Session and Competition on Single Objective Real-Parameter Numerical Optimization 
 
 ```

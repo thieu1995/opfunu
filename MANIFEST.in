@@ -1,10 +1,4 @@
 include README.md LICENSE CODE_OF_CONDUCT.md ChangeLog.md examples.md
-include opfunu/cec/cec2005/support_data/*.txt
-include opfunu/cec/cec2008/support_data/*.txt
-include opfunu/cec/cec2010/support_data/*.txt
-include opfunu/cec/cec2013/support_data/*.txt
-include opfunu/cec/cec2014/support_data/*.txt
-include opfunu/cec/cec2015/support_data/*.txt
 include opfunu/cec_based/data_2005/*.txt
 include opfunu/cec_based/data_2008/*.txt
 include opfunu/cec_based/data_2010/*.txt
