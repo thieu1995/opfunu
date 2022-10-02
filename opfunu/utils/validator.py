@@ -38,8 +38,7 @@ def check_int(name: str, value: int, bound=None):
         elif is_in_bound(value, bound):
             return int(value)
     bound = "" if bound is None else f"and value should be in range: {bound}"
-    print(f"'{name}' is an integer {bound}.")
-    exit(0)
+    raise ValueError(f"'{name}' is an integer {bound}.")
 
 
 def check_float(name: str, value: int, bound=None):
@@ -49,8 +48,7 @@ def check_float(name: str, value: int, bound=None):
         elif is_in_bound(value, bound):
             return float(value)
     bound = "" if bound is None else f"and value should be in range: {bound}"
-    print(f"'{name}' is a float {bound}.")
-    exit(0)
+    raise ValueError(f"'{name}' is a float {bound}.")
 
 
 def check_str(name: str, value: str, bound=None):
@@ -58,8 +56,7 @@ def check_str(name: str, value: str, bound=None):
         if bound is None or is_str_in_list(value, bound):
             return value
     bound = "" if bound is None else f"and value should be one of this: {bound}"
-    print(f"'{name}' is a string {bound}.")
-    exit(0)
+    raise ValueError(f"'{name}' is a string {bound}.")
 
 
 def check_bool(name: str, value: bool, bound=(True, False)):
@@ -67,8 +64,7 @@ def check_bool(name: str, value: bool, bound=(True, False)):
         if value in bound:
             return value
     bound = "" if bound is None else f"and value should be one of this: {bound}"
-    print(f"'{name}' is a boolean {bound}.")
-    exit(0)
+    raise ValueError(f"'{name}' is a boolean {bound}.")
 
 
 def check_tuple_int(name: str, values: tuple, bounds=None):
@@ -82,8 +78,7 @@ def check_tuple_int(name: str, values: tuple, bounds=None):
             else:
                 return values
     bounds = "" if bounds is None else f"and values should be in range: {bounds}"
-    print(f"'{name}' are integer {bounds}.")
-    exit(0)
+    raise ValueError(f"'{name}' are integer {bounds}.")
 
 
 def check_tuple_float(name: str, values: tuple, bounds=None):
@@ -97,5 +92,4 @@ def check_tuple_float(name: str, values: tuple, bounds=None):
             else:
                 return values
     bounds = "" if bounds is None else f"and values should be in range: {bounds}"
-    print(f"'{name}' are float {bounds}.")
-    exit(0)
+    raise ValueError(f"'{name}' are float {bounds}.")

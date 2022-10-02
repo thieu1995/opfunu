@@ -1,4 +1,4 @@
-# !/usr/bin/env python
+#!/usr/bin/env python
 # Created by "Thieu" at 13:24, 27/02/2022 ----------%
 #       Email: nguyenthieu2102@gmail.com            %
 #       Github: https://github.com/thieu1995        %
@@ -15,14 +15,14 @@ def readme():
 
 setup(
     name="opfunu",
-    version="1.0.0",
+    version="1.0.1",
     author="Thieu",
     author_email="nguyenthieu2102@gmail.com",
-    description="A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems",
+    description="Opfunu: A Python Library For Optimization Functions in Numpy",
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/thieu1995/opfunu",
-    download_url="https://github.com/thieu1995/opfunu/archive/v1.0.0.zip",
+    download_url="https://github.com/thieu1995/opfunu/archive/v1.0.1.zip",
     packages=find_packages(),
     include_package_data=True,
     license="MIT",
