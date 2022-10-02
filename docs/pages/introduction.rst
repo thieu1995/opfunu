@@ -1,7 +1,7 @@
 Introduction
 ############
 
-.. image:: https://img.shields.io/badge/release-1.0.0-yellow.svg?style=svg
+.. image:: https://img.shields.io/badge/release-1.0.1-yellow.svg?style=svg
     :target: https://github.com/thieu1995/opfunu
 
 .. image:: https://img.shields.io/pypi/wheel/gensim.svg?style=svg
@@ -20,19 +20,20 @@ Introduction
     :target: https://www.gnu.org/licenses/gpl-3.0
 
 
-This is my first open-source library written in python for optimization benchmark functions.
+OPFUNU is the largest python library for cutting-edge optimization problems (benchmark, mathematical, engineering, real-world). Contains all CEC competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300 traditional functions with different dimensions are implemented.
 
-The current version 1.0.0 has 2 sub-packages including:
+The current version 1.0.1 has 3 sub-packages including:
 
    1. name_based package: All functions sorted as order of the alphabet
    2. cec_based package: All CEC competition functions in years (2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022)
+   3. engineering_based package: All functions from some papers.
 
 
 If you see my code and data useful and use it, please cites my works here::
 
 	@software{thieu_nguyen_2020_3711682,
 	  author       = {Nguyen Van Thieu},
-	  title        = {A framework of Optimization Functions using Numpy (OpFuNu) for optimization problems},
+	  title        = {Opfunu: A Python Library For Optimization Functions in Numpy},
 	  year         = 2020,
 	  publisher    = {Zenodo},
 	  url          = {https://doi.org/10.5281/zenodo.3620960}
@@ -46,7 +47,7 @@ Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
 
 This is a simple example::
 
-	pip install opfunu==1.0.0
+	pip install opfunu==1.0.1
 
 Or install the development version from GitHub::
 
@@ -97,15 +98,10 @@ References
 
 References::
 
-	1. dimension_based references
-		1. http://benchmarkfcns.xyz/fcns
-		2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
-		3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
-		4. http://www.sfu.ca/~ssurjano/optimization.html
+    1. http://benchmarkfcns.xyz/fcns
+    2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
+    3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
+    4. http://www.sfu.ca/~ssurjano/optimization.html
+    5. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
+    6. Problem Definitions and Evaluation Criteria for the CEC 2014Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
 
-	2. type_based
-		A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
-
-	3. cec
-		1. Problem Definitions and Evaluation Criteria for the CEC 2014
-		2. Special Session and Competition on Single Objective Real-Parameter Numerical Optimization
