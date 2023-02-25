@@ -7,7 +7,7 @@
 #       Github:     https://github.com/thieu1995                                                  %
 # -------------------------------------------------------------------------------------------------------%
 
-from numpy import zeros, array, log, abs, exp, sqrt, pi, round, sin, cos, arccos, remainder, arcsin, int, arctan, imag, log10
+from numpy import zeros, array, log, abs, exp, sqrt, pi, round, sin, cos, arccos, remainder, arcsin, arctan, imag, log10
 from scipy.optimize import fminbound
 from opfunu.cec.cec2020 import constant
 
