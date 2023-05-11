@@ -472,11 +472,12 @@ class ReinforcedConcreateBeamProblem(Engineer):
         self.x0 = [6.0, 6.16, 6.32, 6.6, 7.0, 7.11, 7.2, 7.8, 7.9, 8.0, 8.4]
         self.le = LabelEncoder()
         self.le.fit(self.x0)
-        self._bounds = [(0., 10.99), (28., 40.), (5., 10.)]
+        self._bounds = [(0., 10.99), (28., 40.99), (5., 10.)]
         self.check_penalty_func(f_penalty)
 
     def amend_position(self, x, lb=None, ub=None):
         x[0] = self.le.inverse_transform([int(x[0])])
+        x[1] = int(x[1])
         return x
 
     def get_objs(self, x):
