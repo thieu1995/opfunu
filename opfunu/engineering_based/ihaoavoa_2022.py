@@ -98,7 +98,7 @@ class WeldedBeamProblem(Engineer):
         return self.f_penalty(list_objs, list_cons)
 
 
-class CantilevelBeamProblem(Engineer):
+class CantileverBeamProblem(Engineer):
     """
     x = [x1, x2, x3, x4, x5]
     """
@@ -228,3 +228,10 @@ class RollingElementBearingProblem(Engineer):
         list_objs = self.get_objs(x)
         list_cons = self.get_cons(x)
         return self.f_penalty(list_objs, list_cons)
+
+
+TCSP = TensionCompressionSpringProblem
+WBP = WeldedBeamProblem
+CBP = CantileverBeamProblem
+SRP = SpeedReducerProblem
+REBP = RollingElementBearingProblem

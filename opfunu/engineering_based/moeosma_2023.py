@@ -70,14 +70,14 @@ class SpringProblem(Engineer):
         self._n_dims = 3
         self._n_objs = 2
         self._n_cons = 8
-        x0 = [0.009, 0.0095, 0.0104, 0.0118, 0.0128, 0.0132, 0.014,
+        self.x0 = [0.009, 0.0095, 0.0104, 0.0118, 0.0128, 0.0132, 0.014,
               0.015, 0.0162, 0.0173, 0.018, 0.020, 0.023, 0.025,
               0.028, 0.032, 0.035, 0.041, 0.047, 0.054, 0.063,
               0.072, 0.080, 0.092, 0.0105, 0.120, 0.135, 0.148,
               0.162, 0.177, 0.192, 0.207, 0.225, 0.244, 0.263,
               0.283, 0.307, 0.331, 0.362, 0.394, 0.4375, 0.500]
         self.le = LabelEncoder()
-        self.le.fit(x0)
+        self.le.fit(self.x0)
         self._bounds = [(0, 41.99), (1.0, 30.0), (1, 32)]
         self.check_penalty_func(f_penalty)
 
@@ -457,3 +457,13 @@ class MultiProductBatchPlantProblem(Engineer):
         list_objs = self.get_objs(x)
         list_cons = self.get_cons(x)
         return self.f_penalty(list_objs, list_cons)
+
+
+SRP = SpeedReducerProblem
+SP = SpringProblem
+HTBP = HydrostaticThrustBearingProblem
+VPP = VibratingPlatformProblem
+CSP = CarSideImpactProblem
+WRMP = WaterResourceManagementProblem
+BCP = BulkCarriersProblem
+MPBPP = MultiProductBatchPlantProblem
