@@ -10,7 +10,7 @@ import pytest
 
 
 def test_BartelsConn_results():
-    ndim = 10
+    ndim = 2
     problem = opfunu.name_based.BartelsConn(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)

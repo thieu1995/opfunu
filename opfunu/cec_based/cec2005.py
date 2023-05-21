@@ -474,13 +474,11 @@ class F92005(CecBenchmark):
         self.dim_max = 100
         self.check_ndim_and_bounds(ndim, self.dim_max, bounds, np.array([[-5., 5.] for _ in range(self.dim_default)]))
         self.make_support_data_path("data_2005")
-        shift_data, matrix_data = self.load_shift_and_matrix_data(f_shift)
-        self.f_shift = shift_data[:self.ndim]
-        self.f_matrix = matrix_data[:self.ndim, :self.ndim]
+        self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_bias = f_bias
         self.f_global = f_bias
         self.x_global = self.f_shift
-        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
+        self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
