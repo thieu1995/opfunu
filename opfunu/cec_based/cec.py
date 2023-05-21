@@ -5,7 +5,6 @@
 # --------------------------------------------------%
 
 import numpy as np
-import pandas as pd
 import pkg_resources
 from abc import ABC
 from opfunu.benchmark import Benchmark
@@ -136,29 +135,29 @@ class CecBenchmark(Benchmark, ABC):
             raise ValueError(f"m_group is positive integer!")
 
     def load_shift_data(self, filename=None):
-        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
-        return data.values.reshape((-1))
+        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+        return data.reshape((-1))
 
     def load_matrix_data(self, filename=None):
         try:
-            data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
-            return data.values
+            data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+            return data
         except FileNotFoundError:
             print(f'The file named: {filename}.txt is not found.')
             print(f"{self.__class__.__name__} problem is only supported ndim in {self.dim_supported}!")
             exit(1)
 
     def load_shift_and_matrix_data(self, filename=None):
-        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
-        shift_data = data.values[:1, :].ravel()
-        matrix_data = data.values[1:, :]
+        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+        shift_data = data[:1, :].ravel()
+        matrix_data = data[1:, :]
         return shift_data, matrix_data
 
     def load_two_matrix_and_shift_data(self, filename=None):
-        data = pd.read_csv(f"{self.support_path}/{filename}.txt", delimiter='\s+', index_col=False, header=None)
-        a_matrix = data.values[:100, :]
-        b_matrix = data.values[100:200, :]
-        shift_data = data.values[200:, :].ravel()
+        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+        a_matrix = data[:100, :]
+        b_matrix = data[100:200, :]
+        shift_data = data[200:, :].ravel()
         return shift_data, a_matrix, b_matrix
 
     def check_solution(self, x, dim_max=None, dim_support=None):
@@ -230,4 +229,3 @@ class CecBenchmark(Benchmark, ABC):
                         self._ndim = self.dim_default
                     else:
                         raise ValueError(f"{self.__class__.__name__} is fixed problem with {self._ndim} variables. Please setup the correct bounds!")
-

@@ -249,4 +249,3 @@ class Benchmark:
             The random solution
         """
         return np.random.uniform(self.lb, self.ub)
-

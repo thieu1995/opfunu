@@ -29,7 +29,7 @@
 # >>> opfunu.plot_2d(f22005, n_space=1000, ax=None)
 # >>> opfunu.plot_3d(f22005, n_space=1000, ax=None)
 
-__version__ = "1.0.1"
+__version__ = "1.0.1-alpha.1"
 
 import inspect
 import re
@@ -139,4 +139,3 @@ def get_cecs(ndim=None, continuous=None, linear=None, convex=None, unimodal=None
     functions = list(filter(lambda f: (rotated is None) or (f.rotated == rotated), functions))
     functions = list(filter(lambda f: (modality is None) or (f.modality == modality), functions))
     return functions
-
