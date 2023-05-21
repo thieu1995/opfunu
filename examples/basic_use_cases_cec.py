@@ -63,7 +63,6 @@ if __name__ == '__main__':
     # print(latex)  # --> f(\mathbf{x}) = exp(-\sum_{i=1}^{d}(x_i / \beta)^{2m}) - 2exp(-\prod_{i=1}^{d}x_i^2) \prod_{i=1}^{d}cos^ 2(x_i)
     # opfunu.plot_latex_formula(latex)
 
-
     ## Test read file matrix
     f32005 = opfunu.cec_based.F32005(ndim=10)
     x = np.ones(10)

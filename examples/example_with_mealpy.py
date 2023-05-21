@@ -7,6 +7,7 @@
 from mealpy.bio_based import SMA
 from opfunu.name_based import Ackley02
 
+
 ackey = Ackley02()
 
 problem_dict1 = {
@@ -26,5 +27,3 @@ print(f"Best solution: {best_position}, Best fitness: {best_fitness}")
 print(ackey.n_fe)
 print(ackey.f_global)
 print(ackey.x_global)
-
-

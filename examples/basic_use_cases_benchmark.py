@@ -45,8 +45,3 @@ if __name__ == '__main__':
     # latex = ackley02.latex_formula_global_optimum
     print(latex)  # --> f(\mathbf{x}) = exp(-\sum_{i=1}^{d}(x_i / \beta)^{2m}) - 2exp(-\prod_{i=1}^{d}x_i^2) \prod_{i=1}^{d}cos^ 2(x_i)
     opfunu.plot_latex_formula(latex)
-
-
-
-
-
