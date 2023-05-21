@@ -20,8 +20,8 @@ class LabelEncoder:
         """
         Fit label encoder to a given set of labels.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         y : array-like
             Labels to encode.
         """
@@ -32,13 +32,13 @@ class LabelEncoder:
         """
         Transform labels to encoded integer labels.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         y : array-like
             Labels to encode.
 
-        Returns:
-        --------
+        Returns
+        -------
         encoded_labels : array-like
             Encoded integer labels.
         """
@@ -47,7 +47,8 @@ class LabelEncoder:
         return np.array([self.label_to_index[label] for label in y])
 
     def fit_transform(self, y):
-        """Fit label encoder and return encoded labels.
+        """
+        Fit label encoder and return encoded labels.
 
         Parameters
         ----------
@@ -66,13 +67,13 @@ class LabelEncoder:
         """
         Transform integer labels to original labels.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         y : array-like
             Encoded integer labels.
 
-        Returns:
-        --------
+        Returns
+        -------
         original_labels : array-like
             Original labels.
         """

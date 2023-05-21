@@ -4,13 +4,12 @@
 #       Github: https://github.com/thieu1995        %                         
 # --------------------------------------------------%
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from PIL import Image
-import requests
 from io import BytesIO
-
+import matplotlib.pyplot as plt
+import numpy as np
+import requests
+from PIL import Image
+from matplotlib import cm
 
 cmap = [(0, '#2f9599'), (0.45, '#eeeeee'), (1, '#8800ff')]
 cmap = cm.colors.LinearSegmentedColormap.from_list('Custom', cmap, N=256)
