@@ -13,7 +13,7 @@ def test_Giunta_results():
     problem = opfunu.name_based.Giunta(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -26,7 +26,7 @@ def test_GoldsteinPrice_results():
     problem = opfunu.name_based.GoldsteinPrice(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -39,7 +39,7 @@ def test_Griewank_results():
     problem = opfunu.name_based.Griewank(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -52,7 +52,7 @@ def test_Gulf_results():
     problem = opfunu.name_based.Gulf(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -65,7 +65,7 @@ def test_Gear_results():
     problem = opfunu.name_based.Gear(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim

@@ -13,7 +13,7 @@ def test_FreudensteinRoth_results():
     problem = opfunu.name_based.FreudensteinRoth(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
