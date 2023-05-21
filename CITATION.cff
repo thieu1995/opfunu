@@ -1,0 +1,11 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Van Thieu"
+    given-names: "Nguyen"
+    orcid: "https://orcid.org/0000-0001-9994-8747"
+title: "OPFUNU: An Open-source Library For Optimization Functions in Numpy"
+version: 1.0.1
+doi: 10.5281/zenodo.3620960
+date-released: 2022-07-13
+url: "https://github.com/thieu1995/opfunu"
