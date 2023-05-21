@@ -1,5 +1,5 @@
 
-<p align="center"><img src=".github/img/logo2.svg" alt="OPFUNU" title="OPFUNU"/></p>
+<p align="center"><img src=".github/img/logo.png" alt="OPFUNU" title="OPFUNU"/></p>
 
 ---
 
@@ -11,22 +11,27 @@
 ![PyPI - Status](https://img.shields.io/pypi/status/opfunu.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/opfunu.svg)
 [![Downloads](https://pepy.tech/badge/opfunu)](https://pepy.tech/project/opfunu)
+[![Tests & Publishes to PyPI](https://github.com/thieu1995/opfunu/actions/workflows/publish-package.yaml/badge.svg)](https://github.com/thieu1995/opfunu/actions/workflows/publish-package.yaml)
 ![GitHub Release Date](https://img.shields.io/github/release-date/thieu1995/opfunu.svg)
 [![Documentation Status](https://readthedocs.org/projects/opfunu/badge/?version=latest)](https://opfunu.readthedocs.io/en/latest/?badge=latest)
+[![Chat](https://img.shields.io/badge/Chat-on%20Telegram-blue)](https://t.me/+fRVCJGuGJg1mNDg1)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/thieu1995/opfunu.svg)](http://isitmaintained.com/project/thieu1995/opfunu "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/thieu1995/opfunu.svg)](http://isitmaintained.com/project/thieu1995/opfunu "Percentage of issues still open")
 ![GitHub contributors](https://img.shields.io/github/contributors/thieu1995/opfunu.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://badge.fury.io/py/opfunu)
+[![GitTutorial](https://img.shields.io/badge/PR-Welcome-%23FF8300.svg?)](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3620960.svg)](https://doi.org/10.5281/zenodo.3620960)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
-OPFUNU is the largest python library for cutting-edge optimization problems (benchmark, mathematical, engineering, real-world). Contains all CEC competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300 traditional functions with different dimensions are implemented.
+OPFUNU is the largest python library for cutting-edge numerical optimization benchmark functions. Contains all CEC 
+competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300 
+traditional functions with different dimensions are implemented.
 
 * **Free software:** GNU General Public License (GPL) V3 license
 * **Total problems**: > 500 problems
-* **Documentation:** https://opfunu.readthedocs.io/en/latest/
-* **Python versions:** 3.6.x, 3.7.x, 3.8.x, 3.9.x, 3.10.x
-* **Dependencies:** numpy, scipy, pandas, matplotlib
-
-
+* **Documentation:** https://opfunu.readthedocs.io
+* **Python versions:** 3.7.x, 3.8.x, 3.9.x, 3.10.x, 3.11.x
+* **Dependencies:** numpy, matplotlib
 
 
 # Installation
@@ -48,8 +53,8 @@ pip install git+https://github.com/thieu1995/opfunu
 
 In case you want to install directly from the source code, use:
 ```sh 
-$ git clone https://github.com/thieu1995/mealpy.git
-$ cd mealpy
+$ git clone https://github.com/thieu1995/opfunu.git
+$ cd opfunu
 $ python setup.py install
 ```
 
@@ -68,9 +73,6 @@ opfunu
         ...
         cec2021.py
         cec2022.py
-    engineering_based
-        pdo_2022.py
-        rwco_2020.py
     name_based
         a_func.py
         b_func.py
@@ -143,7 +145,7 @@ For more usage examples please look at [examples](/examples) folder.
 
 
 
-### Get helps (questions, problems)
+# Get helps (questions, problems)
 
 * Official source code repo: https://github.com/thieu1995/opfunu
 * Official document: https://opfunu.readthedocs.io/
@@ -155,6 +157,7 @@ For more usage examples please look at [examples](/examples) folder.
 * This project also related to our another projects which are "meta-heuristics" and "neural-network", check it here
     * https://github.com/thieu1995/mealpy
     * https://github.com/thieu1995/metaheuristics
+    * https://github.com/thieu1995/enoppy
     * https://github.com/thieu1995/permetrics
     * https://github.com/aiir-team
 
@@ -163,7 +166,7 @@ For more usage examples please look at [examples](/examples) folder.
 We share lots of information, questions, and answers there. You will get more support and knowledge there.
 
 
-### Cite Us
+## Cite Us
 
 If you are using opfunu in your project, we would appreciate citations:
 
@@ -179,7 +182,7 @@ If you are using opfunu in your project, we would appreciate citations:
 ```
 
 
-### References 
+## References 
 
 ```code 
 

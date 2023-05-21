@@ -2,9 +2,6 @@
 # Version 1.0.1
 
 + Add all normal functions in name_based module (From A to Z)
-+ Add engineering_based module 
-  + Problems in Prairie Dog Optimization Algorithm (pdo_2022.py)
-  + Problems in A Test-suite of Non-Convex Constrained Optimization Problems from the Real-World and Some Baseline Results (rwco_2020.py)
 + Fix bug exit() program
 + Delete all old CEC module
 + Delete type_based module
