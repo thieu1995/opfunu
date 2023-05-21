@@ -34,7 +34,7 @@ setup(
             'Bug Tracker': 'https://github.com/thieu1995/opfunu/issues',
             'Change Log': 'https://github.com/thieu1995/opfunu/blob/master/ChangeLog.md',
             'Forum': 'https://t.me/+fRVCJGuGJg1mNDg1',
-        },
+    },
     packages=find_packages(exclude=['tests*', 'examples*']),
     include_package_data=True,
     license="GPLv3",
