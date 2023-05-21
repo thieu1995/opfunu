@@ -153,6 +153,7 @@ For more usage examples please look at [examples](/examples) folder.
 * Issue tracker: https://github.com/thieu1995/opfunu/issues
 * Notable changes log: https://github.com/thieu1995/opfunu/blob/master/ChangeLog.md
 * Examples with different meapy version: https://github.com/thieu1995/opfunu/blob/master/examples.md
+* Join our telegram community at [link](https://t.me/+fRVCJGuGJg1mNDg1)** to get more support and help.
 
 * This project also related to our another projects which are "meta-heuristics" and "neural-network", check it here
     * https://github.com/thieu1995/mealpy
@@ -162,10 +163,6 @@ For more usage examples please look at [examples](/examples) folder.
     * https://github.com/aiir-team
 
 
-**Want to have an instant assistant? Join our telegram community at [link](https://t.me/+fRVCJGuGJg1mNDg1)**
-We share lots of information, questions, and answers there. You will get more support and knowledge there.
-
-
 ## Cite Us
 
 If you are using opfunu in your project, we would appreciate citations:
@@ -173,7 +170,7 @@ If you are using opfunu in your project, we would appreciate citations:
 ```code 
 @software{thieu_nguyen_2020_3711682,
   author       = {Nguyen Van Thieu},
-  title        = {Opfunu: A Python Library For Optimization Functions in Numpy},
+  title        = {Opfunu: An Open-source Library For Optimization Functions in Numpy},
   year         = 2020,
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.3620960},
