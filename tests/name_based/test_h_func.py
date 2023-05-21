@@ -6,7 +6,6 @@
 
 import numpy as np
 import opfunu
-import pytest
 
 
 def test_Hansen_results():
@@ -14,6 +13,7 @@ def test_Hansen_results():
     problem = opfunu.name_based.Hansen(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -26,6 +26,7 @@ def test_Hartmann3_results():
     problem = opfunu.name_based.Hartmann3(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -38,6 +39,7 @@ def test_Hartmann6_results():
     problem = opfunu.name_based.Hartmann6(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -50,6 +52,7 @@ def test_HelicalValley_results():
     problem = opfunu.name_based.HelicalValley(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -62,6 +65,7 @@ def test_Himmelblau_results():
     problem = opfunu.name_based.Himmelblau(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -74,6 +78,7 @@ def test_Hosaki_results():
     problem = opfunu.name_based.Hosaki(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -86,6 +91,7 @@ def test_HolderTable_results():
     problem = opfunu.name_based.HolderTable(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim

@@ -6,7 +6,6 @@
 
 import numpy as np
 import opfunu
-import pytest
 
 
 def test_Infinity_results():
@@ -14,6 +13,7 @@ def test_Infinity_results():
     problem = opfunu.name_based.Infinity(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim

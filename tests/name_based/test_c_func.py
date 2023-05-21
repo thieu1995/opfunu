@@ -6,7 +6,6 @@
 
 import numpy as np
 import opfunu
-import pytest
 
 
 def test_CamelThreeHump_results():
@@ -14,6 +13,7 @@ def test_CamelThreeHump_results():
     problem = opfunu.name_based.CamelThreeHump(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -26,6 +26,7 @@ def test_CamelSixHump_results():
     problem = opfunu.name_based.CamelSixHump(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -38,6 +39,7 @@ def test_ChenBird_results():
     problem = opfunu.name_based.ChenBird(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -50,6 +52,7 @@ def test_ChenV_results():
     problem = opfunu.name_based.ChenV(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -62,6 +65,7 @@ def test_Chichinadze_results():
     problem = opfunu.name_based.Chichinadze(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -74,6 +78,7 @@ def test_ChungReynolds_results():
     problem = opfunu.name_based.ChungReynolds(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -86,6 +91,7 @@ def test_Cigar_results():
     problem = opfunu.name_based.Cigar(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -98,6 +104,7 @@ def test_Cola_results():
     problem = opfunu.name_based.Cola(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -110,6 +117,7 @@ def test_Colville_results():
     problem = opfunu.name_based.Colville(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -122,6 +130,7 @@ def test_Corana_results():
     problem = opfunu.name_based.Corana(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -134,6 +143,7 @@ def test_CosineMixture_results():
     problem = opfunu.name_based.CosineMixture(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -146,6 +156,7 @@ def test_CrossInTray_results():
     problem = opfunu.name_based.CrossInTray(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -158,6 +169,7 @@ def test_CrossLegTable_results():
     problem = opfunu.name_based.CrossLegTable(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -170,6 +182,7 @@ def test_CrownedCross_results():
     problem = opfunu.name_based.CrownedCross(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
@@ -182,6 +195,7 @@ def test_Cube_results():
     problem = opfunu.name_based.Cube(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim

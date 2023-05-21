@@ -6,7 +6,6 @@
 
 import numpy as np
 import opfunu
-import pytest
 
 
 def test_F12021_results():
@@ -14,6 +13,7 @@ def test_F12021_results():
     problem = opfunu.cec_based.F12021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -27,6 +27,7 @@ def test_F22021_results():
     problem = opfunu.cec_based.F22021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -40,6 +41,7 @@ def test_F32021_results():
     problem = opfunu.cec_based.F32021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -53,6 +55,7 @@ def test_F42021_results():
     problem = opfunu.cec_based.F42021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -66,6 +69,7 @@ def test_F52021_results():
     problem = opfunu.cec_based.F52021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -79,6 +83,7 @@ def test_F62021_results():
     problem = opfunu.cec_based.F62021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -92,6 +97,7 @@ def test_F72021_results():
     problem = opfunu.cec_based.F72021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -105,6 +111,7 @@ def test_F82021_results():
     problem = opfunu.cec_based.F82021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -118,6 +125,7 @@ def test_F92021_results():
     problem = opfunu.cec_based.F92021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -131,6 +139,7 @@ def test_F102021_results():
     problem = opfunu.cec_based.F102021(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)

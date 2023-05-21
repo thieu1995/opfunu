@@ -6,7 +6,6 @@
 
 import numpy as np
 import opfunu
-import pytest
 
 
 def test_FreudensteinRoth_results():
@@ -14,9 +13,9 @@ def test_FreudensteinRoth_results():
     problem = opfunu.name_based.FreudensteinRoth(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
+    assert type(result) == float
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
-
