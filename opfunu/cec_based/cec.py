@@ -204,6 +204,10 @@ class CecBenchmark(Benchmark, ABC):
                 if self.dim_changeable:
                     if type(ndim) is int and ndim > 1:
                         if dim_max is None or ndim <= dim_max:
+                            # Check if ndim in supported dimensions
+                            if self.dim_supported is not None and ndim not in self.dim_supported:
+                                raise ValueError(f'{self.__class__.__name__} ndim not in supported dimensions '
+                                                 f'{self.dim_supported}')
                             self._ndim = int(ndim)
                             self._bounds = np.array([default_bounds[0] for _ in range(self._ndim)])
                         else:

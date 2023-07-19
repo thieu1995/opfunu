@@ -82,9 +82,21 @@ def get_functions_by_ndim(ndim=None):
         List of the functions
     """
     functions = [cls for classname, cls in ALL_DATABASE if classname not in EXCLUDES]
-    if type(ndim) is int and ndim > 1:
-        return list(filter(lambda f: (f().dim_default == ndim and f().dim_changeable == False), functions))
-    return functions
+    # Return all functions if ndim None
+    if ndim is None:
+        return functions
+    #TODO: This brute force method is not ideal but works, replace with something better
+    x = np.random.uniform(-100, 100, ndim)
+    results = []
+    for f in functions:
+        # Wrapping check in try..except.. to catch ndim errors
+        try:
+            f_check = f(ndim=ndim)
+            if f_check.evaluate(x) is not None:
+                results.append(f)
+        except Exception as ex:
+            print(f'Exception Encountered function: {f.__name__} checking ndim: {ex}')
+    return results
 
 
 def get_functions_based_ndim(ndim=None):
