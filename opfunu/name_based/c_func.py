@@ -422,7 +422,7 @@ class Corana(Benchmark):
 
     def evaluate(self, x, *args):
         self.check_solution(x)
-        self.n_fe += 1  # TODO: make sure function evaluations are tracked for ALL benchmarks
+        self.n_fe += 1
         d = [1., 1000., 10., 100.]
         r = 0
         for j in range(4):

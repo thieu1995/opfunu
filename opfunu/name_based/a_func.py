@@ -156,6 +156,7 @@ class Adjiman(Benchmark):
         self.x_global = np.array([2.0, 0.10578])
 
     def evaluate(self, x, *args):
+        #TODO: Move check solution and n_fe to based class and call super()..
         self.check_solution(x)
         self.n_fe += 1
         return np.cos(x[0]) * np.sin(x[1]) - x[0] / (x[1] ** 2 + 1)
