@@ -267,6 +267,7 @@ class F92017(F12017):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_9", f_matrix="M_9_D", f_bias=900.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -350,6 +351,7 @@ class F112017(F102017):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_11", f_matrix="M_11_D", f_shuffle="shuffle_data_11_D", f_bias=1100.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.n_funcs = 3
         self.p = np.array([0.3, 0.3, 0.4])
         self.n1 = int(np.ceil(self.p[0] * self.ndim))

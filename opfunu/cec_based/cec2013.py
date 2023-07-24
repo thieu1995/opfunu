@@ -499,6 +499,7 @@ class F142013(F12013):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_bias=-100.):
         super().__init__(ndim, bounds, f_shift, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -531,6 +532,7 @@ class F152013(F22013):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_matrix="M_D", f_bias=100.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -1071,6 +1073,7 @@ class F262013(CecBenchmark):
         self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
         self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
         self.f_bias = f_bias
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift[0]
         self.n_funcs = 5

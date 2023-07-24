@@ -260,6 +260,7 @@ class F52020(CecBenchmark):
         self.f_shuffle = self.check_shuffle_data(f_shuffle, needed_dim=True)
         self.f_shuffle = (self.f_shuffle - 1).astype(int)
         self.f_bias = f_bias
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.n_funcs = 3

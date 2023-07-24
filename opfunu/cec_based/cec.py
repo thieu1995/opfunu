@@ -60,6 +60,8 @@ class CecBenchmark(Benchmark, ABC):
 
     # n_basins = 1
     # n_valleys = 1
+    # ndim_min inherited from Benchmark
+    ndim_max = 100
 
     def __init__(self):
         super().__init__()
@@ -67,11 +69,10 @@ class CecBenchmark(Benchmark, ABC):
         self._ndim = None
         self.dim_changeable = True
         self.dim_default = 30
-        self.dim_max = 100
+        self.dim_max = 100 #TODO: Refactor CecBenchmarks to use class level ndim_min and ndim_max
         self.dim_supported = None
         self.f_global = None
         self.x_global = None
-        self.n_fe = 0
         self.f_shift = None
         self.f_bias = None
         self.support_path = None

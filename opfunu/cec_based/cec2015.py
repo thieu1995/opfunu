@@ -133,6 +133,7 @@ class F42015(F12015):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_4_D", f_matrix="M_4_D", f_bias=400.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -327,6 +328,7 @@ class F102015(CecBenchmark):
         self.f_shuffle = self.check_shuffle_data(f_shuffle, needed_dim=True)
         self.f_shuffle = (self.f_shuffle - 1).astype(int)
         self.f_bias = f_bias
+        self.epsilon = 1e-4  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.n_funcs = 3

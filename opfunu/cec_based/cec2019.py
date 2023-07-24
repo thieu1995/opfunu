@@ -278,6 +278,7 @@ class F72019(F42019):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_7", f_matrix="M_7_D", f_bias=1.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1

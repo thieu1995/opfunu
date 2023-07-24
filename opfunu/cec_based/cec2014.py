@@ -51,6 +51,7 @@ class F12014(CecBenchmark):
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_matrix = self.check_matrix_data(f_matrix, needed_dim=True)
         self.f_bias = f_bias
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
@@ -314,6 +315,7 @@ class F102014(F82014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_10", f_bias=1000.):
         super().__init__(ndim, bounds, f_shift, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -547,6 +549,7 @@ class F172014(CecBenchmark):
         self.f_shuffle = self.check_shuffle_data(f_shuffle, needed_dim=True)
         self.f_shuffle = (self.f_shuffle - 1).astype(int)
         self.f_bias = f_bias
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.n_funcs = 3
@@ -996,6 +999,7 @@ class F262014(F232014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_26", f_matrix="M_26_D", f_bias=2600.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_bias)
+        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
         self.n_funcs = 5
         self.xichmas = [10, 10, 10, 10, 10]
         self.lamdas = [0.25, 1, 1e-7, 2.5, 10]
