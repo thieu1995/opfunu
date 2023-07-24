@@ -48,8 +48,10 @@ class Langermann(Benchmark):
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
+        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-6  # reduced epsilon due to f_global precision
         self.f_global = -5.1621259
         self.x_global = np.array([2.00299219, 1.006096])
 
@@ -106,11 +108,11 @@ class LennardJones(Benchmark):
     modality = True  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
-        if ndim not in range(6, 61):
-            raise ValueError("LennardJones dimensions must be in (6, 60)")
         super().__init__()
         self.dim_changeable = True
-        self.dim_default = 2
+        self.dim_min = 6
+        self.dim_max = 60
+        self.dim_default = 6
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-4., 1.] for _ in range(self.dim_default)]))
         self.minima = [-1.0, -3.0, -6.0, -9.103852, -12.712062,
                        -16.505384, -19.821489, -24.113360, -28.422532,
@@ -173,6 +175,7 @@ class Leon(Benchmark):
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
+        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-1.2, 1.2] for _ in range(self.dim_default)]))
         self.f_global = 0.0
@@ -259,12 +262,14 @@ class Levy05(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-7  # reduced epsilon due to f_global precision
         self.f_global = -176.1375779
         self.x_global = np.array([-1.30685, -1.42485])
 
@@ -305,6 +310,7 @@ class Levy13(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

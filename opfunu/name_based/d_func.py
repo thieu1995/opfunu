@@ -6,6 +6,7 @@
 
 import numpy as np
 from opfunu.benchmark import Benchmark
+from opfunu.utils.tools import alternating_array
 
 
 class Damavandi(Benchmark):
@@ -31,6 +32,7 @@ class Damavandi(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -38,9 +40,13 @@ class Damavandi(Benchmark):
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 14.] for _ in range(self.dim_default)]))
         self.f_global = 0.0
-        self.x_global = 2 * np.ones(self.ndim)
+        self.x_global = 2. * np.ones(self.ndim)
 
     def evaluate(self, x, *args):
+        """
+        This implementation follows the equation of the original but does NOT match the global min.
+        This implementation when the input is [2.0, 2.0] will result in 77.0 NOT 0.0 the expectation.
+        """
         self.check_solution(x)
         self.n_fe += 1
         num = np.sin(np.pi * (x[0] - 2.0)) * np.sin(np.pi * (x[1] - 2.0))
@@ -72,6 +78,7 @@ class Deb01(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -79,13 +86,50 @@ class Deb01(Benchmark):
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-1, -1.] for _ in range(self.dim_default)]))
         self.f_global = -1.0
-        self.x_global = np.zeros(self.ndim)
+        self.x_global = np.array([0.3, -0.3])
 
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
         return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * x) ** 6.0)
 
+class Deb01Expanded(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+
+    **Inspired by the original and expanded to n dimensions**
+    """
+    name = "Deb 1 Function"
+    latex_formula = r'f(x) = - \frac{1}{N} \sum_{i=1}^n \sin^6(5 \pi x_i)'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f(0.3, -0.3,...,0.3, -0.3) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1, -1.] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = alternating_array([0.3, -0.3], self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * x) ** 6.0)
 
 class Deb03(Benchmark):
     """
@@ -96,7 +140,7 @@ class Deb03(Benchmark):
     latex_formula = r'f(x) = - \frac{1}{N} \sum_{i=1}^n \sin^6 \left[ 5 \pi\left ( x_i^{3/4} - 0.05 \right) \right ]'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
-    latex_formula_global_optimum = r'f(0.3, -0.3) = -1'
+    latex_formula_global_optimum = r'f((15/100)^(4/3), (15/100)^(4/3)) = -1'
     continuous = True
     linear = False
     convex = True
@@ -109,6 +153,45 @@ class Deb03(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1., 1.] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = np.ones(self.ndim) * (15./100.)**(4./3.)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * (x ** 0.75 - 0.05)) ** 6.0)
+
+class Deb03Expanded(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+
+    **Inspired by the original and expanded to n dimensions**
+    """
+    name = "Deb 3 Function"
+    latex_formula = r'f(x) = - \frac{1}{N} \sum_{i=1}^n \sin^6 \left[ 5 \pi\left ( x_i^{3/4} - 0.05 \right) \right ]'
+    latex_formula_dimension = r'd = 2'
+    latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f((15/100)^(4/3), ..., (15/100)^(4/3)) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = True  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -116,13 +199,12 @@ class Deb03(Benchmark):
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-1., 1.] for _ in range(self.dim_default)]))
         self.f_global = -1.0
-        self.x_global = np.zeros(self.ndim)
+        self.x_global = np.ones(self.ndim) * (15./100.)**(4./3.)
 
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
         return -(1.0 / self.ndim) * np.sum(np.sin(5 * np.pi * (x ** 0.75 - 0.05)) ** 6.0)
-
 
 class Decanomial(Benchmark):
     """
@@ -147,6 +229,7 @@ class Decanomial(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -217,7 +300,6 @@ class Deceptive(Benchmark):
                 g[i] = x[i] - 1.0
         return -((1.0 / self.ndim) * np.sum(g)) ** beta
 
-
 class DeckkersAarts(Benchmark):
     """
     .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
@@ -240,6 +322,7 @@ class DeckkersAarts(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -262,7 +345,7 @@ class DeflectedCorrugatedSpring(Benchmark):
     """
     name = "Deflected Corrugated Spring Function"
     latex_formula = r'f(x) = 0.1\sum_{i=1}^n \left[ (x_i - \alpha)^2 - \cos \left( K \sqrt {\sum_{i=1}^n (x_i - \alpha)^2}\right ) \right ]'
-    latex_formula_dimension = r'd = 2'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
     latex_formula_bounds = r'x_i \in [-0, 2\alpha], \forall i \in \llbracket 1, d\rrbracket'
     latex_formula_global_optimum = r'f(x_i) = f(alpha_i) = -1'
     continuous = True
@@ -316,6 +399,8 @@ class DeVilliersGlasser01(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 4
+    ndim_max = 4
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -356,6 +441,8 @@ class DeVilliersGlasser02(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 5
+    ndim_max = 5
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -434,11 +521,13 @@ class Dolan(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 5
+    ndim_max = 5
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = True
-        self.dim_default = 2
+        self.dim_default = 5
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
         self.f_global = 0.0
         self.x_global = np.array([-74.10522498, 44.33511286, 6.21069214, 18.42772233, -16.5839403])
@@ -471,6 +560,46 @@ class DropWave(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = False
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-5.12, 5.12] for _ in range(self.dim_default)]))
+        self.f_global = -1.0
+        self.x_global = np.array([0., 0.])
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        norm_x = np.sum(x ** 2)
+        return -(1 + np.cos(12 * np.sqrt(norm_x))) / (0.5 * norm_x + 2)
+
+
+class DropWaveExpanded(Benchmark):
+    """
+    .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
+
+    **Inspired by the original and expanded to n dimensions**
+    """
+    name = "DropWave Function"
+    latex_formula = r'f(x) = - \frac{1 + \cos\left(12 \sqrt{\sum_{i=1}^{n} x_i^{2}}\right)}{2 + 0.5 \sum_{i=1}^{n} x_i^{2}}'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-5.12, 5.12], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f([0,..,0]) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -478,7 +607,7 @@ class DropWave(Benchmark):
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-5.12, 5.12] for _ in range(self.dim_default)]))
         self.f_global = -1.0
-        self.x_global = np.array([0., 0.])
+        self.x_global = np.zeros(self.ndim)
 
     def evaluate(self, x, *args):
         self.check_solution(x)

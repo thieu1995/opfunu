@@ -69,6 +69,7 @@ class Ackley02(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -106,6 +107,7 @@ class Ackley03(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -143,6 +145,7 @@ class Adjiman(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -223,6 +226,7 @@ class Alpine02(Benchmark):
         self.dim_changeable = True
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-5  # reduced epsilon due to f_global precision
         self.f_global = -6.12950
         self.x_global = np.array([7.91705268, 4.81584232] + list(np.random.uniform(0, 10, self.ndim-2)))
 

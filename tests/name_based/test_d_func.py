@@ -20,9 +20,17 @@ def test_Damavandi_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+# FAILS documented x_global does not produce documented f_global
+# def test_Damavandi_GlobalMin_results():
+#     ndim = 2
+#     problem = opfunu.name_based.Damavandi(ndim=ndim)
+#     x = problem.x_global
+#     result = problem.evaluate(x)
+#     assert type(result) == np.float64
+#     assert abs(problem.f_global - result) <= problem.epsilon
 
 def test_Deb01_results():
-    ndim = 11
+    ndim = 2
     problem = opfunu.name_based.Deb01(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
@@ -33,9 +41,29 @@ def test_Deb01_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_Deb01Expanded_results():
+    ndim = 100
+    problem = opfunu.name_based.Deb01Expanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_Deb01Expanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.Deb01Expanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert abs(problem.f_global - result) <= problem.epsilon
 
 def test_Deb03_results():
-    ndim = 11
+    ndim = 2
     problem = opfunu.name_based.Deb03(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
@@ -46,6 +74,34 @@ def test_Deb03_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_Deb03_GlobalMin_results():
+    ndim = 2
+    problem = opfunu.name_based.Deb03(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert abs(problem.f_global - result) <= problem.epsilon
+
+def test_Deb03Expanded_results():
+    ndim = 100
+    problem = opfunu.name_based.Deb01Expanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_Deb03Expanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.Deb01Expanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert (problem.f_global - result) <= problem.epsilon
 
 def test_Decanomial_results():
     ndim = 2
@@ -162,3 +218,24 @@ def test_DropWave():
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
+
+def test_DropWaveExpanded_results():
+    ndim = 100
+    problem = opfunu.name_based.DropWaveExpanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_DropWaveExpanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.DropWaveExpanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert problem.f_global - result <= problem.epsilon

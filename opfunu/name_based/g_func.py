@@ -31,6 +31,7 @@ class Giunta(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -46,6 +47,44 @@ class Giunta(Benchmark):
         arg = 16 * x / 15.0 - 1
         return 0.6 + np.sum(np.sin(arg) + np.sin(arg) ** 2 + np.sin(4 * arg) / 50.)
 
+class GiuntaExpanded(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+
+    **Inspired by the original and expanded to n dimensions**
+    """
+    name = "Giunta Expanded Function"
+    latex_formula = r'f(x) = ??'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'??'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = False
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-1., 1.] for _ in range(self.dim_default)]))
+        self.f_global = 0.06447042053690566
+        self.x_global = 0.46732 * np.ones(self.ndim)
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        arg = (16.0 / 15.0) * x - 1
+        return 0.6 + np.sum(np.sin(arg) + np.sin(arg) ** 2 + np.sin(4 * arg) / 50.)
 
 class GoldsteinPrice(Benchmark):
     """
@@ -70,6 +109,7 @@ class GoldsteinPrice(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -151,6 +191,8 @@ class Gulf(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -192,6 +234,8 @@ class Gear(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 4
+    ndim_max = 4
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

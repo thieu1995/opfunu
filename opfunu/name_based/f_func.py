@@ -31,6 +31,7 @@ class FreudensteinRoth(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

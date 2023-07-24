@@ -29,7 +29,7 @@
 # >>> opfunu.plot_2d(f22005, n_space=1000, ax=None)
 # >>> opfunu.plot_3d(f22005, n_space=1000, ax=None)
 
-__version__ = "1.0.1-alpha.1"
+__version__ = "1.0.2"
 
 import inspect
 import re
@@ -53,7 +53,8 @@ def get_functions_by_classname(name=None):
     -------
         List of the functions, but all the classname are different, so the result is list of 1 function or list of empty
     """
-    functions = [cls for classname, cls in ALL_DATABASE if (classname not in EXCLUDES and (classname == name or classname.lower() == name))]
+    functions = [cls for classname, cls in ALL_DATABASE if
+                 (classname not in EXCLUDES and (classname == name or classname.lower() == name))]
     return functions
 
 
@@ -85,7 +86,7 @@ def get_functions_by_ndim(ndim=None):
     # Return all functions if ndim None
     if ndim is None:
         return functions
-    #TODO: This brute force method is not ideal but works, replace with something better
+    # TODO: This brute force method is not ideal but works, replace with something better
     x = np.random.uniform(-100, 100, ndim)
     results = []
     for f in functions:
@@ -115,11 +116,17 @@ def get_functions_based_ndim(ndim=None):
     return functions
 
 
-def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
-                  differentiable=None, scalable=None, randomized_term=None, parametric=None, modality=None):
-    functions = [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]
-    functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
+def get_all_named_functions():
+    return [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]
 
+
+def get_all_cec_functions():
+    return [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
+
+
+def filter_functions(functions, ndim, continuous, linear, convex, unimodal, separable,
+                     differentiable, scalable, randomized_term, parametric, modality):
+    functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
     functions = list(filter(lambda f: (continuous is None) or (f.continuous == continuous), functions))
     functions = list(filter(lambda f: (linear is None) or (f.linear == linear), functions))
     functions = list(filter(lambda f: (convex is None) or (f.convex == convex), functions))
@@ -133,21 +140,18 @@ def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None
     return functions
 
 
-def get_cecs(ndim=None, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
-             scalable=None, randomized_term=None, parametric=True, shifted=True, rotated=None , modality=None):
-    functions = [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
-    functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
+def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
+                  differentiable=None, scalable=None, randomized_term=None, parametric=None, modality=None):
+    functions = get_all_named_functions()
+    return filter_functions(functions, ndim, continuous, linear, convex, unimodal, separable, differentiable, scalable,
+                            randomized_term, parametric, modality)
 
-    functions = list(filter(lambda f: (continuous is None) or (f.continuous == continuous), functions))
-    functions = list(filter(lambda f: (linear is None) or (f.linear == linear), functions))
-    functions = list(filter(lambda f: (convex is None) or (f.convex == convex), functions))
-    functions = list(filter(lambda f: (unimodal is None) or (f.unimodal == unimodal), functions))
-    functions = list(filter(lambda f: (separable is None) or (f.separable == separable), functions))
-    functions = list(filter(lambda f: (differentiable is None) or (f.differentiable == differentiable), functions))
-    functions = list(filter(lambda f: (scalable is None) or (f.scalable == scalable), functions))
-    functions = list(filter(lambda f: (randomized_term is None) or (f.randomized_term == randomized_term), functions))
-    functions = list(filter(lambda f: (parametric is None) or (f.parametric == parametric), functions))
+
+def get_cecs(ndim=None, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
+             scalable=None, randomized_term=None, parametric=True, shifted=True, rotated=None, modality=None):
+    functions = get_all_cec_functions()
+    functions = filter_functions(functions, ndim, continuous, linear, convex, unimodal, separable, differentiable,
+                                 scalable, randomized_term, parametric, modality)
     functions = list(filter(lambda f: (shifted is None) or (f.shifted == shifted), functions))
     functions = list(filter(lambda f: (rotated is None) or (f.rotated == rotated), functions))
-    functions = list(filter(lambda f: (modality is None) or (f.modality == modality), functions))
     return functions

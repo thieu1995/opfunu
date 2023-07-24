@@ -34,9 +34,11 @@ class JennrichSampson(Benchmark):
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
+        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-1., 1.] for _ in range(self.dim_default)]))
-        self.f_global = 124.36
+        self.epsilon = 1e-7  # reduced epsilon due to f_global precision
+        self.f_global = 124.3621823
         self.x_global = np.array([0.257825, 0.257825])
 
     def evaluate(self, x, *args):
@@ -71,7 +73,7 @@ class Judge(Benchmark):
     """
     name = "Judge Function"
     latex_formula = r'f_{\text{Judge}}(x) = \sum_{i=1}^{20} \left [ \left (x_1 + A_i x_2 + B x_2^2 \right ) - C_i \right ]^2'
-    latex_formula_dimension = r'd \in N^+'
+    latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-10, 10]'
     latex_formula_global_optimum = r'f(0.86479, 1.2357) = 16.0817307'
     continuous = True
@@ -86,12 +88,14 @@ class Judge(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-6  # reduced epsilon due to f_global precision
         self.f_global = 16.0817307
         self.x_global = np.array([0.86479, 1.2357])
         self.c = np.asarray([4.284, 4.149, 3.877, 0.533, 2.211, 2.389, 2.145,
@@ -109,4 +113,4 @@ class Judge(Benchmark):
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return np.sum(((x[0] + x[1] * self.a + (x[1] ** 2.0) * self.b) - self.c)** 2.0)
+        return np.sum(((x[0] + x[1] * self.a + (x[1] ** 2.0) * self.b) - self.c) ** 2.0)

@@ -32,10 +32,12 @@ class Easom(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
+        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.f_global = -1.
@@ -46,6 +48,58 @@ class Easom(Benchmark):
         self.n_fe += 1
         a = (x[0] - np.pi) ** 2 + (x[1] - np.pi) ** 2
         return -np.cos(x[0]) * np.cos(x[1]) * np.exp(-a)
+
+
+class EasomExpanded(Benchmark):
+    """
+    .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
+    Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
+
+    **Inspired by the original and expanded to n dimensions**
+    """
+    name = "Easom Function"
+    latex_formula = r'f(x) = a - \frac{a}{e^{b \sqrt{\frac{\sum_{i=1}^{n}' +\
+        r'x_i^{2}}{n}}}} + e - e^{\frac{\sum_{i=1}^{n} \cos\left(c x_i\right)} {n}}'
+    latex_formula_dimension = r'd \in \mathbb{N}_{+}^{*}'
+    latex_formula_bounds = r'x_i \in [-100, 100], \forall i \in \llbracket 1, d\rrbracket'
+    latex_formula_global_optimum = r'f([??]) = -1'
+    continuous = True
+    linear = False
+    convex = True
+    unimodal = False
+    separable = True
+
+    differentiable = True
+    scalable = True
+    randomized_term = False
+    parametric = False
+
+    modality = False  # Number of ambiguous peaks, unknown # peaks
+
+    def __init__(self, ndim=None, bounds=None):
+        super().__init__()
+        self.dim_changeable = True
+        self.dim_default = 2
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
+        self.f_global = -1.
+        self.x_global = np.pi * np.ones(self.ndim)
+
+    def alternating_ones_array(self):
+        # Create an array of alternating -1 and 1 values
+        alternating = np.tile([-1, 1], self.ndim // 2)
+
+        # If n is odd, add an element to the end
+        if self.ndim % 2 == 1:
+            alternating = np.append(alternating, -1)
+
+        return alternating
+
+    def evaluate(self, x, *args):
+        self.check_solution(x)
+        self.n_fe += 1
+        a = np.sum((x - np.pi) ** 2)
+        ones = self.alternating_ones_array()
+        return np.prod(x * ones) * np.exp(-a)
 
 
 class ElAttarVidyasagarDutta(Benchmark):
@@ -70,6 +124,7 @@ class ElAttarVidyasagarDutta(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -107,6 +162,7 @@ class EggCrate(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -152,7 +208,7 @@ class EggHolder(Benchmark):
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-512., 512.] for _ in range(self.dim_default)]))
         self.f_global = -959.640662711
-        self.x_global = np.zeros(self.ndim)
+        self.x_global = np.array([512., 404.2319])
 
     def evaluate(self, x, *args):
         self.check_solution(x)
@@ -220,6 +276,7 @@ class Exp2(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -259,6 +316,8 @@ class Eckerle4(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

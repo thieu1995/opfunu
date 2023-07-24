@@ -30,12 +30,14 @@ class Hansen(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-5  # reduced epsilon due to f_global precision
         self.f_global = -176.54179
         self.x_global = np.array([-7.58989583, -7.70831466])
 
@@ -70,6 +72,8 @@ class Hartmann3(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -103,7 +107,7 @@ class Hartmann6(Benchmark):
     """
     name = "Hartman 6 Function"
     latex_formula = r'f(x) = -\sum\limits_{i=1}^{4} c_i e^{-\sum\limits_{j=1}^{n}a_{ij}(x_j - p_{ij})^2}'
-    latex_formula_dimension = r'd = 3'
+    latex_formula_dimension = r'd = 6'
     latex_formula_bounds = r'x_i \in [0, 1], \forall i \in \llbracket 1, d\rrbracket'
     latex_formula_global_optimum = r'f([0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054]) = -3.32236801141551'
     continuous = True
@@ -118,6 +122,8 @@ class Hartmann6(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 6
+    ndim_max = 6
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -151,7 +157,7 @@ class HelicalValley(Benchmark):
     """
     name = "Helical Valley"
     latex_formula = r'f(x) = 100{[z-10\Psi(x_1,x_2)]^2 +(\sqrt{x_1^2+x_2^2}-1)^2}+x_3^2'
-    latex_formula_dimension = r'd \in N^+'
+    latex_formula_dimension = r'd = 3'
     latex_formula_bounds = r'x_i \in [-10, 10], \forall i \in \llbracket 1, d\rrbracket'
     latex_formula_global_optimum = r'f([1.0, 0.0, 0.0]) = 0'
     continuous = True
@@ -166,6 +172,8 @@ class HelicalValley(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -190,7 +198,7 @@ class Himmelblau(Benchmark):
     """
     name = "Himmelblau Function"
     latex_formula = r'f(x) = (x_1^2 + x_2 - 11)^2 + (x_1 + x_2^2 - 7)^2'
-    latex_formula_dimension = r'd \in N^+'
+    latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-5, 5], \forall i \in \llbracket 1, d\rrbracket'
     latex_formula_global_optimum = r'f([3, 2]) = 0'
     continuous = True
@@ -205,6 +213,7 @@ class Himmelblau(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -242,6 +251,7 @@ class Hosaki(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -280,6 +290,7 @@ class HolderTable(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

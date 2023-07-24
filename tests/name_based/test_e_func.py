@@ -20,6 +20,26 @@ def test_Easom_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_EasomExpanded_results():
+    ndim = 100
+    problem = opfunu.name_based.EasomExpanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_EasomExpanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.EasomExpanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert problem.f_global - result <= problem.epsilon
 
 def test_ElAttarVidyasagarDutta_results():
     ndim = 2

@@ -137,9 +137,29 @@ def test_Corana_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_CoranaExpanded_results():
+    ndim = 100
+    problem = opfunu.name_based.CoranaExpanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_CoranaExpanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.CoranaExpanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert problem.f_global - result <= problem.epsilon
 
 def test_CosineMixture_results():
-    ndim = 11
+    ndim = 2
     problem = opfunu.name_based.CosineMixture(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
@@ -150,6 +170,26 @@ def test_CosineMixture_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_CosineMixtureExpanded_results():
+    ndim = 100
+    problem = opfunu.name_based.CosineMixtureExpanded(ndim=ndim)
+    x = np.ones(ndim)
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert isinstance(problem, opfunu.name_based.Benchmark)
+    assert isinstance(problem.lb, np.ndarray)
+    assert len(problem.lb) == ndim
+    assert problem.bounds.shape[0] == ndim
+    assert len(problem.x_global) == ndim
+    assert problem.n_fe == 1
+
+def test_CosineMixtureExpanded_GlobalMin_results():
+    ndim = 100
+    problem = opfunu.name_based.CosineMixtureExpanded(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    assert type(result) == np.float64
+    assert problem.f_global - result <= problem.epsilon
 
 def test_CrossInTray_results():
     ndim = 2

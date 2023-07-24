@@ -30,6 +30,7 @@ class BartelsConn(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -68,6 +69,7 @@ class Beale(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -106,6 +108,7 @@ class BiggsExp02(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -146,6 +149,8 @@ class BiggsExp03(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -186,6 +191,8 @@ class BiggsExp04(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 4
+    ndim_max = 4
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -226,6 +233,8 @@ class BiggsExp05(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 5
+    ndim_max = 5
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -266,6 +275,7 @@ class Bird(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -304,6 +314,7 @@ class Bohachevsky1(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -341,6 +352,7 @@ class Bohachevsky2(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -378,6 +390,7 @@ class Bohachevsky3(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -415,6 +428,7 @@ class Booth(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -452,6 +466,8 @@ class BoxBetts(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -492,6 +508,7 @@ class Branin01(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -531,12 +548,14 @@ class Branin02(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-5., 15.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-6  # reduced epsilon due to f_global precision
         self.f_global = 5.559037
         self.x_global = np.array([-3.2, 12.53])
 
@@ -569,6 +588,7 @@ class Brent(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -591,7 +611,7 @@ class Brown(Benchmark):
     """
     name = "Brown Function"
     latex_formula = r'f_{\text{Brown}}(x) = \sum_{i=1}^{n-1}\left[\left(x_i^2\right)^{x_{i + 1}^2 + 1} + \left(x_{i + 1}^2\right)^{x_i^2 + 1}\right]'
-    latex_formula_dimension = r'd = 2'
+    latex_formula_dimension = r'd=2'
     latex_formula_bounds = r'x_i \in [-1, 4], \forall i \in \llbracket 1, d\rrbracket'
     latex_formula_global_optimum = r'f(x_i) = 0, x_i = 0'
     continuous = True
@@ -606,6 +626,7 @@ class Brown(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -645,6 +666,7 @@ class Bukin02(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -682,6 +704,7 @@ class Bukin04(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -719,6 +742,7 @@ class Bukin06(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()

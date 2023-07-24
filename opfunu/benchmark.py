@@ -54,6 +54,8 @@ class Benchmark:
     modality = True  # Number of ambiguous peaks, unknown # peaks
     # n_basins = 1
     # n_valleys = 1
+    ndim_min = 2  # Start setting minimum ndim for each check of ndim value
+    ndim_max = None  # None no limit otherwise an integer value
 
     def __init__(self):
         self._bounds = None
@@ -81,7 +83,7 @@ class Benchmark:
         """
         if ndim is None:
             self._bounds = default_bounds if bounds is None else np.array(bounds).T
-            self._ndim = self._bounds.shape[1]
+            self._ndim = self._bounds.shape[0]
         else:
             if bounds is None:
                 if self.dim_changeable:
@@ -116,7 +118,7 @@ class Benchmark:
             The solution
         """
         if not self.dim_changeable and (len(x) != self._ndim):
-            raise ValueError(f"The length of solution should has {self._ndim} variables!")
+            raise ValueError(f"The length of solution should have {self._ndim} variables!")
 
     def get_paras(self):
         """

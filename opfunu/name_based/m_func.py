@@ -36,6 +36,7 @@ class Matyas(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -48,7 +49,7 @@ class Matyas(Benchmark):
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return 0.26 * (x[0] ** 2 + x[1] ** 2) - 0.48 * x[0] * x[1]
+        return 0.26 * np.sum(x ** 2) - 0.48 * np.prod(x)
 
 
 class McCormick(Benchmark):
@@ -79,6 +80,7 @@ class McCormick(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -115,6 +117,8 @@ class Meyer(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -165,6 +169,7 @@ class Michalewicz(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -210,6 +215,8 @@ class MieleCantrell(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 4
+    ndim_max = 4
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -343,19 +350,21 @@ class Mishra03(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-5  # reduced epsilon due to f_global precision
         self.f_global = -0.19990562
         self.x_global = np.array([-9.99378322, -9.99918927])
 
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return 0.01 * (x[0] + x[1]) + np.sqrt(np.abs(np.cos(np.sqrt(np.abs(x[0] ** 2 + x[1] ** 2)))))
+        return 0.01 * np.sum(x) + np.sqrt(np.abs(np.cos(np.sqrt(np.sum(x ** 2)))))
 
 
 class Mishra04(Benchmark):
@@ -386,19 +395,20 @@ class Mishra04(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
-        self.f_global = -0.17767
+        self.f_global = -0.17766861
         self.x_global = np.array([-8.71499636, -9.0533148])
 
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return 0.01 * (x[0] + x[1]) + np.sqrt(np.abs(np.sin(np.sqrt(abs(x[0] ** 2 + x[1] ** 2)))))
+        return 0.01 * np.sum(x) + np.sqrt(np.abs(np.sin(np.sqrt(np.sum(x ** 2)))))
 
 
 class Mishra05(Benchmark):
@@ -429,6 +439,7 @@ class Mishra05(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -441,8 +452,10 @@ class Mishra05(Benchmark):
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return (0.01 * x[0] + 0.1 * x[1]
-                + (np.sin((np.cos(x[0]) + np.cos(x[1])) ** 2) ** 2 + np.cos((np.sin(x[0]) + np.sin(x[1])) ** 2) ** 2 + x[0]) ** 2)
+        cos_sum_sq = np.sum(np.cos(x)) ** 2
+        sin_sum_sq = np.sum(np.sin(x)) ** 2
+
+        return 0.01 * x[0] + 0.1 * x[1] + (np.sin(cos_sum_sq) ** 2 + np.cos(sin_sum_sq) ** 2 + x[0]) ** 2
 
 
 class Mishra06(Benchmark):
@@ -473,22 +486,24 @@ class Mishra06(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.epsilon = 1e-6  # reduced epsilon due to f_global precision
         self.f_global = -2.28395
         self.x_global = np.array([2.88631, 1.82326])
 
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        a = 0.1 * ((x[0] - 1) ** 2 + (x[1] - 1) ** 2)
-        u = (np.cos(x[0]) + np.cos(x[1])) ** 2
-        v = (np.sin(x[0]) + np.sin(x[1])) ** 2
-        return a - np.log((np.sin(u) ** 2 - np.cos(v) ** 2 + x[0]) ** 2)
+        a = 0.1 * np.sum((x - 1.) ** 2)
+        cos_sum_sq = np.sum(np.cos(x)) ** 2
+        sin_sum_sq = np.sum(np.sin(x)) ** 2
+        return a - np.log((np.sin(cos_sum_sq) ** 2 - np.cos(sin_sum_sq) ** 2 + x[0]) ** 2)
 
 
 class Mishra07(Benchmark):
@@ -563,6 +578,7 @@ class Mishra08(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -602,7 +618,7 @@ class Mishra09(Benchmark):
     """
     name = "Mishra 9 Function"
     latex_formula = r'\left[ ab^2c + abc^2 + b^2 + (x_1 + x_2 - x_3)^2 \right]^2'
-    latex_formula_dimension = r'd = 2'
+    latex_formula_dimension = r'd = 3'
     latex_formula_bounds = r'x_i \in [-10, 10] \forall i \in [1, 2, 3]'
     latex_formula_global_optimum = r'f(1, 2, 3) = 0'
     continuous = True
@@ -617,6 +633,8 @@ class Mishra09(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 3
+    ndim_max = 3
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -663,6 +681,7 @@ class Mishra10(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -676,7 +695,7 @@ class Mishra10(Benchmark):
         self.check_solution(x)
         self.n_fe += 1
         x_int = x.astype(int)
-        return ((x_int[0] + x_int[1]) - (x_int[0] * x_int[1])) ** 2.0
+        return (np.sum(x_int) - np.prod(x_int)) ** 2.0
 
 
 class Mishra11(Benchmark):
