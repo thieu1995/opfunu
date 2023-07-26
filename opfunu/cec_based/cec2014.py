@@ -840,6 +840,7 @@ class F232014(CecBenchmark):
         self.f_shift = self.check_shift_matrix(f_shift)[:, :self.ndim]
         self.f_matrix = self.check_matrix_data(f_matrix)[:, :self.ndim]
         self.f_bias = f_bias
+        self.epsilon = 1e-7  # reduced epsilon due to f_global precision
         self.f_global = f_bias
         self.x_global = self.f_shift[0]
         self.n_funcs = 5

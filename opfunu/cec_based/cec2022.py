@@ -412,7 +412,7 @@ class F92022(CecBenchmark):
         self.f_global = f_bias
         self.x_global = self.f_shift[0]
         self.n_funcs = 5
-        self.xichmas = [10, 20, 30, 40, 50]
+        self.xichmas = [10, 20, 30, 40, 50] # aka delta in original CEC2022 logic
         self.lamdas = [1, 1e-6, 1e-6, 1e-6, 1e-6]
         self.bias = [0, 200, 300, 100, 400]
         self.g0 = operator.rosenbrock_func

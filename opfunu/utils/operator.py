@@ -31,7 +31,8 @@ def griewank_func(x):
 
 def rosenbrock_func(x):
     x = np.array(x).ravel()
-    return np.sum([100 * (x[idx] ** 2 - x[idx + 1]) ** 2 + (x[idx] - 1) ** 2 for idx in range(0, len(x) - 1)])
+    diff = x[:-1] - x[1:]
+    return np.sum(100 * diff ** 2 + (x[:-1] - 1) ** 2)
 
 
 def scaffer_func(x):
@@ -97,7 +98,7 @@ def elliptic_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
     idx = np.arange(0, ndim)
-    return np.sum((10 ** 6) ** (idx / (ndim - 1)) * x ** 2)
+    return np.sum(1e6 ** (idx / (ndim - 1)) * x ** 2)
 
 
 def sphere_noise_func(x):
@@ -167,12 +168,12 @@ def tasy_func(x, beta=0.5):
 
 def bent_cigar_func(x):
     x = np.array(x).ravel()
-    return x[0] ** 2 + 10 ** 6 * np.sum(x[1:] ** 2)
+    return x[0] ** 2 + 1e6 * np.sum(x[1:] ** 2)
 
 
 def discus_func(x):
     x = np.array(x).ravel()
-    return 10 ** 6 * x[0] ** 2 + np.sum(x[1:] ** 2)
+    return 1e6 * x[0] ** 2 + np.sum(x[1:] ** 2)
 
 
 def different_powers_func(x):
@@ -232,12 +233,15 @@ def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
     return result1 + 10 * (ndim - np.sum(np.cos(2 * np.pi * z)))
 
 
-def calculate_weight(x, xichma=1.):
+def calculate_weight(x, delta=1.):
     ndim = len(x)
-    weight = 1
     temp = np.sum(x ** 2)
-    if temp != 0:
-        weight = (1.0 / np.sqrt(temp)) * np.exp(-temp / (2 * ndim * xichma ** 2))
+    # Right or wrong the original CEC logic doesn't set weight to 1 when the temp sum is 0
+    # instead set to a small value and calculate weight, will result
+    # similar to the original
+    temp = temp if temp != 0 else 1e-17
+    weight = np.sqrt(1.0 / temp) * np.exp(-temp / (2 * ndim * delta ** 2))
+
     return weight
 
 

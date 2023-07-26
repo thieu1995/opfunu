@@ -133,6 +133,13 @@ def test_F92022_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+def test_F92022_optimal_results():
+    ndim = 10
+    problem = opfunu.cec_based.F92022(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    # Original python version of CEC2022 produces optimal 2300.00000008 using x_global
+    assert abs(result - problem.f_global) <= problem.epsilon
 
 def test_F102022_results():
     ndim = 10

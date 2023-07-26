@@ -5,6 +5,8 @@
 # --------------------------------------------------%
 
 import numpy as np
+from opfunu.utils.operator import griewank_func
+
 from opfunu.cec_based.cec import CecBenchmark
 from opfunu.utils import operator
 
@@ -370,11 +372,8 @@ class F72005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        vt1 = np.sum(z ** 2) / 4000 + 1
-        results = [np.cos(z[idx] / np.sqrt(idx + 1)) for idx in range(0, ndim)]
-        return vt1 - np.sum(results) + self.f_bias
+        return griewank_func(z) + self.f_bias
 
 
 class F82005(CecBenchmark):
