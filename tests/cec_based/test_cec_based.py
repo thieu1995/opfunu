@@ -18,11 +18,13 @@ def test_whenEvaulateWith_x_global_then_f_global():
                      'F142017', 'F152017', 'F162017', 'F172017', 'F182017', 'F192017', 'F202017', 'F212017',
                      'F222017', 'F232017', 'F242017', 'F252017', 'F262017', 'F272017', 'F282017', 'F292017',
                      'F82017', 'F12019', 'F22019', 'F32019', 'F92019', 'F102020', 'F62020', 'F72020', 'F82020',
-                     'F92020', 'F102021', 'F62021', 'F72021', 'F82021', 'F92021', 'F102022', 'F112022',
-                     'F122022', 'F52022', 'F62022', 'F72022', 'F82022']
+                     'F92020']
     allFunctions = [x for x in get_all_cec_functions() if x.__name__ not in known_failing]
+    failing = []
     for f in allFunctions:
         f_default = f()
         x_global = f_default.x_global
-        assert abs(f_default.evaluate(x_global) - f_default.f_global) <= f_default.epsilon, \
-            f'{f.__name__} failed to have x_global result in f_global'
+        if abs(f_default.evaluate(x_global) - f_default.f_global) >= f_default.epsilon:
+            failing.append(f.__name__)
+    print(failing)
+    assert len(failing) == 0, f'{failing} failed to have x_global result in f_global'

@@ -334,10 +334,10 @@ class F62021(CecBenchmark):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
+        self.g1 = operator.expanded_schaffer_f6_func
+        self.g2 = operator.hgbat_cec_func
+        self.g3 = operator.rosenbrock_shifted_func
+        self.g4 = operator.modified_schwefel_f11_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -400,10 +400,10 @@ class F72021(CecBenchmark):
         self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
         self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
+        self.g1 = operator.expanded_schaffer_f6_func
+        self.g2 = operator.hgbat_cec_func
+        self.g3 = operator.rosenbrock_shifted_func
+        self.g4 = operator.modified_schwefel_f11_func
         self.g5 = operator.elliptic_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 

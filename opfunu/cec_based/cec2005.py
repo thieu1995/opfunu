@@ -755,7 +755,7 @@ class F142005(CecBenchmark):
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "f_matrix": self.f_matrix, "f_bias": self.f_bias}
-        self.fxy__ = operator.scaffer_func
+        self.fxy__ = operator.schaffer_func
 
     def evaluate(self, x, *args):
         self.n_fe += 1

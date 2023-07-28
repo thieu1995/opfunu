@@ -181,3 +181,38 @@ def test_F122022_results():
     assert len(problem.lb) == ndim
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
+
+def test_F102022_optimal_results():
+    ndim = 10
+    problem = opfunu.cec_based.F102022(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    # Original python version of CEC2022 produces optimal 2400 + 2.328169309779132e-16 using x_global
+    assert abs(result - problem.f_global) <= problem.epsilon
+
+def test_F122022_optimal_results():
+    ndim = 10
+    problem = opfunu.cec_based.F122022(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    # Original python version of CEC2022 produces optimal 2400 + 2.328169309779132e-16 using x_global
+    assert abs(result - problem.f_global) <= problem.epsilon
+
+def test_F82022_optimal_results():
+    ndim = 10
+    problem = opfunu.cec_based.F82022(ndim=ndim)
+    x = problem.x_global
+    result = problem.evaluate(x)
+    # Original python version of CEC2022 produces optimal 2400 + 2.328169309779132e-16 using x_global
+    assert abs(result - problem.f_global) <= problem.epsilon
+
+def test_all_optimal_results():
+    ndim = 10
+    known_failing = ['']
+    allFunctions = [x for x in opfunu.get_all_cec_functions()
+                    if x.__name__[-4:] == '2022' and x.__name__ not in known_failing]
+    for function in allFunctions:
+        problem = function(ndim=ndim)
+        x = problem.x_global
+        result = problem.evaluate(x)
+        assert abs(result - problem.f_global) <= problem.epsilon

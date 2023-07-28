@@ -136,12 +136,12 @@ class CecBenchmark(Benchmark, ABC):
             raise ValueError(f"m_group is positive integer!")
 
     def load_shift_data(self, filename=None):
-        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=np.double)
         return data.reshape((-1))
 
     def load_matrix_data(self, filename=None):
         try:
-            data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+            data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=np.double)
             return data
         except FileNotFoundError:
             print(f'The file named: {filename}.txt is not found.')
@@ -149,7 +149,7 @@ class CecBenchmark(Benchmark, ABC):
             exit(1)
 
     def load_shift_and_matrix_data(self, filename=None):
-        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=float)
+        data = np.genfromtxt(f"{self.support_path}/{filename}.txt", dtype=np.double)
         shift_data = data[:1, :].ravel()
         matrix_data = data[1:, :]
         return shift_data, matrix_data

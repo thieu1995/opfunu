@@ -706,8 +706,8 @@ class F202013(F32013):
         M1 = self.f_matrix[:self.ndim, :]
         M2 = self.f_matrix[self.ndim:2*self.ndim, :]
         z = np.dot(M2, operator.tasy_func(np.dot(M1, x - self.f_shift), beta=0.5))
-        results = [operator.scaffer_func([z[idx], z[idx+1]]) for idx in range(0, self.ndim-1)]
-        return np.sum(results) + operator.scaffer_func([z[-1], z[0]]) + self.f_bias
+        results = [operator.schaffer_func([z[idx], z[idx + 1]]) for idx in range(0, self.ndim - 1)]
+        return np.sum(results) + operator.schaffer_func([z[-1], z[0]]) + self.f_bias
 
 
 class F212013(CecBenchmark):
