@@ -149,7 +149,7 @@ def test_F102021_results():
 
 def test_all_optimal_results():
     ndim = 10
-    known_failing = ['']
+    known_failing = []
     allFunctions = [x for x in opfunu.get_all_cec_functions()
                     if x.__name__[-4:] == '2021' and x.__name__ not in known_failing]
     for function in allFunctions:
