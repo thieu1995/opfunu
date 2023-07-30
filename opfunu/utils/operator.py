@@ -31,24 +31,22 @@ def griewank_func(x):
 
 def rosenbrock_func(x):
     x = np.array(x).ravel()
-    diff = x[:-1] - x[1:]
-    return np.sum(100 * diff ** 2 + (x[:-1] - 1) ** 2)
+
+    term1 = 100 * (x[:-1] ** 2 - x[1:]) ** 2
+    term2 = (x[:-1] - 1) ** 2
+    return np.sum(term1 + term2)
 
 def rosenbrock_shifted_func(x):
     """
     This version shifts the optimum to the origin as CEC2021 version.
     """
     z = np.array(x).ravel()
-    nx = len(z)
 
     z += 1.0  # shift to origin
-    f = 0.0
+    term1 = 100 * (z[:-1] ** 2 - z[1:]) ** 2
+    term2 = (z[:-1] - 1) ** 2
+    return np.sum(term1 + term2)
 
-    for i in range(nx - 1):
-        tmp1 = z[i] ** 2 - z[i + 1]
-        tmp2 = z[i] - 1.0
-        f += 100.0 * tmp1 ** 2 + tmp2 ** 2
-    return f
 
 def schaffer_func(x):
     x = np.array(x).ravel()
