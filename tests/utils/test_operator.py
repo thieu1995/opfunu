@@ -2,7 +2,8 @@ import numpy as np
 import opfunu
 
 from opfunu.utils.operator import rosenbrock_func, elliptic_func, bent_cigar_func, discus_func, calculate_weight, \
-    griewank_func, rastrigin_func, schwefel_12_func, hgbat_func, calculate_weight_cec
+    griewank_func, rastrigin_func, schwefel_12_func, hgbat_func, calculate_weight_cec, lunacek_bi_rastrigin_func, \
+    lunacek_bi_rastrigin_gen_func
 
 
 def test_griewank_func_optimium_result():
@@ -44,6 +45,12 @@ def test_hgbat_func_optimum_result():
     ndim = 10
     x = np.ones(ndim) * -1.
     assert abs(hgbat_func(x) - 0) <= 1e-8
+
+def test_lunacek_bi_rastrigin_func_result():
+    ndim = 2
+    x = np.ones(ndim) * 2.5
+    assert abs(lunacek_bi_rastrigin_gen_func(x) - 0) <= 1e-8
+
 
 def test_compare_weight_calculation():
     delta = 20

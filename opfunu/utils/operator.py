@@ -109,8 +109,8 @@ def rotated_expanded_scaffer_func(x):
 
 def f8f2_func(x):
     x = np.array(x).ravel()
-    results = [griewank_func(rosenbrock_func([x[idx], x[idx + 1]])) for idx in range(0, len(x) - 1)]
-    return np.sum(results) + griewank_func(rosenbrock_func([x[-1], x[0]]))
+    results = [griewank_func(rosenbrock_shifted_func([x[idx], x[idx + 1]])) for idx in range(0, len(x) - 1)]
+    return np.sum(results) + griewank_func(rosenbrock_shifted_func([x[-1], x[0]]))
 
 
 def grie_rosen_cec_func(x):
@@ -287,6 +287,16 @@ def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
     result1 = min(temp1, temp2)
     return result1 + 10 * (ndim - np.sum(np.cos(2 * np.pi * z)))
 
+def lunacek_bi_rastrigin_gen_func(x, miu0=2.5, d=1):
+    x = np.array(x).ravel()
+    ndim = len(x)
+    s = 1.0 - 1.0 / (2 * np.sqrt(ndim + 20) - 8.2)
+    miu1 = -np.sqrt((miu0 ** 2 - d) / s)
+    delta_x_miu0 = x - miu0
+    term1 = np.sum(delta_x_miu0 ** 2)
+    term2 = np.sum((x - miu1) ** 2) * s + d * ndim
+    result = min(term1, term2) + 10 * (ndim - np.sum(np.cos(2*np.pi*delta_x_miu0)))
+    return result
 
 def calculate_weight(x, delta=1.):
     ndim = len(x)
