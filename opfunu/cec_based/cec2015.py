@@ -197,7 +197,7 @@ class F62015(F12015):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
-        return operator.happy_cat_func(z) + self.f_bias
+        return operator.happy_cat_shifted_func(z) + self.f_bias
 
 class F72015(F12015):
     """
@@ -224,7 +224,7 @@ class F72015(F12015):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
-        return operator.hgbat_func(z) + self.f_bias
+        return operator.hgbat_shifted_func(z) + self.f_bias
 
 
 class F82015(F12015):
@@ -251,7 +251,7 @@ class F82015(F12015):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5.*(x - self.f_shift)/100) + 1.0
+        z = np.dot(self.f_matrix, 5.*(x - self.f_shift)/100)
         return operator.expanded_griewank_rosenbrock_func(z) + self.f_bias
 
 
@@ -373,7 +373,7 @@ class F112015(F102015):
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
         self.g1 = operator.griewank_func
         self.g2 = operator.weierstrass_func
-        self.g3 = operator.rosenbrock_func
+        self.g3 = operator.rosenbrock_shifted_func
         self.g4 = operator.expanded_scaffer_f6_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
@@ -409,7 +409,7 @@ class F122015(F102015):
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4, self.idx5 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
         self.g1 = operator.katsuura_func
-        self.g2 = operator.happy_cat_func
+        self.g2 = operator.happy_cat_shifted_func
         self.g3 = operator.expanded_griewank_rosenbrock_func
         self.g4 = operator.modified_schwefel_func
         self.g5 = operator.ackley_func
@@ -470,7 +470,7 @@ class F132015(CecBenchmark):
         self.xichmas = [10, 20, 30, 40, 50]
         self.lamdas = [1., 1e-6, 1e-26, 1e-6, 1e-6]
         self.bias = [0, 100, 200, 300, 400]
-        self.g0 = operator.rosenbrock_func
+        self.g0 = operator.rosenbrock_shifted_func
         self.g1 = operator.elliptic_func
         self.g2 = operator.bent_cigar_func
         self.g3 = operator.discus_func
@@ -596,7 +596,7 @@ class F152015(CecBenchmark):
         self.xichmas = [10, 10, 10, 20, 20]
         self.lamdas = [10, 10, 2.5, 25, 1e-6]
         self.bias = [0, 100, 200, 300, 400]
-        self.g0 = operator.hgbat_func
+        self.g0 = operator.hgbat_shifted_func
         self.g1 = operator.rastrigin_func
         self.g2 = operator.modified_schwefel_func
         self.g3 = operator.weierstrass_func
