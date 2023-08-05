@@ -506,7 +506,7 @@ class F142013(F12013):
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
         z = np.dot(alpha, 1000*(x - self.f_shift)/100) + 4.209687462275036e+002
-        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+        return 4.189828872724338e+002 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
 
 
 class F152013(F22013):
@@ -539,7 +539,7 @@ class F152013(F22013):
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
         z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100) + 4.209687462275036e+002
-        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+        return 4.189828872724338e+002 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
 
 
 class F162013(F32013):
@@ -673,9 +673,9 @@ class F192013(F22013):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100) + 1
-        results = [operator.griewank_func(operator.rosenbrock_func([z[idx], z[idx+1]])) for idx in range(0, self.ndim-1)]
-        return np.sum(results) + operator.griewank_func(operator.rosenbrock_func([z[-1], z[0]])) + self.f_bias
+        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
+        results = [operator.griewank_func(operator.rosenbrock_shifted_func([z[idx], z[idx+1]])) for idx in range(0, self.ndim-1)]
+        return np.sum(results) + operator.griewank_func(operator.rosenbrock_shifted_func([z[-1], z[0]])) + self.f_bias
 
 
 class F202013(F32013):
