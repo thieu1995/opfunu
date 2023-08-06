@@ -213,7 +213,7 @@ class F42020(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5. * (x - self.f_shift) / 100) + 1
+        z = np.dot(self.f_matrix, 5. * (x - self.f_shift) / 100)
         return operator.expanded_griewank_rosenbrock_func(z) + self.f_bias
 
 
