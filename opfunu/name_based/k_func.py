@@ -43,12 +43,12 @@ class Katsuura(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 32
+    ndim_max = 32
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = True
-        self.dim_min = 32
-        self.dim_max = 32
         self.dim_default = 32
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 100.] for _ in range(self.dim_default)]))
         self.f_global = 1.
@@ -92,11 +92,11 @@ class Keane(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
-        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[0., 10.] for _ in range(self.dim_default)]))
         self.f_global = 0.

@@ -43,7 +43,8 @@ class Langermann(Benchmark):
     randomized_term = False
     parametric = False
 
-    modality = True  # Number of ambiguous peaks, unknown # peaks
+    modality = True  # Number of ambiguous peaks, unknown #
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
@@ -106,12 +107,12 @@ class LennardJones(Benchmark):
     parametric = False
 
     modality = True  # Number of ambiguous peaks, unknown # peaks
+    ndim_min = 6
+    ndim_max = 60
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = True
-        self.dim_min = 6
-        self.dim_max = 60
         self.dim_default = 6
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-4., 1.] for _ in range(self.dim_default)]))
         self.minima = [-1.0, -3.0, -6.0, -9.103852, -12.712062,
@@ -171,11 +172,11 @@ class Leon(Benchmark):
     parametric = False
 
     modality = False  # Number of ambiguous peaks, unknown # peaks
+    ndim_max = 2
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
         self.dim_changeable = False
-        self.dim_max = 2
         self.dim_default = 2
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-1.2, 1.2] for _ in range(self.dim_default)]))
         self.f_global = 0.0
