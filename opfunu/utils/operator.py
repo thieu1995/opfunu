@@ -106,10 +106,14 @@ def sphere_func(x):
     return np.sum(x ** 2)
 
 
-def rotated_expanded_scaffer_func(x):
-    x = np.array(x).ravel()
-    results = [schaffer_func([x[idx], x[idx + 1]]) for idx in range(0, len(x) - 1)]
-    return np.sum(results) + schaffer_func([x[-1], x[0]])
+def rotated_expanded_schaffer_func(x):
+    x = np.asarray(x).ravel()
+    x_pairs = np.column_stack((x, np.roll(x, -1)))
+    sum_sq = x_pairs[:, 0] ** 2 + x_pairs[:, 1] ** 2
+    # Calculate the Schaffer function for all pairs simultaneously
+    schaffer_values = (0.5 + (np.sin(np.sqrt(sum_sq)) ** 2 - 0.5) /
+                       (1 + 0.001 * sum_sq) ** 2)
+    return np.sum(schaffer_values)
 
 
 def f8f2_func(x):
@@ -461,4 +465,4 @@ def lennard_jones_minimum_energy_cluster_func(x):
 
 
 expanded_griewank_rosenbrock_func = f8f2_func
-expanded_scaffer_f6_func = rotated_expanded_scaffer_func
+expanded_scaffer_f6_func = rotated_expanded_schaffer_func

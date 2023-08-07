@@ -1146,7 +1146,7 @@ class F212005(CecBenchmark):
 
     def fi__(self, x, idx):
         if idx == 0 or idx == 1:
-            return operator.rotated_expanded_scaffer_func(x)
+            return operator.rotated_expanded_schaffer_func(x)
         elif idx == 2 or idx == 3:
             return operator.rastrigin_func(x)
         elif idx == 4 or idx == 5:
@@ -1289,7 +1289,7 @@ class F242005(CecBenchmark):
         if idx == 0:
             return operator.weierstrass_norm_func(x)
         elif idx == 1:
-            return operator.rotated_expanded_scaffer_func(x)
+            return operator.rotated_expanded_schaffer_func(x)
         elif idx == 2:
             return operator.f8f2_func(x)
         elif idx == 3:
