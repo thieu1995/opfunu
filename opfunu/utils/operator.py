@@ -368,9 +368,10 @@ def hgbat_shifted_func(x):
 
 
 def zakharov_func(x):
-    x = np.array(x).ravel()
-    temp = np.sum(0.5 * x)
-    return np.sum(x ** 2) + temp ** 2 + temp ** 4
+    z = np.array(x).ravel()
+    idx = np.arange(1, len(z) + 1)
+    temp = 0.5 * np.sum(idx * z)
+    return np.sum(z ** 2) + temp ** 2 + temp ** 4
 
 
 def levy_func(x):
