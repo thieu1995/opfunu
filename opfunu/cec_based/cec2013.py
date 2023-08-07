@@ -336,7 +336,7 @@ class F92013(F32013):
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
         temp = operator.tasy_func(np.dot(M1, 0.5*(x - self.f_shift)/100), beta=0.5)
         z = np.dot(np.matmul(alpha, M2), temp)
-        return operator.weierstrass_func(z, a=0.5, b=3., k_max=20) + self.f_bias
+        return operator.weierstrass_norm_func(z, a=0.5, b=3., k_max=20) + self.f_bias
 
 
 class F102013(F22013):

@@ -24,14 +24,14 @@ def rounder(x, condition):
 
 def griewank_func(x):
     x = np.array(x).ravel()
+    idx = np.arange(1, len(x) + 1)
     t1 = np.sum(x ** 2) / 4000
-    t2 = np.prod([np.cos(x[idx] / np.sqrt(idx + 1)) for idx in range(0, len(x))])
+    t2 = np.prod(np.cos(x / np.sqrt(idx)))
     return t1 - t2 + 1
 
 
 def rosenbrock_func(x):
     x = np.array(x).ravel()
-
     term1 = 100 * (x[:-1] ** 2 - x[1:]) ** 2
     term2 = (x[:-1] - 1) ** 2
     return np.sum(term1 + term2)
@@ -42,7 +42,6 @@ def rosenbrock_shifted_func(x):
     This version shifts the optimum to the origin as CEC2021 version.
     """
     z = np.array(x).ravel()
-
     z += 1.0  # shift to origin
     term1 = 100 * (z[:-1] ** 2 - z[1:]) ** 2
     term2 = (z[:-1] - 1) ** 2
@@ -78,14 +77,20 @@ def rastrigin_func(x):
     return np.sum(x ** 2 - 10 * np.cos(2 * np.pi * x) + 10)
 
 
+def weierstrass_norm_func(x, a=0.5, b=3., k_max=20):
+    """
+    This function matches CEC2005 description of F11 except for addition of the bias and follows the C implementation
+    """
+    return weierstrass_func(x, a, b, k_max) - weierstrass_func(np.zeros(len(x)), a, b, k_max)
+
+
 def weierstrass_func(x, a=0.5, b=3., k_max=20):
+    """ Conversion from CEC2005 C-Code """
     x = np.array(x).ravel()
-    ndim = len(x)
     k = np.arange(0, k_max + 1)
-    result = 0
-    for idx in range(0, ndim):
-        result += np.sum(a ** k * np.cos(2 * np.pi * b ** k * (x[idx] + 0.5)))
-    return result - ndim * np.sum(a ** k * np.cos(np.pi * b ** k))
+    cos_term = np.cos(2 * np.pi * b ** k * (x[:, np.newaxis] + 0.5))
+    term_sum = np.sum(a ** k * cos_term, axis=1)
+    return np.sum(term_sum)
 
 
 def ackley_func(x):

@@ -257,7 +257,7 @@ class F62019(F42019):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
-        return operator.weierstrass_func(z) + self.f_bias
+        return operator.weierstrass_norm_func(z) + self.f_bias
 
 
 class F72019(F42019):

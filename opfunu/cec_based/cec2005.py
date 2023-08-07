@@ -591,12 +591,8 @@ class F112005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        k = np.arange(0, self.k_max+1)
-        result1 = [np.sum(self.a**k * np.cos(2*np.pi*self.b**k*(z[idx] + 0.5))) for idx in range(0, ndim)]
-        result2 = ndim * np.sum(self.a**k * np.cos(np.pi*self.b**k))
-        return np.sum(result1) - result2 + self.f_bias
+        return operator.weierstrass_norm_func(z, self.a, self.b, self.k_max) + self.f_bias
 
 
 class F122005(CecBenchmark):
@@ -820,7 +816,7 @@ class F152005(CecBenchmark):
         if idx == 0 or idx == 1:
             return operator.rastrigin_func(x)
         elif idx == 2 or idx == 3:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 4 or idx == 5:
             return operator.griewank_func(x)
         elif idx == 6 or idx == 7:
@@ -904,7 +900,7 @@ class F162005(CecBenchmark):
         if idx == 0 or idx == 1:
             return operator.rastrigin_func(x)
         elif idx == 2 or idx == 3:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 4 or idx == 5:
             return operator.griewank_func(x)
         elif idx == 6 or idx == 7:
@@ -1030,7 +1026,7 @@ class F182005(CecBenchmark):
         elif idx == 4 or idx == 5:
             return operator.sphere_func(x)
         elif idx == 6 or idx == 7:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         else:
             return operator.griewank_func(x)
 
@@ -1156,7 +1152,7 @@ class F212005(CecBenchmark):
         elif idx == 4 or idx == 5:
             return operator.f8f2_func(x)
         elif idx == 6 or idx == 7:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         else:
             return operator.griewank_func(x)
 
@@ -1291,7 +1287,7 @@ class F242005(CecBenchmark):
 
     def fi__(self, x, idx):
         if idx == 0:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 1:
             return operator.rotated_expanded_scaffer_func(x)
         elif idx == 2:

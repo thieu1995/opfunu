@@ -604,7 +604,7 @@ class F182017(F102017):
         self.g1 = operator.bent_cigar_func
         self.g2 = operator.rastrigin_func
         self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.weierstrass_func
+        self.g4 = operator.weierstrass_norm_func
         self.g5 = operator.expanded_scaffer_f6_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 

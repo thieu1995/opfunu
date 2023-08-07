@@ -188,7 +188,7 @@ class F62014(F12014):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 0.5*(x - self.f_shift)/100)
-        return operator.weierstrass_func(z) + self.f_bias
+        return operator.weierstrass_norm_func(z) + self.f_bias
 
 
 class F72014(F12014):
@@ -650,7 +650,7 @@ class F192014(F172014):
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
         self.g1 = operator.griewank_func
-        self.g2 = operator.weierstrass_func
+        self.g2 = operator.weierstrass_norm_func
         self.g3 = operator.rosenbrock_shifted_func
         self.g4 = operator.expanded_scaffer_f6_func
 
