@@ -1150,7 +1150,7 @@ class F212005(CecBenchmark):
         elif idx == 2 or idx == 3:
             return operator.rastrigin_func(x)
         elif idx == 4 or idx == 5:
-            return operator.f8f2_func(x)
+            return operator.grie_rosen_cec_func(x)
         elif idx == 6 or idx == 7:
             return operator.weierstrass_norm_func(x)
         else:
@@ -1291,7 +1291,7 @@ class F242005(CecBenchmark):
         elif idx == 1:
             return operator.rotated_expanded_schaffer_func(x)
         elif idx == 2:
-            return operator.f8f2_func(x)
+            return operator.grie_rosen_cec_func(x)
         elif idx == 3:
             return operator.ackley_func(x)
         elif idx == 4:

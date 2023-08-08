@@ -108,7 +108,7 @@ class F32022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 0.5*(x - self.f_shift)/100)
-        return operator.expanded_scaffer_f6_func(z) + self.f_bias
+        return operator.rotated_expanded_schaffer_func(z) + self.f_bias
 
 
 class F42022(F12022):
@@ -134,7 +134,7 @@ class F42022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.expanded_scaffer_f6_func(z) + self.f_bias
+        return operator.rotated_expanded_schaffer_func(z) + self.f_bias
 
 
 class F52022(F12022):
@@ -160,7 +160,7 @@ class F52022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.levy_cec_func(z) + self.f_bias
+        return operator.levy_func(z) + self.f_bias
 
 
 class F62022(CecBenchmark):
@@ -579,7 +579,7 @@ class F112022(CecBenchmark):
         self.xichmas = [20, 20, 30, 30, 20]
         self.lamdas = [1e-26, 10, 1e-6, 10, 5e-4]
         self.bias = [0, 200, 300, 400, 200]
-        self.g0 = operator.expanded_scaffer_f6_func
+        self.g0 = operator.rotated_expanded_schaffer_func
         self.g1 = operator.modified_schwefel_func
         self.g2 = operator.griewank_func
         self.g3 = operator.rosenbrock_func
@@ -672,7 +672,7 @@ class F122022(CecBenchmark):
         self.g2 = operator.modified_schwefel_func
         self.g3 = operator.bent_cigar_func
         self.g4 = operator.elliptic_func
-        self.g5 = operator.expanded_scaffer_f6_func
+        self.g5 = operator.rotated_expanded_schaffer_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
 
     def evaluate(self, x, *args):

@@ -247,7 +247,7 @@ class F82017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.levy_cec_func(z) + self.f_bias
+        return operator.levy_func(z) + self.f_bias
 
 
 class F92017(F12017):

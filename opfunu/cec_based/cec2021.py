@@ -337,7 +337,7 @@ class F62021(CecBenchmark):
         self.g1 = operator.expanded_schaffer_f6_func
         self.g2 = operator.hgbat_shifted_func
         self.g3 = operator.rosenbrock_shifted_func
-        self.g4 = operator.modified_schwefel_f11_func
+        self.g4 = operator.modified_schwefel_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -403,7 +403,7 @@ class F72021(CecBenchmark):
         self.g1 = operator.expanded_schaffer_f6_func
         self.g2 = operator.hgbat_shifted_func
         self.g3 = operator.rosenbrock_shifted_func
-        self.g4 = operator.modified_schwefel_f11_func
+        self.g4 = operator.modified_schwefel_func
         self.g5 = operator.elliptic_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
