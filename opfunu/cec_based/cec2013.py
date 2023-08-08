@@ -55,7 +55,7 @@ class F12013(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return np.sum((x - self.f_shift) ** 2) + self.f_bias
+        return operator.sphere_func(x - self.f_shift) + self.f_bias
 
 
 class F22013(CecBenchmark):
@@ -499,14 +499,13 @@ class F142013(F12013):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data", f_bias=-100.):
         super().__init__(ndim, bounds, f_shift, f_bias)
-        self.epsilon = 1e-3  # reduced epsilon due to f_global precision
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
-        z = np.dot(alpha, 1000*(x - self.f_shift)/100) + 4.209687462275036e+002
-        return 4.189828872724338e+002 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+        z = np.dot(alpha, 1000*(x - self.f_shift)/100)
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 
 class F152013(F22013):
@@ -538,9 +537,8 @@ class F152013(F22013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
-        z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100) + 4.209687462275036e+002
-        return 4.189828872724338e+002 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
-
+        z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100)
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 class F162013(F32013):
     """
@@ -668,9 +666,7 @@ class F192013(F22013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
-        results = [operator.griewank_func(operator.rosenbrock_shifted_func([z[idx], z[idx+1]])) for idx in range(0, self.ndim-1)]
-        return np.sum(results) + operator.griewank_func(operator.rosenbrock_shifted_func([z[-1], z[0]])) + self.f_bias
-
+        return operator.grie_rosen_cec_func(z) + self.f_bias
 
 class F202013(F32013):
     """
@@ -700,8 +696,7 @@ class F202013(F32013):
         M1 = self.f_matrix[:self.ndim, :]
         M2 = self.f_matrix[self.ndim:2*self.ndim, :]
         z = np.dot(M2, operator.tasy_func(np.dot(M1, x - self.f_shift), beta=0.5))
-        results = [operator.schaffer_func([z[idx], z[idx + 1]]) for idx in range(0, self.ndim - 1)]
-        return np.sum(results) + operator.schaffer_func([z[-1], z[0]]) + self.f_bias
+        return operator.expanded_scaffer_f6_func(z) + self.f_bias
 
 
 class F212013(CecBenchmark):
