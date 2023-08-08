@@ -389,7 +389,7 @@ class F122017(F102017):
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
         self.g1 = operator.bent_cigar_func
         self.g2 = operator.rosenbrock_shifted_func
-        self.g3 = operator.lunacek_bi_rastrigin_gen_func
+        self.g3 = operator.lunacek_bi_rastrigin_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):

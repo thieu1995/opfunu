@@ -604,11 +604,9 @@ class F172013(F12013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
-        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
         y = 10.0*(x - self.f_shift)/100
         x_hat = 2*np.sign(self.f_shift)*y + miu0
-        z = np.dot(alpha, x_hat - miu0)
-        return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
 
 
 class F182013(F32013):
@@ -640,13 +638,9 @@ class F182013(F32013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
-        M1 = self.f_matrix[:self.ndim, :]
-        M2 = self.f_matrix[self.ndim:2*self.ndim, :]
-        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
         y = 10.0*(x - self.f_shift)/100
         x_hat = 2*np.sign(y)*y + miu0
-        z = np.dot(np.matmul(M2, alpha), np.dot(M1, x_hat - miu0))
-        return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
 
 
 class F192013(F22013):
