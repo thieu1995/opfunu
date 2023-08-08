@@ -110,7 +110,7 @@ class F22020(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 1000.*(x - self.f_shift)/100)
-        return operator.bent_cigar_func(z) + self.f_bias
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 
 class F32020(CecBenchmark):
@@ -162,7 +162,7 @@ class F32020(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.bent_cigar_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_shifted_func(z) + self.f_bias
 
 
 class F42020(CecBenchmark):
@@ -170,7 +170,7 @@ class F42020(CecBenchmark):
     .. [1] Problem Definitions and Evaluation Criteria for the CEC 2020
     Special Session and Competition on Single Objective Bound Constrained Numerical Optimization
     """
-    name = "F4: Expanded Rosenbrock’s plus Griewangk’s Function (F15 CEC-2014)"
+    name = "F4: Expanded Rosenbrock’s plus Griewank’s Function (F15 CEC-2014)"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
     latex_formula_dimension = r'2 <= D <= 100'
     latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'

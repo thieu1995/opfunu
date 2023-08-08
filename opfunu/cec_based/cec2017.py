@@ -109,8 +109,8 @@ class F32017(F12017):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100) + 1
-        return operator.rosenbrock_func(z) + self.f_bias
+        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100)
+        return operator.rosenbrock_shifted_func(z) + self.f_bias
 
 
 class F42017(F12017):
