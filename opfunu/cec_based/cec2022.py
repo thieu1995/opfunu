@@ -134,7 +134,7 @@ class F42022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.rotated_expanded_schaffer_func(z) + self.f_bias
+        return operator.non_continuous_rastrigin_func(z) + self.f_bias
 
 
 class F52022(F12022):
