@@ -120,6 +120,10 @@ def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1):
     return result
 
 
+def lunacek_bi_rastrigin_shifted_func(x, miu0=2.5, d=1):
+    x = np.array(x).ravel()
+    return lunacek_bi_rastrigin_func(x + miu0, miu0, d)
+
 def non_continuous_rastrigin_func(x):
     x = np.array(x).ravel()
     y = rounder(x, np.abs(x))

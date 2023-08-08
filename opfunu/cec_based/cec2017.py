@@ -194,7 +194,7 @@ class F62017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.schaffer_f7_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_shifted_func(z) + self.f_bias
 
 
 class F72017(F12017):
@@ -222,7 +222,7 @@ class F72017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.schaffer_f7_func(z) + self.f_bias
+        return operator.non_continuous_rastrigin_func(z) + self.f_bias
 
 
 class F82017(F12017):
