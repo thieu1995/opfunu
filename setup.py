@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords=["optimization functions", "test functions", "benchmark functions", "mathematical functions",
               "CEC competitions", "CEC-2008", "CEC-2009", "CEC-2010", "CEC-2011", "CEC-2012", "CEC-2013",
-              "CEC-2014", "CEC-2015", "CEC-2017", "CEC-2019", "CEC-2020", "CEC-2021", "CEC-2023", "soft computing",
+              "CEC-2014", "CEC-2015", "CEC-2017", "CEC-2019", "CEC-2020", "CEC-2021", "CEC-2022", "soft computing",
               "Stochastic optimization", "Global optimization", "Convergence analysis", "Search space exploration",
               "Local search", "Computational intelligence", "Performance analysis",
               "Exploration versus exploitation", "Constrained optimization", "Simulations"],

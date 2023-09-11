@@ -66,13 +66,38 @@ def sphere_func(x):
     x = np.array(x).ravel()
     return np.sum(x ** 2)
 
-
+def rotated_expanded_schaffer_func(x):
+    x = np.asarray(x).ravel()
+    x_pairs = np.column_stack((x, np.roll(x, -1)))
+    sum_sq = x_pairs[:, 0] ** 2 + x_pairs[:, 1] ** 2
+    # Calculate the Schaffer function for all pairs simultaneously
+    schaffer_values = (0.5 + (np.sin(np.sqrt(sum_sq)) ** 2 - 0.5) /
+                       (1 + 0.001 * sum_sq) ** 2)
+    return np.sum(schaffer_values)
+	
 def rotated_expanded_scaffer_func(x):
     x = np.array(x).ravel()
     results = [scaffer_func([x[idx], x[idx + 1]]) for idx in range(0, len(x) - 1)]
     return np.sum(results) + scaffer_func([x[-1], x[0]])
 
 
+def grie_rosen_cec_func(x):
+    """This is based on the CEC version which unrolls the griewank and rosenbrock functions for better performance"""
+    z = np.array(x).ravel()
+    z += 1.0  # This centers the optimal solution of rosenbrock to 0
+
+    tmp1 = (z[:-1] * z[:-1] - z[1:]) ** 2
+    tmp2 = (z[:-1] - 1.0) ** 2
+    temp = 100.0 * tmp1 + tmp2
+    f = np.sum(temp ** 2 / 4000.0 - np.cos(temp) + 1.0)
+    # Last calculation
+    tmp1 = (z[-1] * z[-1] - z[0]) ** 2
+    tmp2 = (z[-1] - 1.0) ** 2
+    temp = 100.0 * tmp1 + tmp2
+    f += (temp ** 2) / 4000.0 - np.cos(temp) + 1.0
+
+    return f
+	
 def f8f2_func(x):
     x = np.array(x).ravel()
     results = [griewank_func(rosenbrock_func([x[idx], x[idx + 1]])) for idx in range(0, len(x) - 1)]
@@ -232,28 +257,49 @@ def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
     return result1 + 10 * (ndim - np.sum(np.cos(2 * np.pi * z)))
 
 
-def calculate_weight(x, xichma=1.):
+def calculate_weight(x, delta=1.):
     ndim = len(x)
-    weight = 1
     temp = np.sum(x ** 2)
     if temp != 0:
-        weight = (1.0 / np.sqrt(temp)) * np.exp(-temp / (2 * ndim * xichma ** 2))
+        weight = np.sqrt(1.0 / temp) * np.exp(-temp / (2 * ndim * delta ** 2))
+    else:
+        weight = 1e99  # this is the INF definition in original CEC Calculate logic
+
     return weight
 
 
 def modified_schwefel_func(x):
-    x = np.array(x).ravel()
-    ndim = len(x)
-    z = x + 4.209687462275036e+002
-    return 418.9829 * ndim - np.sum(gz_func(z))
+    """
+        This is a direct conversion of the CEC2021 C-Code for the Modified Schwefel F11 Function
+    """
+    z = np.array(x).ravel() + 4.209687462275036e+002
+    nx = len(z)
+
+    mask1 = z > 500
+    mask2 = z < -500
+    mask3 = ~mask1 & ~mask2
+    fx = np.zeros(nx)
+    fx[mask1] -= (500.0 + np.fmod(np.abs(z[mask1]), 500)) * np.sin(np.sqrt(500.0 - np.fmod(np.abs(z[mask1]), 500))) - (
+                (z[mask1] - 500.0) / 100.) ** 2 / nx
+    fx[mask2] -= (-500.0 + np.fmod(np.abs(z[mask2]), 500)) * np.sin(np.sqrt(500.0 - np.fmod(np.abs(z[mask2]), 500))) - (
+                (z[mask2] + 500.0) / 100.) ** 2 / nx
+    fx[mask3] -= z[mask3] * np.sin(np.sqrt(np.abs(z[mask3])))
+
+    return np.sum(fx) + 4.189828872724338e+002 * nx
+
 
 
 def happy_cat_func(x):
-    x = np.array(x).ravel()
-    ndim = len(x)
-    t1 = np.sum(x)
-    t2 = np.sum(x ** 2)
+    z = np.array(x).ravel()
+    ndim = len(z)
+    t1 = np.sum(z)
+    t2 = np.sum(z ** 2)
     return np.abs(t2 - ndim) ** 0.25 + (0.5 * t2 + t1) / ndim + 0.5
+
+
+def happy_cat_shifted_func(x):
+    return happy_cat_func(x - 1.0)
+
 
 
 def hgbat_func(x):
@@ -264,19 +310,22 @@ def hgbat_func(x):
     return np.abs(t2 ** 2 - t1 ** 2) ** 0.5 + (0.5 * t2 + t1) / ndim + 0.5
 
 
+def hgbat_shifted_func(x):
+    return hgbat_func(x - 1.0)
+
+
+
 def zakharov_func(x):
     x = np.array(x).ravel()
     temp = np.sum(0.5 * x)
     return np.sum(x ** 2) + temp ** 2 + temp ** 4
 
-
 def levy_func(x):
     x = np.array(x).ravel()
-    w = 1 + (x - 1) / 4
+    w = 1. + x / 4
     t1 = np.sin(np.pi * w[0]) ** 2 + (w[-1] - 1) ** 2 * (1 + np.sin(2 * np.pi * w[-1]) ** 2)
     t2 = np.sum((w[:-1] - 1) ** 2 * (1 + 10 * np.sin(np.pi * w[:-1] + 1) ** 2))
     return t1 + t2
-
 
 def schaffer_f7_func(x):
     x = np.array(x).ravel()
