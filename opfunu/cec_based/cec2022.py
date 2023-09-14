@@ -108,7 +108,7 @@ class F32022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 0.5*(x - self.f_shift)/100)
-        return operator.expanded_scaffer_f6_func(z) + self.f_bias
+        return operator.rotated_expanded_schaffer_func(z) + self.f_bias
 
 
 class F42022(F12022):
@@ -134,7 +134,7 @@ class F42022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.expanded_scaffer_f6_func(z) + self.f_bias
+        return operator.non_continuous_rastrigin_func(z) + self.f_bias
 
 
 class F52022(F12022):
@@ -160,7 +160,7 @@ class F52022(F12022):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.levy_func(z) + self.f_bias
+        return operator.levy_func(z, shift=1.0) + self.f_bias
 
 
 class F62022(CecBenchmark):
@@ -213,9 +213,6 @@ class F62022(CecBenchmark):
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
-        self.g1 = operator.bent_cigar_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rastrigin_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -224,7 +221,9 @@ class F62022(CecBenchmark):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:]) + self.f_bias
+        return (operator.bent_cigar_func(mz[:self.n1]) +
+                operator.hgbat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.rastrigin_func(mz[self.n2:]) + self.f_bias)
 
 
 class F72022(CecBenchmark):
@@ -281,12 +280,6 @@ class F72022(CecBenchmark):
         self.n5 = int(np.ceil(self.p[4] * self.ndim)) + self.n4
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
         self.idx4, self.idx5, self.idx6 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.n5], self.f_shuffle[self.n5:self.ndim]
-        self.g1 = operator.hgbat_func
-        self.g2 = operator.katsuura_func
-        self.g3 = operator.ackley_func
-        self.g4 = operator.rastrigin_func
-        self.g5 = operator.modified_schwefel_func
-        self.g6 = operator.schaffer_f7_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -295,8 +288,12 @@ class F72022(CecBenchmark):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5], z[self.idx6]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) + \
-               self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:self.n5]) + self.g6(mz[self.n5:self.ndim]) + self.f_bias
+        return (operator.hgbat_func(mz[:self.n1], shift=-1.0) +
+                operator.katsuura_func(mz[self.n1:self.n2]) +
+                operator.ackley_func(mz[self.n2:self.n3]) +
+                operator.rastrigin_func(mz[self.n3:self.n4]) +
+                operator.modified_schwefel_func(mz[self.n4:self.n5]) +
+                operator.schaffer_f7_func(mz[self.n5:self.ndim]) + self.f_bias)
 
 
 class F82022(CecBenchmark):
@@ -352,11 +349,6 @@ class F82022(CecBenchmark):
         self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
         self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
-        self.g1 = operator.katsuura_func
-        self.g2 = operator.happy_cat_func
-        self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
-        self.g5 = operator.ackley_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -365,8 +357,11 @@ class F82022(CecBenchmark):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) + \
-               self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:self.ndim]) + self.f_bias
+        return (operator.katsuura_func(mz[:self.n1]) +
+                operator.happy_cat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.grie_rosen_cec_func(mz[self.n2:self.n3]) +
+                operator.modified_schwefel_func(mz[self.n3:self.n4]) +
+                operator.ackley_func(mz[self.n4:self.ndim]) + self.f_bias)
 
 
 class F92022(CecBenchmark):
@@ -412,7 +407,7 @@ class F92022(CecBenchmark):
         self.f_global = f_bias
         self.x_global = self.f_shift[0]
         self.n_funcs = 5
-        self.xichmas = [10, 20, 30, 40, 50]
+        self.xichmas = [10, 20, 30, 40, 50] # aka delta in original CEC2022 logic
         self.lamdas = [1, 1e-6, 1e-6, 1e-6, 1e-6]
         self.bias = [0, 200, 300, 100, 400]
         self.g0 = operator.rosenbrock_func
@@ -503,9 +498,6 @@ class F102022(CecBenchmark):
         self.xichmas = [20, 10, 10]
         self.lamdas = [1, 1, 1]
         self.bias = [0, 200, 100]
-        self.g0 = operator.modified_schwefel_func
-        self.g1 = operator.rastrigin_func
-        self.g2 = operator.hgbat_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
 
     def evaluate(self, x, *args):
@@ -513,18 +505,18 @@ class F102022(CecBenchmark):
         self.check_solution(x, self.dim_max, self.dim_supported)
 
         # 1. Rotated Schwefel's Function f12
-        z0 = np.dot(self.f_matrix[:self.ndim, :], 1000.*(x - self.f_shift[0])/100) + 1
-        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        z0 = np.dot(self.f_matrix[:self.ndim, :], (1000./100)*(x - self.f_shift[0]))
+        g0 = self.lamdas[0] * operator.modified_schwefel_func(z0) + self.bias[0]
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Rotated Rastrigin’s Function f4
-        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[0])/100)
-        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], (5.12/100)*(x - self.f_shift[0]))
+        g1 = self.lamdas[1] * operator.rastrigin_func(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. HGBat Function f7
-        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 5*(x - self.f_shift[0])/100)
-        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], (5/100)*(x - self.f_shift[0]))
+        g2 = self.lamdas[2] * operator.hgbat_func(z2, shift=-1.0) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         ws = np.array([w0, w1, w2])
@@ -579,7 +571,7 @@ class F112022(CecBenchmark):
         self.xichmas = [20, 20, 30, 30, 20]
         self.lamdas = [1e-26, 10, 1e-6, 10, 5e-4]
         self.bias = [0, 200, 300, 400, 200]
-        self.g0 = operator.expanded_scaffer_f6_func
+        self.g0 = operator.rotated_expanded_schaffer_func
         self.g1 = operator.modified_schwefel_func
         self.g2 = operator.griewank_func
         self.g3 = operator.rosenbrock_func
@@ -667,12 +659,6 @@ class F122022(CecBenchmark):
         self.xichmas = [10, 20, 30, 40, 50, 60]
         self.lamdas = [10, 10, 2.5, 1e-26, 1e-6, 5e-4]
         self.bias = [0, 300, 500, 100, 400, 200]
-        self.g0 = operator.hgbat_func
-        self.g1 = operator.rastrigin_func
-        self.g2 = operator.modified_schwefel_func
-        self.g3 = operator.bent_cigar_func
-        self.g4 = operator.elliptic_func
-        self.g5 = operator.expanded_scaffer_f6_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
 
     def evaluate(self, x, *args):
@@ -681,32 +667,32 @@ class F122022(CecBenchmark):
 
         # 1. HGBat Function f7
         z0 = np.dot(self.f_matrix[:self.ndim, :], 5.*(x - self.f_shift[0])/100)
-        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        g0 = self.lamdas[0] * operator.hgbat_func(z0, shift=-1.0) + self.bias[0]
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Rastrigin’s Function f4
         z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[0])/100)
-        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        g1 = self.lamdas[1] * operator.rastrigin_func(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Modified Schwefel's Function f12
         z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 1000.*(x - self.f_shift[0])/100)
-        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        g2 = self.lamdas[2] * operator.modified_schwefel_func(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Bent Cigar Function f6
         z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[0])
-        g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
+        g3 = self.lamdas[3] * operator.bent_cigar_func(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5.  High Conditioned Elliptic Function f8
         z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[0])
-        g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
+        g4 = self.lamdas[4] * operator.elliptic_func(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
         # 6.  Expanded Schaffer’s F6 Function f3
         z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[0])
-        g5 = self.lamdas[5] * self.g5(z5) + self.bias[5]
+        g5 = self.lamdas[5] * operator.rotated_expanded_schaffer_func(z5) + self.bias[5]
         w5 = operator.calculate_weight(x - self.f_shift[5], self.xichmas[5])
 
         ws = np.array([w0, w1, w2, w3, w4, w5])

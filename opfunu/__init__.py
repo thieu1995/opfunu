@@ -103,6 +103,12 @@ def get_functions_based_ndim(ndim=None):
     return functions
 
 
+def get_all_named_functions():
+    return [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]
+
+
+def get_all_cec_functions():
+    return [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
 def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
                   differentiable=None, scalable=None, randomized_term=None, parametric=None, modality=None):
     functions = [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]

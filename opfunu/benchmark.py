@@ -116,7 +116,7 @@ class Benchmark:
             The solution
         """
         if not self.dim_changeable and (len(x) != self._ndim):
-            raise ValueError(f"The length of solution should has {self._ndim} variables!")
+            raise ValueError(f"The length of solution should have {self._ndim} variables!")
 
     def get_paras(self):
         """
