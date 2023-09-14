@@ -66,6 +66,7 @@ def sphere_func(x):
     x = np.array(x).ravel()
     return np.sum(x ** 2)
 
+
 def rotated_expanded_schaffer_func(x):
     x = np.asarray(x).ravel()
     x_pairs = np.column_stack((x, np.roll(x, -1)))
@@ -74,7 +75,8 @@ def rotated_expanded_schaffer_func(x):
     schaffer_values = (0.5 + (np.sin(np.sqrt(sum_sq)) ** 2 - 0.5) /
                        (1 + 0.001 * sum_sq) ** 2)
     return np.sum(schaffer_values)
-	
+
+
 def rotated_expanded_scaffer_func(x):
     x = np.array(x).ravel()
     results = [scaffer_func([x[idx], x[idx + 1]]) for idx in range(0, len(x) - 1)]
@@ -97,7 +99,8 @@ def grie_rosen_cec_func(x):
     f += (temp ** 2) / 4000.0 - np.cos(temp) + 1.0
 
     return f
-	
+
+
 def f8f2_func(x):
     x = np.array(x).ravel()
     results = [griewank_func(rosenbrock_func([x[idx], x[idx + 1]])) for idx in range(0, len(x) - 1)]
@@ -225,14 +228,6 @@ def gz_func(x):
     conditions = [x < -500, (-500 <= x) & (x <= 500), x > 500]
     choices = [t2, t3, t1]
     y = np.select(conditions, choices, default=np.nan)
-    # y = x.copy()
-    # for idx in range(0, ndim):
-    #     if x[idx] > 500:
-    #         y[idx] = (500 - np.mod(x[idx], 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x[idx], 500)))) - (x[idx] - 500)**2/(10000*ndim)
-    #     elif x[idx] < -500:
-    #         y[idx] = (np.mod(x[idx], 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x[idx]), 500) - 500))) - (x[idx]+500)**2/(10000*ndim)
-    #     else:
-    #         y[idx] = x[idx]*np.sin(np.abs(x[idx])**0.5)
     return y
 
 
@@ -288,31 +283,20 @@ def modified_schwefel_func(x):
     return np.sum(fx) + 4.189828872724338e+002 * nx
 
 
-
-def happy_cat_func(x):
-    z = np.array(x).ravel()
+def happy_cat_func(x, shift=0.0):
+    z = np.array(x).ravel() + shift
     ndim = len(z)
     t1 = np.sum(z)
     t2 = np.sum(z ** 2)
     return np.abs(t2 - ndim) ** 0.25 + (0.5 * t2 + t1) / ndim + 0.5
 
 
-def happy_cat_shifted_func(x):
-    return happy_cat_func(x - 1.0)
-
-
-
-def hgbat_func(x):
-    x = np.array(x).ravel()
+def hgbat_func(x, shift=0.0):
+    x = np.array(x).ravel() + shift
     ndim = len(x)
     t1 = np.sum(x)
     t2 = np.sum(x ** 2)
     return np.abs(t2 ** 2 - t1 ** 2) ** 0.5 + (0.5 * t2 + t1) / ndim + 0.5
-
-
-def hgbat_shifted_func(x):
-    return hgbat_func(x - 1.0)
-
 
 
 def zakharov_func(x):
@@ -320,12 +304,14 @@ def zakharov_func(x):
     temp = np.sum(0.5 * x)
     return np.sum(x ** 2) + temp ** 2 + temp ** 4
 
-def levy_func(x):
-    x = np.array(x).ravel()
-    w = 1. + x / 4
+
+def levy_func(x, shift=0.0):
+    x = np.array(x).ravel() + shift
+    w = 1. + (x - 1.) / 4
     t1 = np.sin(np.pi * w[0]) ** 2 + (w[-1] - 1) ** 2 * (1 + np.sin(2 * np.pi * w[-1]) ** 2)
     t2 = np.sum((w[:-1] - 1) ** 2 * (1 + 10 * np.sin(np.pi * w[:-1] + 1) ** 2))
     return t1 + t2
+
 
 def schaffer_f7_func(x):
     x = np.array(x).ravel()
