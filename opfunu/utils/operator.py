@@ -29,10 +29,11 @@ def griewank_func(x):
     return t1 - t2 + 1
 
 
-def rosenbrock_func(x):
-    x = np.array(x).ravel()
-    return np.sum([100 * (x[idx] ** 2 - x[idx + 1]) ** 2 + (x[idx] - 1) ** 2 for idx in range(0, len(x) - 1)])
-
+def rosenbrock_func(x, shift=0.0):
+    x = np.array(x).ravel() + shift
+    term1 = 100 * (x[:-1] ** 2 - x[1:]) ** 2
+    term2 = (x[:-1] - 1) ** 2
+    return np.sum(term1 + term2)
 
 def scaffer_func(x):
     x = np.array(x).ravel()
@@ -52,6 +53,13 @@ def weierstrass_func(x, a=0.5, b=3., k_max=20):
     for idx in range(0, ndim):
         result += np.sum(a ** k * np.cos(2 * np.pi * b ** k * (x[idx] + 0.5)))
     return result - ndim * np.sum(a ** k * np.cos(np.pi * b ** k))
+
+
+def weierstrass_norm_func(x, a=0.5, b=3., k_max=20):
+    """
+    This function matches CEC2005 description of F11 except for addition of the bias and follows the C implementation
+    """
+    return weierstrass_func(x, a, b, k_max) - weierstrass_func(np.zeros(len(x)), a, b, k_max)
 
 
 def ackley_func(x):
@@ -117,15 +125,17 @@ def non_continuous_expanded_scaffer_func(x):
 def non_continuous_rastrigin_func(x):
     x = np.array(x).ravel()
     y = rounder(x, np.abs(x))
-    results = [rastrigin_func([y[idx], y[idx + 1]]) for idx in range(0, len(x) - 1)]
-    return np.sum(results) + rastrigin_func([y[-1], y[0]])
+    shifted_y = np.roll(y, -1)
+    results = rastrigin_func(np.column_stack((y, shifted_y)))
+    return np.sum(results)
 
 
 def elliptic_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
     idx = np.arange(0, ndim)
-    return np.sum((10 ** 6) ** (idx / (ndim - 1)) * x ** 2)
+    return np.sum(10 ** (6.0 * idx / (ndim - 1)) * x ** 2)
+
 
 
 def sphere_noise_func(x):
@@ -200,7 +210,7 @@ def bent_cigar_func(x):
 
 def discus_func(x):
     x = np.array(x).ravel()
-    return 10 ** 6 * x[0] ** 2 + np.sum(x[1:] ** 2)
+    return 1e6 * x[0] ** 2 + np.sum(x[1:] ** 2)
 
 
 def different_powers_func(x):
@@ -241,15 +251,16 @@ def katsuura_func(x):
     return (result - 1) * 10 / ndim ** 2
 
 
-def lunacek_bi_rastrigin_func(x, z, miu0=2.5, d=1.):
-    x = np.array(x).ravel()
+def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1, shift=0.0):
+    x = np.array(x).ravel() + shift
     ndim = len(x)
-    s = 1 - 1.0 / (2 * np.sqrt(ndim + 20) - 8.2)
+    s = 1.0 - 1.0 / (2 * np.sqrt(ndim + 20) - 8.2)
     miu1 = -np.sqrt((miu0 ** 2 - d) / s)
-    temp1 = np.sum((x - miu0) ** 2)
-    temp2 = d * ndim + s * np.sum((x - miu1) ** 2)
-    result1 = min(temp1, temp2)
-    return result1 + 10 * (ndim - np.sum(np.cos(2 * np.pi * z)))
+    delta_x_miu0 = x - miu0
+    term1 = np.sum(delta_x_miu0 ** 2)
+    term2 = np.sum((x - miu1) ** 2) * s + d * ndim
+    result = min(term1, term2) + 10 * (ndim - np.sum(np.cos(2 * np.pi * delta_x_miu0)))
+    return result
 
 
 def calculate_weight(x, delta=1.):
@@ -313,6 +324,25 @@ def levy_func(x, shift=0.0):
     return t1 + t2
 
 
+def expanded_schaffer_f6_func(x):
+    """
+    This is a direct conversion of the CEC2021 C-Code for the Expanded Schaffer F6 Function
+    """
+    z = np.array(x).ravel()
+
+    temp1 = np.sin(np.sqrt(z[:-1] ** 2 + z[1:] ** 2))
+    temp1 = temp1 ** 2
+    temp2 = 1.0 + 0.001 * (z[:-1] ** 2 + z[1:] ** 2)
+    f = np.sum(0.5 + (temp1 - 0.5) / (temp2 ** 2))
+
+    temp1_last = np.sin(np.sqrt(z[-1] ** 2 + z[0] ** 2))
+    temp1_last = temp1_last ** 2
+    temp2_last = 1.0 + 0.001 * (z[-1] ** 2 + z[0] ** 2)
+    f += 0.5 + (temp1_last - 0.5) / (temp2_last ** 2)
+
+    return f
+	
+	
 def schaffer_f7_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
@@ -377,5 +407,5 @@ def lennard_jones_minimum_energy_cluster_func(x):
     return result
 
 
-expanded_griewank_rosenbrock_func = f8f2_func
+expanded_griewank_rosenbrock_func = grie_rosen_cec_func
 expanded_scaffer_f6_func = rotated_expanded_scaffer_func
