@@ -55,7 +55,7 @@ class F12013(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return np.sum((x - self.f_shift) ** 2) + self.f_bias
+        return operator.sphere_func(x - self.f_shift) + self.f_bias
 
 
 class F22013(CecBenchmark):
@@ -336,7 +336,7 @@ class F92013(F32013):
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
         temp = operator.tasy_func(np.dot(M1, 0.5*(x - self.f_shift)/100), beta=0.5)
         z = np.dot(np.matmul(alpha, M2), temp)
-        return operator.weierstrass_func(z, a=0.5, b=3., k_max=20) + self.f_bias
+        return operator.weierstrass_norm_func(z, a=0.5, b=3., k_max=20) + self.f_bias
 
 
 class F102013(F22013):
@@ -504,8 +504,8 @@ class F142013(F12013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
-        z = np.dot(alpha, 1000*(x - self.f_shift)/100) + 4.209687462275036e+002
-        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
+        z = np.dot(alpha, 1000*(x - self.f_shift)/100)
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 
 class F152013(F22013):
@@ -536,9 +536,8 @@ class F152013(F22013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         alpha = operator.generate_diagonal_matrix(self.ndim, alpha=10)
-        z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100) + 4.209687462275036e+002
-        return 418.9829 * self.ndim - np.sum(operator.gz_func(z)) + self.f_bias
-
+        z = np.dot(np.matmul(alpha, self.f_matrix), 1000 * (x - self.f_shift) / 100)
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 class F162013(F32013):
     """
@@ -602,11 +601,9 @@ class F172013(F12013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
-        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
         y = 10.0*(x - self.f_shift)/100
         x_hat = 2*np.sign(self.f_shift)*y + miu0
-        z = np.dot(alpha, x_hat - miu0)
-        return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
 
 
 class F182013(F32013):
@@ -638,13 +635,9 @@ class F182013(F32013):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
-        M1 = self.f_matrix[:self.ndim, :]
-        M2 = self.f_matrix[self.ndim:2*self.ndim, :]
-        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
         y = 10.0*(x - self.f_shift)/100
         x_hat = 2*np.sign(y)*y + miu0
-        z = np.dot(np.matmul(M2, alpha), np.dot(M1, x_hat - miu0))
-        return operator.lunacek_bi_rastrigin_func(x_hat, z, miu0=miu0, d=1) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
 
 
 class F192013(F22013):
@@ -671,10 +664,8 @@ class F192013(F22013):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100) + 1
-        results = [operator.griewank_func(operator.rosenbrock_func([z[idx], z[idx+1]])) for idx in range(0, self.ndim-1)]
-        return np.sum(results) + operator.griewank_func(operator.rosenbrock_func([z[-1], z[0]])) + self.f_bias
-
+        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
+        return operator.grie_rosen_cec_func(z) + self.f_bias
 
 class F202013(F32013):
     """
@@ -704,8 +695,7 @@ class F202013(F32013):
         M1 = self.f_matrix[:self.ndim, :]
         M2 = self.f_matrix[self.ndim:2*self.ndim, :]
         z = np.dot(M2, operator.tasy_func(np.dot(M1, x - self.f_shift), beta=0.5))
-        results = [operator.scaffer_func([z[idx], z[idx+1]]) for idx in range(0, self.ndim-1)]
-        return np.sum(results) + operator.scaffer_func([z[-1], z[0]]) + self.f_bias
+        return operator.expanded_scaffer_f6_func(z) + self.f_bias
 
 
 class F212013(CecBenchmark):

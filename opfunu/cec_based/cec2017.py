@@ -109,8 +109,8 @@ class F32017(F12017):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100) + 1
-        return operator.rosenbrock_func(z) + self.f_bias
+        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100)
+        return operator.rosenbrock_func(z, shift=1.0) + self.f_bias
 
 
 class F42017(F12017):
@@ -194,7 +194,7 @@ class F62017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.schaffer_f7_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_shifted_func(z) + self.f_bias
 
 
 class F72017(F12017):
@@ -222,7 +222,7 @@ class F72017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.schaffer_f7_func(z) + self.f_bias
+        return operator.non_continuous_rastrigin_func(z) + self.f_bias
 
 
 class F82017(F12017):
@@ -247,7 +247,7 @@ class F82017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5.12*(x - self.f_shift)/100)
-        return operator.levy_func(z) + self.f_bias
+        return operator.levy_func(z, shift=1.0) + self.f_bias
 
 
 class F92017(F12017):
@@ -325,16 +325,15 @@ class F102017(CecBenchmark):
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
-        self.g1 = operator.zakharov_func
-        self.g2 = operator.rosenbrock_func
-        self.g3 = operator.rastrigin_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + self.f_bias
+        return (operator.zakharov_func(mz[self.idx1]) +
+                operator.rosenbrock_func(mz[self.idx2], shift=1.0) +
+                operator.rastrigin_func(mz[self.idx3]) + self.f_bias)
 
 
 class F112017(F102017):
@@ -385,9 +384,6 @@ class F122017(F102017):
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
-        self.g1 = operator.bent_cigar_func
-        self.g2 = operator.rosenbrock_func
-        self.g3 = operator.lunacek_bi_rastrigin_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -395,11 +391,9 @@ class F122017(F102017):
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
         miu0 = 2.5
-        alpha = operator.generate_diagonal_matrix(self.ndim, alpha=100)
-        y = 10.0 * (x - self.f_shift) / 100
-        x_hat = 2 * np.sign(self.f_shift) * y + miu0
-        z = np.dot(alpha, x_hat - miu0)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3], z[self.idx3], miu0, 1.0) + self.f_bias
+        return (operator.bent_cigar_func(mz[self.idx1]) +
+                operator.rosenbrock_func(mz[self.idx2], shift=1.0) +
+                operator.lunacek_bi_rastrigin_func(mz[self.idx3] + miu0, miu0, 1.0) + self.f_bias)
 
 
 class F132017(F102017):
@@ -455,17 +449,16 @@ class F142017(F102017):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
-        self.g1 = operator.bent_cigar_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rastrigin_func
-        self.g4 = operator.rosenbrock_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + self.g4(mz[self.idx4]) + self.f_bias
+        return (operator.bent_cigar_func(mz[self.idx1]) +
+                operator.hgbat_func(mz[self.idx2], shift=-1.0) +
+                operator.rastrigin_func(mz[self.idx3]) +
+                operator.rosenbrock_func(mz[self.idx4], shift=1.0) + self.f_bias)
 
 
 class F152017(F102017):
@@ -488,17 +481,16 @@ class F152017(F102017):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + self.g4(mz[self.idx4]) + self.f_bias
+        return (operator.expanded_scaffer_f6_func(mz[self.idx1]) +
+                operator.hgbat_func(mz[self.idx2], shift=-1.0) +
+                operator.rosenbrock_func(mz[self.idx3], shift=1.0) +
+                operator.modified_schwefel_func(mz[self.idx4]) + self.f_bias)
 
 
 class F162017(F102017):
@@ -560,19 +552,17 @@ class F172017(F102017):
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.n4]
         self.idx5 = self.f_shuffle[self.n4:self.ndim]
-        self.g1 = operator.elliptic_func
-        self.g2 = operator.ackley_func
-        self.g3 = operator.rastrigin_func
-        self.g4 = operator.hgbat_func
-        self.g5 = operator.discus_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + \
-               self.g4(mz[self.idx4]) + self.g5(mz[self.idx5]) + self.f_bias
+        return (operator.elliptic_func(mz[self.idx1]) +
+                operator.ackley_func(mz[self.idx2]) +
+                operator.rastrigin_func(mz[self.idx3]) +
+                operator.hgbat_func(mz[self.idx4], shift=-1.0) +
+                operator.discus_func(mz[self.idx5]) + self.f_bias)
 
 
 class F182017(F102017):
@@ -600,7 +590,7 @@ class F182017(F102017):
         self.g1 = operator.bent_cigar_func
         self.g2 = operator.rastrigin_func
         self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.weierstrass_func
+        self.g4 = operator.weierstrass_norm_func
         self.g5 = operator.expanded_scaffer_f6_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
@@ -635,20 +625,18 @@ class F192017(F102017):
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.n4]
         self.idx5, self.idx6 = self.f_shuffle[self.n4:self.n5], self.f_shuffle[self.n5:self.ndim]
-        self.g1 = operator.happy_cat_func
-        self.g2 = operator.katsuura_func
-        self.g3 = operator.ackley_func
-        self.g4 = operator.rastrigin_func
-        self.g5 = operator.modified_schwefel_func
-        self.g6 = operator.schaffer_f7_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + \
-               self.g4(mz[self.idx4]) + self.g5(mz[self.idx5]) + self.g6(mz[self.idx6]) + self.f_bias
+        return (operator.happy_cat_func(mz[self.idx1], shift=-1.0) +
+                operator.katsuura_func(mz[self.idx2]) +
+                operator.ackley_func(mz[self.idx3]) +
+                operator.rastrigin_func(mz[self.idx4]) +
+                operator.modified_schwefel_func(mz[self.idx5]) +
+                operator.schaffer_f7_func(mz[self.idx6]) + self.f_bias)
 
 
 class F202017(CecBenchmark):
@@ -1047,12 +1035,6 @@ class F262017(F202017):
         self.xichmas = [10, 20, 30, 40, 50, 60,]
         self.lamdas = [10, 10, 2.5, 1e-26, 1e-6, 5e-4]
         self.bias = [0, 100, 200, 300, 400, 500]
-        self.g0 = operator.hgbat_func
-        self.g1 = operator.rastrigin_func
-        self.g2 = operator.modified_schwefel_func
-        self.g3 = operator.bent_cigar_func
-        self.g4 = operator.elliptic_func
-        self.g5 = operator.expanded_scaffer_f6_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix}
 
     def evaluate(self, x, *args):
@@ -1061,32 +1043,32 @@ class F262017(F202017):
 
         # 1. HGBat Function F18’
         z0 = np.dot(self.f_matrix[:self.ndim, :], 5*(x - self.f_shift[0])/100)
-        g0 = self.lamdas[0] * self.g0(z0) + self.bias[0]
+        g0 = self.lamdas[0] * operator.hgbat_func(z0, shift=-1.0) + self.bias[0]
         w0 = operator.calculate_weight(x - self.f_shift[0], self.xichmas[0])
 
         # 2. Rastrigin’s Function F5’
         z1 = np.dot(self.f_matrix[self.ndim:2*self.ndim, :], 5.12*(x - self.f_shift[0]) / 100)
-        g1 = self.lamdas[1] * self.g1(z1) + self.bias[1]
+        g1 = self.lamdas[1] * operator.rastrigin_func(z1) + self.bias[1]
         w1 = operator.calculate_weight(x - self.f_shift[1], self.xichmas[1])
 
         # 3. Modified Schwefel's Function F10’
         z2 = np.dot(self.f_matrix[2*self.ndim:3*self.ndim, :], 1000*(x - self.f_shift[0])/100)
-        g2 = self.lamdas[2] * self.g2(z2) + self.bias[2]
+        g2 = self.lamdas[2] * operator.modified_schwefel_func(z2) + self.bias[2]
         w2 = operator.calculate_weight(x - self.f_shift[2], self.xichmas[2])
 
         # 4. Bent-Cigar Function F11’
         z3 = np.dot(self.f_matrix[3 * self.ndim:4 * self.ndim, :], x - self.f_shift[0])
-        g3 = self.lamdas[3] * self.g3(z3) + self.bias[3]
+        g3 = self.lamdas[3] * operator.bent_cigar_func(z3) + self.bias[3]
         w3 = operator.calculate_weight(x - self.f_shift[3], self.xichmas[3])
 
         # 5. High Conditioned Elliptic Function F11’
         z4 = np.dot(self.f_matrix[4 * self.ndim:5 * self.ndim, :], x - self.f_shift[0])
-        g4 = self.lamdas[4] * self.g4(z4) + self.bias[4]
+        g4 = self.lamdas[4] * operator.elliptic_func(z4) + self.bias[4]
         w4 = operator.calculate_weight(x - self.f_shift[4], self.xichmas[4])
 
         # 6. Expanded Scaffer’s F6 Function F6’
         z5 = np.dot(self.f_matrix[5 * self.ndim:6 * self.ndim, :], x - self.f_shift[0]) + 1
-        g5 = self.lamdas[5] * self.g5(z5) + self.bias[5]
+        g5 = self.lamdas[5] * operator.expanded_scaffer_f6_func(z5) + self.bias[5]
         w5 = operator.calculate_weight(x - self.f_shift[5], self.xichmas[5])
 
         ws = np.array([w0, w1, w2, w3, w4, w5])
