@@ -602,8 +602,8 @@ class F172013(F12013):
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
         y = 10.0*(x - self.f_shift)/100
-        x_hat = 2*np.sign(self.f_shift)*y + miu0
-        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
+        x_hat = 2*np.sign(self.f_shift)*y
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1, shift=miu0) + self.f_bias
 
 
 class F182013(F32013):
@@ -636,8 +636,8 @@ class F182013(F32013):
         self.check_solution(x, self.dim_max, self.dim_supported)
         miu0 = 2.5
         y = 10.0*(x - self.f_shift)/100
-        x_hat = 2*np.sign(y)*y + miu0
-        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1) + self.f_bias
+        x_hat = 2*np.sign(y)*y
+        return operator.lunacek_bi_rastrigin_func(x_hat, miu0=miu0, d=1, shift=miu0) + self.f_bias
 
 
 class F192013(F22013):

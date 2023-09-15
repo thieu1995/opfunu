@@ -162,7 +162,7 @@ class F32021(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.lunacek_bi_rastrigin_shifted_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(z, shift=2.5) + self.f_bias
 
 
 class F42021(CecBenchmark):

@@ -194,7 +194,7 @@ class F62017(F12017):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.lunacek_bi_rastrigin_shifted_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(z, shift=2.5) + self.f_bias
 
 
 class F72017(F12017):
@@ -393,7 +393,7 @@ class F122017(F102017):
         miu0 = 2.5
         return (operator.bent_cigar_func(mz[self.idx1]) +
                 operator.rosenbrock_func(mz[self.idx2], shift=1.0) +
-                operator.lunacek_bi_rastrigin_func(mz[self.idx3] + miu0, miu0, 1.0) + self.f_bias)
+                operator.lunacek_bi_rastrigin_func(mz[self.idx3], miu0, 1.0, shift=miu0) + self.f_bias)
 
 
 class F132017(F102017):

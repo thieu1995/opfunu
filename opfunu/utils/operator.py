@@ -251,8 +251,8 @@ def katsuura_func(x):
     return (result - 1) * 10 / ndim ** 2
 
 
-def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1):
-    x = np.array(x).ravel()
+def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1, shift=0.0):
+    x = np.array(x).ravel() + shift
     ndim = len(x)
     s = 1.0 - 1.0 / (2 * np.sqrt(ndim + 20) - 8.2)
     miu1 = -np.sqrt((miu0 ** 2 - d) / s)
@@ -263,11 +263,6 @@ def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1):
     return result
 
 
-def lunacek_bi_rastrigin_shifted_func(x, miu0=2.5, d=1):
-    x = np.array(x).ravel()
-    return lunacek_bi_rastrigin_func(x + miu0, miu0, d)
-	
-	
 def calculate_weight(x, delta=1.):
     ndim = len(x)
     temp = np.sum(x ** 2)
