@@ -49,13 +49,13 @@ class F12019(CecBenchmark):
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_bias = f_bias
         self.f_global = f_bias
-        self.x_global = self.f_shift
+        self.x_global = np.zeros(self.ndim)
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return operator.storn_chebyshev_polynomial_fitting_func(x) + self.f_bias
+        return operator.chebyshev_func(x) + self.f_bias
 
 
 class F22019(CecBenchmark):
@@ -97,20 +97,23 @@ class F22019(CecBenchmark):
         self.make_support_data_path("data_2019")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_bias = f_bias
-        self.f_global = f_bias
-        self.x_global = self.f_shift
+        # the f_global and x_global was obtained by executing the cec2019 c code
+        self.f_global = int(np.sqrt(self.ndim)) + f_bias
+        self.x_global = np.zeros(self.ndim)
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return operator.inverse_hilbert_matrix_func(x) + self.f_bias
+        return operator.inverse_hilbert_func(x) + self.f_bias
 
 
 class F32019(CecBenchmark):
     """
     .. [1] The 100-Digit Challenge: Problem Definitions and Evaluation Criteria for the 100-Digit
     Challenge Special Session and Competition on Single Objective Numerical Optimization
+
+    **Note: The CEC 2019 implementation and this implementation results match when x* = [0,...,0] and
     """
     name = "F3: Lennard-Jones Minimum Energy Cluster Problem"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
@@ -146,14 +149,15 @@ class F32019(CecBenchmark):
         self.make_support_data_path("data_2019")
         self.f_shift = self.check_shift_data(f_shift)[:self.ndim]
         self.f_bias = f_bias
-        self.f_global = f_bias
+        # f_global calculated by verifying the cec2019 C value for f(x*) where x*==f_shift
+        self.f_global = 12.712062001703194 + self.f_bias
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return operator.lennard_jones_minimum_energy_cluster_func(x) + self.f_bias
+        return operator.lennard_jones_func(x) + self.f_bias
 
 
 class F42019(CecBenchmark):
@@ -257,7 +261,7 @@ class F62019(F42019):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
-        return operator.weierstrass_func(z) + self.f_bias
+        return operator.weierstrass_norm_func(z) + self.f_bias
 
 
 class F72019(F42019):
@@ -335,7 +339,7 @@ class F92019(F42019):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, x - self.f_shift)
-        return operator.happy_cat_func(z) + self.f_bias
+        return operator.happy_cat_func(z, shift=-1.0) + self.f_bias
 
 
 class F102019(F42019):
