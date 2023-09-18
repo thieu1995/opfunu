@@ -341,8 +341,8 @@ def expanded_schaffer_f6_func(x):
     f += 0.5 + (temp1_last - 0.5) / (temp2_last ** 2)
 
     return f
-	
-	
+
+
 def schaffer_f7_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
@@ -353,58 +353,93 @@ def schaffer_f7_func(x):
     return (result / (ndim - 1)) ** 2
 
 
-def storn_chebyshev_polynomial_fitting_func(x, d=72.661):
+def chebyshev_func(x):
+    """
+    The following was converted from the cec2019 C code
+    Storn's Tchebychev - a 2nd ICEO function - generalized version
+    """
     x = np.array(x).ravel()
     ndim = len(x)
-    m = 32 * ndim
-    j1 = np.arange(0, ndim)
-    upper = ndim - j1
+    sample = 32 * ndim
 
-    u = np.sum(x * 1.2 ** upper)
-    v = np.sum(x * (-1.2) ** upper)
-    p1 = 0 if u >= d else (u - d) ** 2
-    p2 = 0 if v >= d else (v - d) ** 2
+    dx_arr = np.zeros(ndim)
+    dx_arr[:2] = [1.0, 1.2]
+    for i in range(2, ndim):
+        dx_arr[i] = 2.4 * dx_arr[i-1] - dx_arr[i-2]
+    dx = dx_arr[-1]
 
-    wk = np.array([np.sum(x * (2. * k / m - 1) ** upper) for k in range(0, m + 1)])
-    conditions = [wk < 1, (1 <= wk) & (wk <= 1), wk > 1]
-    t1 = (wk + 1) ** 2
-    t2 = np.zeros(len(wk))
-    t3 = (wk - 1) ** 2
-    choices = [t1, t2, t3]
-    pk = np.select(conditions, choices, default=np.nan)
-    p3 = np.sum(pk)
-    return p1 + p2 + p3
+    dy = 2.0 / sample
+
+    px, y, sum_val = 0, -1, 0
+    for i in range(sample + 1):
+        px = x[0]
+        for j in range(1, ndim):
+            px = y * px + x[j]
+        if px < -1 or px > 1:
+            sum_val += (1.0 - abs(px)) ** 2
+        y += dy
+
+    for _ in range(2):
+        px = np.sum(1.2 * x[1:]) + x[0]
+        mask = px < dx
+        sum_val += np.sum(px[mask] ** 2)
+
+    return sum_val
 
 
-def inverse_hilbert_matrix_func(x):
+def inverse_hilbert_func(x):
+    """
+    This is a direct conversion of the cec2019 C code for python optimized to use numpy
+    """
     x = np.array(x).ravel()
     ndim = len(x)
-    n = int(np.sqrt(ndim))
-    I = np.identity(n)
-    H = np.zeros((n, n))
-    Z = np.zeros((n, n))
-    for i in range(0, n):
-        for k in range(0, n):
-            Z[i, k] = x[i + n * k]
-            H[i, k] = 1. / (i + k + 1)
-    W = np.matmul(H, Z) - I
-    return np.sum(W)
+    b = int(np.sqrt(ndim))
 
+    # Create the Hilbert matrix
+    i, j = np.indices((b, b))
+    hilbert = 1.0 / (i + j + 1)
 
-def lennard_jones_minimum_energy_cluster_func(x):
-    x = np.array(x).ravel()
-    ndim = len(x)
-    result = 12.7120622568
-    n_upper = int(ndim / 3)
-    for i in range(1, n_upper):
-        for j in range(i + 1, n_upper + 1):
-            idx1, idx2 = 3 * i, 3 * j
-            dij = ((x[idx1 - 3] - x[idx2 - 3]) ** 2 + (x[idx1 - 2] - x[idx2 - 2]) ** 2 + (x[idx1 - 1] - x[idx2 - 1]) ** 2) ** 3
-            if dij == 0:
-                result += 0
-            else:
-                result += (1. / dij ** 2 - 2. / dij)
+    # Reshape x and compute H*x
+    x = x.reshape((b, b))
+    y = np.dot(hilbert, x).dot(hilbert.T)
+
+    # Compute the absolute deviations
+    result = np.sum(np.abs(y - np.eye(b)))
     return result
+
+
+def lennard_jones_func(x):
+    """
+    This version is a direct python conversion from the C-Code of CEC2019 implementation.
+    Find the atomic configuration with minimum energy (Lennard-Jones potential)
+    Valid for any dimension, D = 3 * k, k = 2, 3, 4, ..., 25.
+    k is the number of atoms in 3-D space.
+    """
+    x = np.array(x).ravel()
+    ndim = len(x)
+    # Minima values from Cambridge cluster database: http://www-wales.ch.cam.ac.uk/~jon/structures/LJ/tables.150.html
+    minima = np.array([-1., -3., -6., -9.103852, -12.712062, -16.505384, -19.821489, -24.113360,
+                       -28.422532, -32.765970, -37.967600, -44.326801, -47.845157, -52.322627, -56.815742,
+                       -61.317995, -66.530949, -72.659782, -77.1777043, -81.684571, -86.809782, -02.844472,
+                       -97.348815, -102.372663])
+
+    k = ndim // 3
+    sum_val = 0
+
+    x_matrix = x.reshape((k, 3))
+    for i in range(k-1):
+        for j in range(i + 1, k):
+            # Use slicing to get the differences between points i and j
+            diff = x_matrix[i] - x_matrix[j]
+            # Calculate the squared Euclidean distance
+            ed = np.sum(diff ** 2)
+            # Calculate ud and update sum_val accordingly
+            ud = ed ** 3
+            if ud > 1.0e-10:
+                sum_val += (1.0 / ud - 2.0) / ud
+            else:
+                sum_val += 1.0e20  # cec2019 version penalizes when ud is <=1e-10
+    return sum_val - minima[k - 2]  # Subtract known minima for k
 
 
 expanded_griewank_rosenbrock_func = grie_rosen_cec_func

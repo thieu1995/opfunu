@@ -110,7 +110,7 @@ class F22020(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 1000.*(x - self.f_shift)/100)
-        return operator.bent_cigar_func(z) + self.f_bias
+        return operator.modified_schwefel_func(z) + self.f_bias
 
 
 class F32020(CecBenchmark):
@@ -162,7 +162,7 @@ class F32020(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 600.*(x - self.f_shift)/100)
-        return operator.bent_cigar_func(z) + self.f_bias
+        return operator.lunacek_bi_rastrigin_func(z, shift=2.5) + self.f_bias
 
 
 class F42020(CecBenchmark):
@@ -170,7 +170,7 @@ class F42020(CecBenchmark):
     .. [1] Problem Definitions and Evaluation Criteria for the CEC 2020
     Special Session and Competition on Single Objective Bound Constrained Numerical Optimization
     """
-    name = "F4: Expanded Rosenbrock’s plus Griewangk’s Function (F15 CEC-2014)"
+    name = "F4: Expanded Rosenbrock’s plus Griewank’s Function (F15 CEC-2014)"
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
     latex_formula_dimension = r'2 <= D <= 100'
     latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
@@ -213,7 +213,7 @@ class F42020(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5. * (x - self.f_shift) / 100) + 1
+        z = np.dot(self.f_matrix, 5. * (x - self.f_shift) / 100)
         return operator.expanded_griewank_rosenbrock_func(z) + self.f_bias
 
 
@@ -333,17 +333,16 @@ class F62020(CecBenchmark):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         mz = np.dot(self.f_matrix, x - self.f_shift)
-        return self.g1(mz[self.idx1]) + self.g2(mz[self.idx2]) + self.g3(mz[self.idx3]) + self.g4(mz[self.idx4]) + self.f_bias
+        return (operator.expanded_schaffer_f6_func(mz[self.idx1]) +
+                operator.hgbat_func(mz[self.idx2], shift=-1.0) +
+                operator.rosenbrock_func(mz[self.idx3], shift=1.0) +
+                operator.modified_schwefel_func(mz[self.idx4]) + self.f_bias)
 
 
 class F72020(CecBenchmark):
@@ -399,11 +398,6 @@ class F72020(CecBenchmark):
         self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
         self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
-        self.g5 = operator.elliptic_func
         self.paras = {"f_shift": self.f_shift, "f_bias": self.f_bias, "f_matrix": self.f_matrix, "f_shuffle": self.f_shuffle}
 
     def evaluate(self, x, *args):
@@ -412,8 +406,11 @@ class F72020(CecBenchmark):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) +\
-               self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:]) + self.f_bias
+        return (operator.expanded_scaffer_f6_func(mz[:self.n1]) +
+                operator.hgbat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.rosenbrock_func(mz[self.n2:self.n3], shift=1.0) +
+                operator.modified_schwefel_func(mz[self.n3:self.n4]) +
+                operator.elliptic_func(mz[self.n4:]) + self.f_bias)
 
 
 class F82020(CecBenchmark):
