@@ -800,12 +800,7 @@ class F222014(F212014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_22", f_matrix="M_22_D", f_shuffle="shuffle_data_22_D", f_bias=2200.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
-        self.g1 = operator.katsuura_func
-        self.g2 = operator.happy_cat_func
-        self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
-        self.g5 = operator.ackley_func
-		
+
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
