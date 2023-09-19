@@ -24,8 +24,9 @@ def rounder(x, condition):
 
 def griewank_func(x):
     x = np.array(x).ravel()
+    idx = np.arange(1, len(x) + 1)
     t1 = np.sum(x ** 2) / 4000
-    t2 = np.prod([np.cos(x[idx] / np.sqrt(idx + 1)) for idx in range(0, len(x))])
+    t2 = np.prod(np.cos(x / np.sqrt(idx)))
     return t1 - t2 + 1
 
 

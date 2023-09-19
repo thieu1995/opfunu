@@ -155,10 +155,8 @@ class F32005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
-        z = (np.dot((x - self.f_shift), self.f_matrix)) ** 2
-        results = [(10 ** 6) ** (idx / (ndim - 1)) * z[idx] ** 2 for idx in range(0, ndim)]
-        return np.sum(results) + self.f_bias
+        z = (np.dot((x - self.f_shift), self.f_matrix))
+        return operator.elliptic_func(z) + self.f_bias
 
 
 class F42005(CecBenchmark):
@@ -316,10 +314,7 @@ class F62005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
-        z = x - self.f_shift + 1
-        results = [(100 * (z[idx] ** 2 - z[idx + 1]) ** 2 + (z[idx] - 1) ** 2) for idx in range(0, ndim - 1)]
-        return np.sum(results) + self.f_bias
+        return operator.rosenbrock_func(x - self.f_shift, shift=1.0) + self.f_bias
 
 
 class F72005(CecBenchmark):
@@ -370,11 +365,8 @@ class F72005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        vt1 = np.sum(z ** 2) / 4000 + 1
-        results = [np.cos(z[idx] / np.sqrt(idx + 1)) for idx in range(0, ndim)]
-        return vt1 - np.sum(results) + self.f_bias
+        return operator.griewank_func(z) + self.f_bias
 
 
 class F82005(CecBenchmark):
@@ -428,10 +420,8 @@ class F82005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        result = -20 * np.exp(-0.2 * np.sqrt(np.sum(z ** 2) / ndim)) - np.exp(np.sum(np.cos(2 * np.pi * z)) / ndim)
-        return result + 20 + np.e + self.f_bias
+        return operator.ackley_func(z) + self.f_bias
 
 
 class F92005(CecBenchmark):
@@ -484,7 +474,7 @@ class F92005(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = x - self.f_shift
-        return np.sum(z**2 - 10*np.cos(2*np.pi*z) + 10) + self.f_bias
+        return operator.rastrigin_func(z) + self.f_bias
 
 
 class F102005(CecBenchmark):
@@ -536,7 +526,7 @@ class F102005(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        return np.sum(z ** 2 - 10 * np.cos(2 * np.pi * z) + 10) + self.f_bias
+        return operator.rastrigin_func(z) + self.f_bias
 
 
 class F112005(CecBenchmark):
@@ -592,12 +582,8 @@ class F112005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        k = np.arange(0, self.k_max+1)
-        result1 = [np.sum(self.a**k * np.cos(2*np.pi*self.b**k*(z[idx] + 0.5))) for idx in range(0, ndim)]
-        result2 = ndim * np.sum(self.a**k * np.cos(np.pi*self.b**k))
-        return np.sum(result1) - result2 + self.f_bias
+        return operator.weierstrass_norm_func(z, self.a, self.b, self.k_max) + self.f_bias
 
 
 class F122005(CecBenchmark):
@@ -707,10 +693,7 @@ class F132005(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
-        z = x - self.f_shift + 1
-        results = [self.f8__(self.f2__(z[idx:idx + 2])) for idx in range(0, ndim-1)]
-        return np.sum(results) + self.f8__(self.f2__([z[-1], z[0]])) + self.f_bias
+        return operator.grie_rosen_cec_func(x - self.f_shift) + self.f_bias
 
 
 class F142005(CecBenchmark):
@@ -756,15 +739,12 @@ class F142005(CecBenchmark):
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.paras = {"f_shift": self.f_shift, "f_matrix": self.f_matrix, "f_bias": self.f_bias}
-        self.fxy__ = operator.scaffer_func
 
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = np.dot((x - self.f_shift), self.f_matrix)
-        results = [self.fxy__(z[idx:idx + 2]) for idx in range(0, ndim - 1)]
-        return np.sum(results) + self.fxy__([z[-1], z[0]]) + self.f_bias
+        return operator.expanded_schaffer_f6_func(z) + self.f_bias
 
 
 class F152005(CecBenchmark):
@@ -821,7 +801,7 @@ class F152005(CecBenchmark):
         if idx == 0 or idx == 1:
             return operator.rastrigin_func(x)
         elif idx == 2 or idx == 3:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 4 or idx == 5:
             return operator.griewank_func(x)
         elif idx == 6 or idx == 7:
@@ -905,7 +885,7 @@ class F162005(CecBenchmark):
         if idx == 0 or idx == 1:
             return operator.rastrigin_func(x)
         elif idx == 2 or idx == 3:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 4 or idx == 5:
             return operator.griewank_func(x)
         elif idx == 6 or idx == 7:
@@ -1031,7 +1011,7 @@ class F182005(CecBenchmark):
         elif idx == 4 or idx == 5:
             return operator.sphere_func(x)
         elif idx == 6 or idx == 7:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         else:
             return operator.griewank_func(x)
 
@@ -1151,13 +1131,13 @@ class F212005(CecBenchmark):
 
     def fi__(self, x, idx):
         if idx == 0 or idx == 1:
-            return operator.rotated_expanded_scaffer_func(x)
+            return operator.rotated_expanded_schaffer_func(x)
         elif idx == 2 or idx == 3:
             return operator.rastrigin_func(x)
         elif idx == 4 or idx == 5:
-            return operator.f8f2_func(x)
+            return operator.grie_rosen_cec_func(x)
         elif idx == 6 or idx == 7:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         else:
             return operator.griewank_func(x)
 
@@ -1292,11 +1272,11 @@ class F242005(CecBenchmark):
 
     def fi__(self, x, idx):
         if idx == 0:
-            return operator.weierstrass_func(x)
+            return operator.weierstrass_norm_func(x)
         elif idx == 1:
-            return operator.rotated_expanded_scaffer_func(x)
+            return operator.rotated_expanded_schaffer_func(x)
         elif idx == 2:
-            return operator.f8f2_func(x)
+            return operator.grie_rosen_cec_func(x)
         elif idx == 3:
             return operator.ackley_func(x)
         elif idx == 4:

@@ -41,7 +41,7 @@ def test_F32019_results():
     problem = opfunu.cec_based.F32019(ndim=ndim)
     x = np.ones(ndim)
     result = problem.evaluate(x)
-    assert type(result) == float
+    assert type(result) == np.float64
     assert isinstance(problem, opfunu.cec_based.CecBenchmark)
     assert isinstance(problem, opfunu.name_based.Benchmark)
     assert isinstance(problem.lb, np.ndarray)
@@ -149,7 +149,7 @@ def test_F102019_results():
 
 
 def test_all_optimal_results():
-    known_failing = ['']
+    known_failing = []
     all_functions = [x for x in opfunu.get_all_cec_functions()
                      if x.__name__[-4:] == '2019' and x.__name__ not in known_failing]
     for function in all_functions:
