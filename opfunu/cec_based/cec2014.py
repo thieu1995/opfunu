@@ -132,8 +132,8 @@ class F42014(F12014):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100) + 1
-        return operator.rosenbrock_func(z) + self.f_bias
+        z = np.dot(self.f_matrix, 2.048*(x - self.f_shift)/100)
+        return operator.rosenbrock_func(z, shift=1.0) + self.f_bias
 
 
 class F52014(F12014):
@@ -187,7 +187,7 @@ class F62014(F12014):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 0.5*(x - self.f_shift)/100)
-        return operator.weierstrass_func(z) + self.f_bias
+        return operator.weierstrass_norm_func(z) + self.f_bias
 
 
 class F72014(F12014):
@@ -410,7 +410,7 @@ class F132014(F12014):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
-        return operator.happy_cat_func(z) + self.f_bias
+        return operator.happy_cat_func(z, shift=-1.0) + self.f_bias
 
 
 class F142014(F12014):
@@ -441,7 +441,7 @@ class F142014(F12014):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
-        return operator.hgbat_func(z) + self.f_bias
+        return operator.hgbat_func(z, shift=-1.0) + self.f_bias
 
 
 class F152014(F12014):
@@ -469,7 +469,7 @@ class F152014(F12014):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100) + 1
+        z = np.dot(self.f_matrix, 5*(x - self.f_shift)/100)
         return operator.expanded_griewank_rosenbrock_func(z) + self.f_bias
 
 
@@ -601,9 +601,16 @@ class F182014(F172014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_18", f_matrix="M_18_D", f_shuffle="shuffle_data_18_D", f_bias=1800.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
-        self.g1 = operator.bent_cigar_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rastrigin_func
+
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3]))
+        mz = np.dot(self.f_matrix, z1)
+        return (operator.bent_cigar_func(mz[:self.n1]) +
+                operator.hgbat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.rastrigin_func(mz[self.n2:]) + self.f_bias)
 
 
 class F192014(F172014):
@@ -646,10 +653,6 @@ class F192014(F172014):
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
         self.idx1, self.idx2 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2]
         self.idx3, self.idx4 = self.f_shuffle[self.n2:self.n3], self.f_shuffle[self.n3:self.ndim]
-        self.g1 = operator.griewank_func
-        self.g2 = operator.weierstrass_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.expanded_scaffer_f6_func
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -657,7 +660,10 @@ class F192014(F172014):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) + self.g4(mz[self.n3:]) + self.f_bias
+        return (operator.griewank_func(mz[:self.n1]) +
+                operator.weierstrass_func(mz[self.n1:self.n2]) +
+                operator.rosenbrock_func(mz[self.n2:self.n3], shift=1.0) +
+                operator.expanded_scaffer_f6_func(mz[self.n3:]) + self.f_bias)
 
 
 class F202014(F192014):
@@ -693,11 +699,17 @@ class F202014(F192014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_20", f_matrix="M_20_D", f_shuffle="shuffle_data_20_D", f_bias=2000.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
-        self.g1 = operator.hgbat_func
-        self.g2 = operator.discus_func
-        self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.rastrigin_func
 
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4]))
+        mz = np.dot(self.f_matrix, z1)
+        return (operator.hgbat_func(mz[:self.n1], shift=-1.0) +
+                operator.discus_func(mz[self.n1:self.n2]) +
+                operator.expanded_griewank_rosenbrock_func(mz[self.n2:self.n3]) +
+                operator.rastrigin_func(mz[self.n3:]) + self.f_bias)
 
 class F212014(F172014):
     """
@@ -740,11 +752,7 @@ class F212014(F172014):
         self.n4 = int(np.ceil(self.p[3] * self.ndim)) + self.n3
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.n3]
         self.idx4, self.idx5 = self.f_shuffle[self.n3:self.n4], self.f_shuffle[self.n4:self.ndim]
-        self.g1 = operator.expanded_scaffer_f6_func
-        self.g2 = operator.hgbat_func
-        self.g3 = operator.rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
-        self.g5 = operator.elliptic_func
+
 
     def evaluate(self, x, *args):
         self.n_fe += 1
@@ -752,8 +760,11 @@ class F212014(F172014):
         z = x - self.f_shift
         z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5]))
         mz = np.dot(self.f_matrix, z1)
-        return self.g1(mz[:self.n1]) + self.g2(mz[self.n1:self.n2]) + self.g3(mz[self.n2:self.n3]) +\
-               self.g4(mz[self.n3:self.n4]) + self.g5(mz[self.n4:]) + self.f_bias
+        return (operator.expanded_scaffer_f6_func(mz[:self.n1]) +
+                operator.hgbat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.rosenbrock_func(mz[self.n2:self.n3], shift=1.0) +
+                operator.modified_schwefel_func(mz[self.n3:self.n4]) +
+                operator.elliptic_func(mz[self.n4:]) + self.f_bias)
 
 
 class F222014(F212014):
@@ -789,12 +800,18 @@ class F222014(F212014):
 
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_22", f_matrix="M_22_D", f_shuffle="shuffle_data_22_D", f_bias=2200.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
-        self.g1 = operator.katsuura_func
-        self.g2 = operator.happy_cat_func
-        self.g3 = operator.expanded_griewank_rosenbrock_func
-        self.g4 = operator.modified_schwefel_func
-        self.g5 = operator.ackley_func
 
+    def evaluate(self, x, *args):
+        self.n_fe += 1
+        self.check_solution(x, self.dim_max, self.dim_supported)
+        z = x - self.f_shift
+        z1 = np.concatenate((z[self.idx1], z[self.idx2], z[self.idx3], z[self.idx4], z[self.idx5]))
+        mz = np.dot(self.f_matrix, z1)
+        return (operator.katsuura_func(mz[:self.n1]) +
+                operator.happy_cat_func(mz[self.n1:self.n2], shift=-1.0) +
+                operator.expanded_griewank_rosenbrock_func(mz[self.n2:self.n3]) +
+                operator.modified_schwefel_func(mz[self.n3:self.n4]) +
+                operator.ackley_func(mz[self.n4:]) + self.f_bias)
 
 class F232014(CecBenchmark):
     """

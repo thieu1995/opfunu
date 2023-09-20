@@ -8,24 +8,19 @@ import numpy as np
 
 
 def rounder(x, condition):
-    ndim = len(x)
     temp_2x = 2 * x
-    for idx in range(0, ndim):
-        dec, inter = np.modf(temp_2x[idx])
-        if temp_2x[idx] <= 0 and dec >= 0.5:
-            temp_2x[idx] = inter - 1
-        elif dec < 0.5:
-            temp_2x[idx] = inter
-        else:
-            temp_2x[idx] = inter + 1
-    temp_2x = temp_2x / 2
-    return np.where(condition < 0.5, x, temp_2x)
+    dec, inter = np.modf(temp_2x)
+    temp_2x = np.where(temp_2x <= 0.0, inter - (dec >= 0.5), temp_2x)
+    temp_2x = np.where(dec < 0.5, inter, temp_2x)
+    temp_2x = np.where(dec >= 0.5, inter + 1, temp_2x)
+    return np.where(condition < 0.5, x, temp_2x / 2)
 
 
 def griewank_func(x):
     x = np.array(x).ravel()
+    idx = np.arange(1, len(x) + 1)
     t1 = np.sum(x ** 2) / 4000
-    t2 = np.prod([np.cos(x[idx] / np.sqrt(idx + 1)) for idx in range(0, len(x))])
+    t2 = np.prod(np.cos(x / np.sqrt(idx)))
     return t1 - t2 + 1
 
 

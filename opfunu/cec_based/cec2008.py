@@ -53,7 +53,7 @@ class F12008(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        return np.sum((x - self.f_shift) ** 2) + self.f_bias
+        return operator.sphere_func(x - self.f_shift) + self.f_bias
 
 
 class F22008(CecBenchmark):
@@ -147,10 +147,7 @@ class F32008(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
-        z = x - self.f_shift + 1
-        results = [100 * (z[idx] ** 2 - z[idx + 1]) ** 2 + (z[idx] - 1) ** 2 for idx in range(0, ndim-1)]
-        return np.sum(results) + self.f_bias
+        return operator.rosenbrock_func(x - self.f_shift, shift=1.0) + self.f_bias
 
 
 class F42008(CecBenchmark):
@@ -198,7 +195,7 @@ class F42008(CecBenchmark):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
         z = x - self.f_shift
-        return np.sum(z ** 2 - 10 * np.cos(2 * np.pi * z) + 10) + self.f_bias
+        return operator.rastrigin_func(z) + self.f_bias
 
 
 class F52008(CecBenchmark):
@@ -245,11 +242,8 @@ class F52008(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = x - self.f_shift
-        t1 = np.sum(z ** 2) / 4000
-        t2 = np.prod([np.cos(z[idx] / np.sqrt(idx + 1)) for idx in range(0, ndim)])
-        return t1 - t2 + 1 + self.f_bias
+        return operator.griewank_func(z) + self.f_bias
 
 
 class F62008(CecBenchmark):
@@ -296,10 +290,8 @@ class F62008(CecBenchmark):
     def evaluate(self, x, *args):
         self.n_fe += 1
         self.check_solution(x, self.dim_max, self.dim_supported)
-        ndim = len(x)
         z = x - self.f_shift
-        return -20 * np.exp(-0.2*np.sqrt(np.sum(z**2)/ndim)) - np.exp(np.sum(np.cos(2*np.pi*z))/ndim) + 20 + np.e + self.f_bias
-
+        return operator.ackley_func(z) + self.f_bias
 
 class F72008(CecBenchmark):
     """
@@ -311,7 +303,7 @@ class F72008(CecBenchmark):
     latex_formula = r'F_1(x) = \sum_{i=1}^D z_i^2 + bias, z=x-o,\\ x=[x_1, ..., x_D]; o=[o_1, ..., o_D]: \text{the shifted global optimum}'
     latex_formula_dimension = r'2 <= D <= 100'
     latex_formula_bounds = r'x_i \in [-100.0, 100.0], \forall i \in  [1, D]'
-    latex_formula_global_optimum = r'\text{Global optimum: } x^* = o, F_1(x^*) = bias = -450.0'
+    latex_formula_global_optimum = r'\text{Global optimum: } x^* = unknown, F_1(x^*) = unknown'
     continuous = True
     linear = False
     convex = False
