@@ -12,16 +12,16 @@ ackey = Ackley02()
 
 problem_dict1 = {
     "fit_func": ackey.evaluate,
-    "lb": ackey.lb.tolist(),
-    "ub": ackey.ub.tolist(),
+    "lb": ackey.lb,
+    "ub": ackey.ub,
     "minmax": "min",
     "log_to": None,
     "save_population": False,
 }
 
 ## Run the algorithm
-model = SMA.BaseSMA(problem_dict1, epoch=100, pop_size=50, pr=0.03)
-best_position, best_fitness = model.solve()
+model = SMA.BaseSMA(epoch=100, pop_size=50, pr=0.03)
+best_position, best_fitness = model.solve(problem_dict1)
 print(f"Best solution: {best_position}, Best fitness: {best_fitness}")
 
 print(ackey.n_fe)

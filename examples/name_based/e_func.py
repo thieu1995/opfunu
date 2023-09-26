@@ -93,19 +93,14 @@ print(problem.is_succeed(x))
 print(problem.is_succeed(problem.x_global))
 
 
-# problem_dict = {
-#     "fit_func": problem.evaluate,
-#     "lb": problem.lb.tolist(),
-#     "ub": problem.ub.tolist(),
-#     "minmax": "min",
-#     "log_to": "None",
-# }
-#
-# model = WOA.BaseWOA(problem_dict, epoch=1000, pop_size=50)
-# best_position, best_fitness_value = model.solve()
-# print(best_position, best_fitness_value)
+problem_dict = {
+    "fit_func": problem.evaluate,
+    "lb": problem.lb,
+    "ub": problem.ub,
+    "minmax": "min",
+    "log_to": "None",
+}
 
-
-
-
-
+model = WOA.OriginalWOA(epoch=1000, pop_size=50)
+best_position, best_fitness_value = model.solve(problem_dict)
+print(best_position, best_fitness_value)

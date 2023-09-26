@@ -39,7 +39,7 @@ traditional functions with different dimensions are implemented.
 ### Install with pip
 
 Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
-```sh 
+```sh
 $ pip install opfunu==1.0.1
 ```
 
@@ -61,7 +61,7 @@ $ python setup.py install
 
 ## Lib's structure
 
-```code 
+```code
 
 docs
 examples
@@ -170,7 +170,7 @@ For more usage examples please look at [examples](/examples) folder.
 
 If you are using opfunu in your project, we would appreciate citations:
 
-```code 
+```code
 @software{thieu_nguyen_2020_3711682,
   author       = {Nguyen Van Thieu},
   title        = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
@@ -184,13 +184,11 @@ If you are using opfunu in your project, we would appreciate citations:
 
 ## References 
 
-```code 
-
+```code
 1. http://benchmarkfcns.xyz/fcns
 2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
 3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
 4. http://www.sfu.ca/~ssurjano/optimization.html
 5. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
 6. Problem Definitions and Evaluation Criteria for the CEC 2014 Special Session and Competition on Single Objective Real-Parameter Numerical Optimization 
-
 ```
