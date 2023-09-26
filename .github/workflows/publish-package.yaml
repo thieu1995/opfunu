@@ -11,7 +11,7 @@ on:
       - "*"
 
 env:
-  PROJECT_NAME: mealpy
+  PROJECT_NAME: opfunu
 
 jobs:
   build:
