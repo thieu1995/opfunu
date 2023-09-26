@@ -8,7 +8,7 @@ If you are using opfunu in your project, we would appreciate citations:
 
 	@software{thieu_nguyen_2020_3711682,
 	  author       = {Nguyen Van Thieu},
-	  title        = {Opfunu: An Open-source Library For Optimization Functions in Numpy},
+	  title        = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
 	  year         = 2020,
 	  publisher    = {Zenodo},
 	  doi          = {10.5281/zenodo.3620960},
@@ -27,12 +27,15 @@ Important links
 * Download releases: https://pypi.org/project/opfunu/
 * Issue tracker: https://github.com/thieu1995/opfunu/issues
 * Notable changes log: https://github.com/thieu1995/opfunu/blob/master/ChangeLog.md
-* Examples with different meapy version: https://github.com/thieu1995/opfunu/blob/master/examples.md
+* Examples with different version: https://github.com/thieu1995/opfunu/blob/master/examples.md
 * Join our telegram community at [link](https://t.me/+fRVCJGuGJg1mNDg1)** to get more support and help.
 
-* This project also related to our another projects which are "meta-heuristics" and "neural-network", check it here
-    * https://github.com/thieu1995/mealpy
+* This project also related to our another projects which are optimization and machine learning. Check it here:
     * https://github.com/thieu1995/metaheuristics
+    * https://github.com/thieu1995/mealpy
+    * https://github.com/thieu1995/mafese
+    * https://github.com/thieu1995/pfevaluator
+    * https://github.com/thieu1995/MetaCluster
     * https://github.com/thieu1995/enoppy
     * https://github.com/thieu1995/permetrics
     * https://github.com/aiir-team
