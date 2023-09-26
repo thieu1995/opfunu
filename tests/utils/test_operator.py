@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# Created by "Travis" at 10:00, 13/09/2023 ---------%
+#       Github: https://github.com/firestrand       %
+# --------------------------------------------------%
+
 import numpy as np
-import opfunu
 from opfunu.utils import operator
 
 

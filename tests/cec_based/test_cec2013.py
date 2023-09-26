@@ -399,6 +399,7 @@ def test_F282013_results():
     assert problem.bounds.shape[0] == ndim
     assert len(problem.x_global) == ndim
 
+
 def test_all_optimal_results():
     ndim = 30
     known_failing = []

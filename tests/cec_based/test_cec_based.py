@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# Created by "Travis" at 10:00, 13/09/2023 ---------%
+#       Github: https://github.com/firestrand       %
+# --------------------------------------------------%
+
 import numpy as np
 from opfunu import get_all_cec_functions
 
@@ -36,5 +41,3 @@ def test_whenEvaulateWith_x_global_then_f_global():
         if abs(f_default.evaluate(x_global) - f_default.f_global) >= f_default.epsilon:
             failing.append(f.__name__)
     assert len(failing) == 0, f'{failing} failed to have x_global result in f_global'
-
-
