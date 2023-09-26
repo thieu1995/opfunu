@@ -4,7 +4,7 @@ authors:
   - family-names: "Van Thieu"
     given-names: "Nguyen"
     orcid: "https://orcid.org/0000-0001-9994-8747"
-title: "Opfunu: An Open-source Library For Optimization Functions in Numpy"
+title: "Opfunu: An Open-source Python Library for Optimization Benchmark Functions"
 version: 1.0.1
 doi: 10.5281/zenodo.3620960
 date-released: 2022-07-13

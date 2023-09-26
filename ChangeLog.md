@@ -6,6 +6,8 @@
 + Delete all old CEC module
 + Delete type_based module
 + Delete dimension_based module
++ Delete mealpy dependency
++ Update docs, examples and tests
 
 ---------------------------------------------------------------------
 
