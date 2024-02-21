@@ -1,3 +1,8 @@
+# Version 1.0.2
+
++ Fix modified_schwefel_func() in operator.py
+
+---------------------------------------------------------------------
 
 # Version 1.0.1
 
