@@ -437,9 +437,9 @@ class Dolan(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        self.dim_changeable = True
-        self.dim_default = 2
-        self.check_ndim_and_bounds(ndim, bounds, np.array([[-10., 10.] for _ in range(self.dim_default)]))
+        self.dim_changeable = False
+        self.dim_default = 5
+        self.check_ndim_and_bounds(ndim, bounds, np.array([[-100., 100.] for _ in range(self.dim_default)]))
         self.f_global = 0.0
         self.x_global = np.array([-74.10522498, 44.33511286, 6.21069214, 18.42772233, -16.5839403])
 
