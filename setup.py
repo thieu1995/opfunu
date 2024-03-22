@@ -52,7 +52,6 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
         "Topic :: System :: Benchmark",
         "Topic :: Scientific/Engineering",
         "Topic :: Scientific/Engineering :: Mathematics",
@@ -69,5 +68,5 @@ setup(
     extras_require={
         "dev": ["pytest>=7.0", "twine>=4.0.1"],
     },
-    python_requires='>=3.7',
+    python_requires='>=3.7, <3.12',
 )
