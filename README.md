@@ -23,43 +23,51 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
-OPFUNU is the largest python library for cutting-edge numerical optimization benchmark functions. Contains all CEC 
-competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300 
-traditional functions with different dimensions are implemented.
+OPFUNU (OPtimization benchmark FUnctions in NUmpy) is the largest python library for cutting-edge numerical 
+optimization benchmark functions. Contains all CEC competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 
+2017, 2019, 2020, 2021, 2022. Besides, more than 300 traditional functions with different dimensions are implemented.
 
 * **Free software:** GNU General Public License (GPL) V3 license
 * **Total problems**: > 500 problems
 * **Documentation:** https://opfunu.readthedocs.io
-* **Python versions:** 3.7.x, 3.8.x, 3.9.x, 3.10.x, 3.11.x
+* **Python versions:** >= 3.7.x
 * **Dependencies:** numpy, matplotlib
 
 
-# Installation
+# Installation and Usage
 
 ### Install with pip
 
 Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
 ```sh
-$ pip install opfunu==1.0.2
+$ pip install opfunu
 ```
 
-Or install the development version from GitHub:
+After installation, you can import and check version of Opfunu:
 
-```bash
-pip install git+https://github.com/thieu1995/opfunu
+```sh
+$ python
+>>> import opfunu
+>>> opfunu.__version__
+
+>>> dir(opfunu)
+>>> help(opfunu)
+
+>>> opfunu.FUNC_DATABASE      # List all name_based functions
+>>> opfunu.CEC_DATABASE       # List all cec_based functions
+>>> opfunu.ALL_DATABASE       # List all functions in this library
+
+>>> opfunu.get_functions_by_classname("CEC2014")
+>>> opfunu.get_functions_based_classname("2015")
+>>> opfunu.get_functions_by_ndim(30)
+>>> opfunu.get_functions_based_ndim(2)
+>>> opfunu.get_all_named_functions()
+>>> opfunu.get_all_cec_functions()
+>>> opfunu.get_functions()
+>>> opfunu.get_cecs()
 ```
 
-### Install from source
-
-In case you want to install directly from the source code, use:
-```sh 
-$ git clone https://github.com/thieu1995/opfunu.git
-$ cd opfunu
-$ python setup.py install
-```
-
-
-## Lib's structure
+### Lib's structure
 
 ```code
 
@@ -87,17 +95,6 @@ opfunu
     benchmark.py
 README.md
 setup.py
-```
-
-
-# Usage
-
-After installation, you can import Opfunu as any other Python module:
-
-```sh
-$ python
->>> import opfunu
->>> opfunu.__version__
 ```
 
 Let's go through some examples.
