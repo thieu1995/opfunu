@@ -531,7 +531,7 @@ class Mishra07(Benchmark):
     def evaluate(self, x, *args):
         self.check_solution(x)
         self.n_fe += 1
-        return (np.prod(x) - np.factorial(self.ndim)) ** 2.0
+        return (np.prod(x) - np.math.factorial(self.ndim)) ** 2.0
 
 
 class Mishra08(Benchmark):
