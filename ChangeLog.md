@@ -1,6 +1,15 @@
 # Version 1.0.2
 
 + Fix modified_schwefel_func() in operator.py
++ Fix Mishra07 function that has no method factorial
++ Fix Dolan function has wrong default dim
++ Fix ndim property in Benchmark class
++ Fix typo pi function in OddSquare class
++ Fix LennardJones class with specified ndim
++ Fix CEC2021 F2 has abnormal optimal value
++ Fix bug in F8 function CEC2020
++ Update docs
++ Update README and workflows.
 
 ---------------------------------------------------------------------
 
