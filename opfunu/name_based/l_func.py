@@ -106,9 +106,9 @@ class LennardJones(Benchmark):
     modality = True  # Number of ambiguous peaks, unknown # peaks
 
     def __init__(self, ndim=None, bounds=None):
+        super().__init__()
         if ndim not in range(6, 61):
             raise ValueError("LennardJones dimensions must be in (6, 60)")
-        super().__init__()
         self.dim_changeable = True
         self.dim_default = 6
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-4., 4.] for _ in range(self.dim_default)]))
