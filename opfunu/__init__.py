@@ -29,7 +29,7 @@
 # >>> opfunu.plot_2d(f22005, n_space=1000, ax=None)
 # >>> opfunu.plot_3d(f22005, n_space=1000, ax=None)
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 import inspect
 import re
@@ -109,6 +109,8 @@ def get_all_named_functions():
 
 def get_all_cec_functions():
     return [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
+
+
 def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
                   differentiable=None, scalable=None, randomized_term=None, parametric=None, modality=None):
     functions = [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]

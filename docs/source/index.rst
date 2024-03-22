@@ -6,7 +6,7 @@
 Welcome to OPFUNU's documentation!
 ==================================
 
-.. image:: https://img.shields.io/badge/release-1.0.1-yellow.svg
+.. image:: https://img.shields.io/badge/release-1.0.2-yellow.svg
    :target: https://github.com/thieu1995/opfunu/releases
 
 .. image:: https://img.shields.io/pypi/wheel/gensim.svg
