@@ -81,7 +81,7 @@ class Benchmark:
         """
         if ndim is None:
             self._bounds = default_bounds if bounds is None else np.array(bounds).T
-            self._ndim = self._bounds.shape[1]
+            self._ndim = self._bounds.shape[0]
         else:
             if bounds is None:
                 if self.dim_changeable:
@@ -239,7 +239,7 @@ class Benchmark:
         """
         return np.array([x[1] for x in self.bounds])
 
-    def create_solution(self):
+    def create_solution(self) -> np.ndarray:
         """
         Create a random solution for the current problem
 
