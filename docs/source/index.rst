@@ -61,7 +61,7 @@ Welcome to OPFUNU's documentation!
 
    "Knowledge is power, sharing it is the premise of progress in life.
    It seems like a burden to someone, but it is the only way to achieve immortality.
-                                                   `Nguyen Van Thieu`_
+                                                   `Nguyen Van Thieu`_.
 
 
 .. _Nguyen Van Thieu: https://www.thieu1995.github.io/
@@ -73,7 +73,7 @@ traditional functions with different dimensions are implemented.
 * **Free software:** GNU General Public License (GPL) V3 license
 * **Total problems**: > 500 problems
 * **Documentation:** https://opfunu.readthedocs.io
-* **Python versions:** 3.7.x, 3.8.x, 3.9.x, 3.10.x, 3.11.x
+* **Python versions:** >= 3.7.x
 * **Dependencies:** numpy, matplotlib
 
 
