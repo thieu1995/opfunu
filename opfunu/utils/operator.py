@@ -280,10 +280,10 @@ def modified_schwefel_func(x):
     mask2 = z < -500
     mask3 = ~mask1 & ~mask2
     fx = np.zeros(nx)
-    fx[mask1] -= (500.0 + np.fmod(np.abs(z[mask1]), 500)) * np.sin(np.sqrt(500.0 - np.fmod(np.abs(z[mask1]), 500))) - (
-                (z[mask1] - 500.0) / 100.) ** 2 / nx
+    fx[mask1] -= ((500.0 - np.fmod(z[mask1], 500)) * np.sin(np.sqrt(500.0 - np.fmod(z[mask1], 500))) -
+                 ((z[mask1] - 500.0) / 100.) ** 2 / nx)
     fx[mask2] -= (-500.0 + np.fmod(np.abs(z[mask2]), 500)) * np.sin(np.sqrt(500.0 - np.fmod(np.abs(z[mask2]), 500))) - (
-                (z[mask2] + 500.0) / 100.) ** 2 / nx
+                 (z[mask2] + 500.0) / 100.) ** 2 / nx
     fx[mask3] -= z[mask3] * np.sin(np.sqrt(np.abs(z[mask3])))
 
     return np.sum(fx) + 4.189828872724338e+002 * nx

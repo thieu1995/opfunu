@@ -4,7 +4,7 @@
 ---
 
 
-[![GitHub release](https://img.shields.io/badge/release-1.0.1-yellow.svg)](https://github.com/thieu1995/opfunu/releases)
+[![GitHub release](https://img.shields.io/badge/release-1.0.2-yellow.svg)](https://github.com/thieu1995/opfunu/releases)
 [![Wheel](https://img.shields.io/pypi/wheel/gensim.svg)](https://pypi.python.org/pypi/opfunu) 
 [![PyPI version](https://badge.fury.io/py/opfunu.svg)](https://badge.fury.io/py/opfunu)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/opfunu.svg)
@@ -40,7 +40,7 @@ traditional functions with different dimensions are implemented.
 
 Install the [current PyPI release](https://pypi.python.org/pypi/opfunu):
 ```sh
-$ pip install opfunu==1.0.1
+$ pip install opfunu==1.0.2
 ```
 
 Or install the development version from GitHub:
