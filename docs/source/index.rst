@@ -57,14 +57,6 @@ Welcome to OPFUNU's documentation!
 .. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
    :target: https://www.gnu.org/licenses/gpl-3.0
 
-::
-
-   "Knowledge is power, sharing it is the premise of progress in life.
-   It seems like a burden to someone, but it is the only way to achieve immortality.
-                                                   `Nguyen Van Thieu`_.
-
-
-.. _Nguyen Van Thieu: https://www.thieu1995.github.io/
 
 OPFUNU is the largest python library for cutting-edge numerical optimization benchmark functions. Contains all CEC
 competition functions from 2005, 2008, 2010, 2013, 2014, 2015, 2017, 2019, 2020, 2021, 2022. Besides, more than 300
