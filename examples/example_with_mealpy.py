@@ -20,7 +20,7 @@ problem_dict1 = {
 }
 
 ## Run the algorithm
-model = SMA.BaseSMA(epoch=100, pop_size=50, pr=0.03)
+model = SMA.OriginalSMA(epoch=100, pop_size=50, pr=0.03)
 best_position, best_fitness = model.solve(problem_dict1)
 print(f"Best solution: {best_position}, Best fitness: {best_fitness}")
 
