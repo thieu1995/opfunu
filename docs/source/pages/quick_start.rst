@@ -46,7 +46,6 @@ Current Structure::
             z_func.py
         utils
             operator.py
-            validator.py
             visualize.py
         __init__.py
         benchmark.py
