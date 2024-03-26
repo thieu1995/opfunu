@@ -8,7 +8,7 @@ Installation
 
 Install the `current PyPI release <https://pypi.python.org/pypi/opfunu/>`_::
 
-   $ pip install opfunu==1.0.2
+   $ pip install opfunu==1.0.3
 
 
 Or install the development version from GitHub::

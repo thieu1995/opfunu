@@ -1,3 +1,8 @@
+# Version 1.0.3
+
++ Optimized katsuura_func performance, at 1M ndim > 80x speedup
+
+---------------------------------------------------------------------
 # Version 1.0.2
 
 + Fix modified_schwefel_func() in operator.py
