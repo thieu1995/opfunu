@@ -68,7 +68,7 @@ class CecBenchmark(Benchmark, ABC):
         self.dim_changeable = True
         self.dim_default = 30
         self.dim_max = 100
-        self.dim_supported = []
+        self.dim_supported = None
         self.f_global = None
         self.x_global = None
         self.n_fe = 0
