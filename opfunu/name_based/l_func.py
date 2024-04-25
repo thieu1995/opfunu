@@ -107,8 +107,7 @@ class LennardJones(Benchmark):
 
     def __init__(self, ndim=None, bounds=None):
         super().__init__()
-        if ndim not in range(6, 61):
-            raise ValueError("LennardJones dimensions must be in (6, 60)")
+        self.dim_supported = list(range(6, 61))
         self.dim_changeable = True
         self.dim_default = 6
         self.check_ndim_and_bounds(ndim, bounds, np.array([[-4., 4.] for _ in range(self.dim_default)]))
@@ -121,6 +120,8 @@ class LennardJones(Benchmark):
         self.x_global = np.zeros(self.ndim)
 
     def evaluate(self, x, *args):
+        if self.ndim not in self.dim_supported:
+            raise ValueError(f"{self.__class__.__name__} problem is only supported ndim in {self.dim_supported}!")
         self.check_solution(x)
         self.n_fe += 1
         k = int(self.ndim / 3)

@@ -60,6 +60,7 @@ class Benchmark:
         self._ndim = None
         self.dim_changeable = False
         self.dim_default = 2
+        self.dim_supported = []
         self.f_global = None
         self.x_global = None
         self.n_fe = 0

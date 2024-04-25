@@ -47,13 +47,13 @@ def get_functions_by_classname(name=None):
     """
     Parameters
     ----------
-    name : Classname of the function
+    name : The exact classname of the function (no difference among lowercase, uppercase, mix)
 
     Returns
     -------
         List of the functions, but all the classname are different, so the result is list of 1 function or list of empty
     """
-    functions = [cls for classname, cls in ALL_DATABASE if (classname not in EXCLUDES and (classname == name or classname.lower() == name))]
+    functions = [cls for classname, cls in ALL_DATABASE if (classname not in EXCLUDES and (classname.lower() == name.lower()))]
     return functions
 
 
@@ -61,13 +61,13 @@ def get_functions_based_classname(name=None):
     """
     Parameters
     ----------
-    name : Name that is a substring of classname
+    name : The substring of classname of the function
 
     Returns
     -------
         List of the functions
     """
-    functions = [cls for classname, cls in ALL_DATABASE if (classname not in EXCLUDES and re.search(name, classname))]
+    functions = [cls for classname, cls in ALL_DATABASE if (classname not in EXCLUDES and re.search(name.lower(), classname.lower()))]
     return functions
 
 
@@ -75,7 +75,7 @@ def get_functions_by_ndim(ndim=None):
     """
     Parameters
     ----------
-    ndim : Number of dimensions that function supported
+    ndim : The exact number of dimensions that function has and not able to change
 
     Returns
     -------
@@ -91,7 +91,7 @@ def get_functions_based_ndim(ndim=None):
     """
     Parameters
     ----------
-    ndim : Number of dimensions that function has as default value
+    ndim : Number of dimensions that function supported
 
     Returns
     -------
@@ -103,15 +103,15 @@ def get_functions_based_ndim(ndim=None):
     return functions
 
 
-def get_all_named_functions():
+def get_all_name_based_functions():
     return [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]
 
 
-def get_all_cec_functions():
+def get_all_cec_based_functions():
     return [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
 
 
-def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
+def get_name_based_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None, separable=None,
                   differentiable=None, scalable=None, randomized_term=None, parametric=None, modality=None):
     functions = [cls for classname, cls in FUNC_DATABASE if classname not in EXCLUDES]
     functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
@@ -129,7 +129,7 @@ def get_functions(ndim, continuous=None, linear=None, convex=None, unimodal=None
     return functions
 
 
-def get_cecs(ndim=None, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
+def get_cec_based_functions(ndim=None, continuous=None, linear=None, convex=None, unimodal=None, separable=None, differentiable=None,
              scalable=None, randomized_term=None, parametric=True, shifted=True, rotated=None , modality=None):
     functions = [cls for classname, cls in CEC_DATABASE if classname not in EXCLUDES]
     functions = list(filter(lambda f: f().is_ndim_compatible(ndim), functions))
