@@ -7,11 +7,11 @@ import opfunu
 import numpy as np
 
 # get all the available functions accepting ANY dimension
-any_dim_cec = opfunu.get_cecs(None)
+any_dim_cec = opfunu.get_cec_based_functions(None)
 print(any_dim_cec)
 
 # get all the available separable functions accepting 2D
-separable_2d_cec = opfunu.get_cecs(
+separable_2d_cec = opfunu.get_cec_based_functions(
     ndim=2,  # dimension
     separable=True,
 )
@@ -75,14 +75,14 @@ print(problem.x_global)
 print(problem.is_succeed(problem.x_global))
 
 # # get all the available separable functions accepting 2D
-my_list = opfunu.get_cecs(
+my_list = opfunu.get_cec_based_functions(
     ndim=2,  # dimension
     rotated=True
 )
 print(my_list)  # --> 41
 
 ## Get all noise function
-my_list = opfunu.get_cecs(
+my_list = opfunu.get_cec_based_functions(
     randomized_term=True
 )
 print(my_list)

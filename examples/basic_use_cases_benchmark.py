@@ -10,11 +10,11 @@ import numpy as np
 
 if __name__ == '__main__':
     # get all the available functions accepting ANY dimension
-    any_dim_functions = opfunu.get_functions(None)
+    any_dim_functions = opfunu.get_name_based_functions(None)
     print(any_dim_functions)
 
     # get all the available differentiable functions accepting 2D
-    differentiable_2d_functions = opfunu.get_functions(
+    differentiable_2d_functions = opfunu.get_name_based_functions(
         ndim=2,  # dimension
         differentiable=True,
     )
