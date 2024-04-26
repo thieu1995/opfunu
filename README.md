@@ -34,6 +34,29 @@ optimization benchmark functions. Contains all CEC competition functions from 20
 * **Dependencies:** numpy, matplotlib
 
 
+# Citation Request 
+
+Please include these citations if you plan to use this library:
+
+- LaTeX:
+
+   ```bibtex
+  @software{thieu_nguyen_2020_3711682,
+    author       = {Nguyen Van Thieu},
+    title        = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
+    year         = 2020,
+    publisher    = {Zenodo},
+    doi          = {10.5281/zenodo.3620960},
+    url          = {https://doi.org/10.5281/zenodo.3620960.}
+  }
+   ```
+
+- APA:
+
+  Van Thieu, N. (2022). Opfunu: An Open-source Python Library for Optimization Benchmark Functions (Version 1.0.1) [Computer software]. https://doi.org/10.5281/zenodo.3620960
+
+
+
 # Installation and Usage
 
 ### Install with pip
@@ -57,43 +80,13 @@ $ python
 >>> opfunu.CEC_DATABASE       # List all cec_based functions
 >>> opfunu.ALL_DATABASE       # List all functions in this library
 
->>> opfunu.get_functions_by_classname("CEC2014")
+>>> opfunu.get_functions_by_classname("MiShra04")
 >>> opfunu.get_functions_based_classname("2015")
->>> opfunu.get_functions_by_ndim(30)
->>> opfunu.get_functions_based_ndim(2)
->>> opfunu.get_all_named_functions()
->>> opfunu.get_all_cec_functions()
->>> opfunu.get_functions()
->>> opfunu.get_cecs()
-```
+>>> opfunu.get_functions_by_ndim(2)
+>>> opfunu.get_functions_based_ndim(50)
 
-### Lib's structure
-
-```code
-
-docs
-examples
-opfunu
-    cec_based
-        cec.py
-        cec2005.py
-        cec2008.py
-        ...
-        cec2021.py
-        cec2022.py
-    name_based
-        a_func.py
-        b_func.py
-        ...
-        y_func.py
-        z_func.py
-    utils
-        operator.py
-        visualize.py
-    __init__.py
-    benchmark.py
-README.md
-setup.py
+>>> opfunu.get_name_based_functions(ndim=10, continuous=True)
+>>> opfunu.get_cec_based_functions(ndim=2)
 ```
 
 Let's go through some examples.
@@ -141,50 +134,24 @@ For more usage examples please look at [examples](/examples) folder.
 
 
 
-# Get helps (questions, problems)
 
-* Official source code repo: https://github.com/thieu1995/opfunu
-* Official document: https://opfunu.readthedocs.io/
-* Download releases: https://pypi.org/project/opfunu/
-* Issue tracker: https://github.com/thieu1995/opfunu/issues
-* Notable changes log: https://github.com/thieu1995/opfunu/blob/master/ChangeLog.md
-* Examples with different version: https://github.com/thieu1995/opfunu/blob/master/examples.md
-* Official chat group: https://t.me/+fRVCJGuGJg1mNDg1
+# Contributing
 
-* This project also related to our another projects which are optimization and machine learning. Check it here:
-    * https://github.com/thieu1995/metaheuristics
-    * https://github.com/thieu1995/mealpy
-    * https://github.com/thieu1995/mafese
-    * https://github.com/thieu1995/pfevaluator
-    * https://github.com/thieu1995/MetaCluster
-    * https://github.com/thieu1995/enoppy
-    * https://github.com/thieu1995/permetrics
-    * https://github.com/aiir-team
+There are lots of ways how you can contribute to Permetrics's development, and you are welcome to join in! For example, 
+you can report problems or make feature requests on the [issues](/issues) pages. To facilitate contributions, 
+please check for the guidelines in the [CONTRIBUTING.md](/CONTRIBUTING.md) file.
 
 
-## Cite Us
+# Official channels 
 
-If you are using opfunu in your project, we would appreciate citations:
-
-```code
-@software{thieu_nguyen_2020_3711682,
-  author       = {Nguyen Van Thieu},
-  title        = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
-  year         = 2020,
-  publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.3620960},
-  url          = {https://doi.org/10.5281/zenodo.3620960.}
-}
-```
+* [Official source code repository](https://github.com/thieu1995/opfunu)
+* [Official document](https://opfunu.readthedocs.io/)
+* [Download releases](https://pypi.org/project/opfunu/) 
+* [Issue tracker](https://github.com/thieu1995/opfunu/issues) 
+* [Notable changes log](/ChangeLog.md)
+* [Official discussion group](https://t.me/+fRVCJGuGJg1mNDg1)
 
 
-## References 
+---
 
-```code
-1. http://benchmarkfcns.xyz/fcns
-2. https://en.wikipedia.org/wiki/Test_functions_for_optimization
-3. https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/
-4. http://www.sfu.ca/~ssurjano/optimization.html
-5. A Literature Survey of Benchmark Functions For Global Optimization Problems (2013)
-6. Problem Definitions and Evaluation Criteria for the CEC 2014 Special Session and Competition on Single Objective Real-Parameter Numerical Optimization 
-```
+Developed by: [Thieu](mailto:nguyenthieu2102@gmail.com?Subject=Opfunu_QUESTIONS) @ 2023
