@@ -29,7 +29,7 @@
 # >>> opfunu.plot_2d(f22005, n_space=1000, ax=None)
 # >>> opfunu.plot_3d(f22005, n_space=1000, ax=None)
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 import inspect
 import re
