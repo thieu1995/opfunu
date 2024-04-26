@@ -237,13 +237,19 @@ def gz_func(x):
 
 
 def katsuura_func(x):
+    # TODO: New function failed to pass 5 test cases.
+    # powers_of_two = 2 ** np.arange(1, 34)
+    # reciprocals_of_two = 1 / powers_of_two
+    # for idx in range(0, ndim):
+    #     temp = np.sum(np.abs(powers_of_two * x[idx] - np.round(powers_of_two * x[idx])) * reciprocals_of_two)
+    #     result *= (1 + (idx + 1) * temp) ** (10.0 / ndim ** 1.2)
+    # return (result - 1) * 10 / ndim ** 2
+
     x = np.array(x).ravel()
     ndim = len(x)
     result = 1.0
-    powers_of_two = 2 ** np.arange(1, 34)
-    reciprocals_of_two = 1 / powers_of_two
     for idx in range(0, ndim):
-        temp = np.sum(np.abs(powers_of_two * x[idx] - np.round(powers_of_two * x[idx])) * reciprocals_of_two)
+        temp = np.sum([np.abs(2 ** j * x[idx] - np.round(2 ** j * x[idx])) / 2 ** j for j in range(1, 33)])
         result *= (1 + (idx + 1) * temp) ** (10.0 / ndim ** 1.2)
     return (result - 1) * 10 / ndim ** 2
 
