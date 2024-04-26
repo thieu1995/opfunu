@@ -4,11 +4,11 @@
 # --------------------------------------------------%
 
 import numpy as np
-from opfunu import get_all_cec_functions
+from opfunu import get_all_cec_based_functions
 
 
 def test_whenNdimNone_thenDefaultNdimUsed():
-    allFunctions = get_all_cec_functions()
+    allFunctions = get_all_cec_based_functions()
     for f in allFunctions:
         f_default = f()
         assert f_default.ndim == f_default.dim_default, f'{f.__name__} failed to have ndim == dim_default'
@@ -16,7 +16,7 @@ def test_whenNdimNone_thenDefaultNdimUsed():
 
 def test_whenEvaulateDefaultNdim_thenHasResult():
     known_failing = []
-    all_functions = [x for x in get_all_cec_functions() if x.__name__ not in known_failing]
+    all_functions = [x for x in get_all_cec_based_functions() if x.__name__ not in known_failing]
     failing = []
     for f in all_functions:
         f_default = f()
@@ -33,7 +33,7 @@ def test_whenEvaulateDefaultNdim_thenHasResult():
 def test_whenEvaulateWith_x_global_then_f_global():
     # The following are broken or have incorrect or unknown correct , values.
     known_failing = ['F72008']
-    all_functions = [x for x in get_all_cec_functions() if x.__name__ not in known_failing]
+    all_functions = [x for x in get_all_cec_based_functions() if x.__name__ not in known_failing]
     failing = []
     for f in all_functions:
         f_default = f()

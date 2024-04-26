@@ -151,7 +151,7 @@ def test_F102020_results():
 def test_all_optimal_results():
     ndim = 30
     known_failing = []
-    all_functions = [x for x in opfunu.get_all_cec_functions()
+    all_functions = [x for x in opfunu.get_all_cec_based_functions()
                      if x.__name__[-4:] == '2020' and x.__name__ not in known_failing]
     for function in all_functions:
         problem = function(ndim=ndim)

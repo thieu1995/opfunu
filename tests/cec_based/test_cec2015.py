@@ -220,7 +220,7 @@ def test_F152015_results():
 
 def test_all_optimal_results():
     known_failing = []
-    all_functions = [x for x in opfunu.get_all_cec_functions()
+    all_functions = [x for x in opfunu.get_all_cec_based_functions()
                      if x.__name__[-4:] == '2015' and x.__name__ not in known_failing]
     for function in all_functions:
         problem = function()
