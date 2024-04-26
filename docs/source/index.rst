@@ -74,7 +74,8 @@ traditional functions with different dimensions are implemented.
    :caption: Introduction:
 
    pages/quick_start.rst
-   pages/notes.rst
+   pages/integrated.rst
+   pages/categories.rst
 
 
 .. toctree::

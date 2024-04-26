@@ -1,9 +1,6 @@
-Notes
-=====
+Function Categories
+===================
 
-
-Categories
-----------
 
 In general, unconstrained problems can be classified into two categories: test functions and real-world problems::
 
