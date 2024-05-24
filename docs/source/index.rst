@@ -75,6 +75,7 @@ traditional functions with different dimensions are implemented.
 
    pages/quick_start.rst
    pages/integrated.rst
+   pages/visualization.rst
    pages/categories.rst
 
 

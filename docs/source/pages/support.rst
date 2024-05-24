@@ -6,6 +6,15 @@ If you are using opfunu in your project, we would appreciate citations:
 
 ::
 
+	@article{Van_Thieu_2024_Opfunu,
+		author = {Van Thieu, Nguyen},
+		title = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
+		doi = {10.5334/jors.508},
+		journal = {Journal of Open Research Software},
+		month = {May},
+		year = {2024}
+	}
+
 	@software{thieu_nguyen_2020_3711682,
 	  author       = {Nguyen Van Thieu},
 	  title        = {Opfunu: An Open-source Python Library for Optimization Benchmark Functions},
