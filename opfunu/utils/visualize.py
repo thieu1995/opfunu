@@ -166,9 +166,12 @@ def draw_2d(func, lb=None, ub=None, selected_dims=None, n_points=1000,
     cont = plt.contourf(D1, D2, Z, levels=ct_levels, cmap=ct_cmap, alpha=ct_alpha)
     cbar = plt.colorbar(cont)
     cbar.set_label('Function Value')
-    cbar.formatter = ScalarFormatter()
-    cbar.formatter.set_scientific(True)
-    cbar.formatter.set_powerlimits((-2, 2))
+    # cbar.formatter = ScalarFormatter()
+    # cbar.formatter.set_scientific(True)
+    # cbar.formatter.set_powerlimits((-2, 2))
+    # cbar.update_ticks()
+
+    cbar.formatter = FuncFormatter(custom_formatter)
     cbar.update_ticks()
 
     plt.title(title)
