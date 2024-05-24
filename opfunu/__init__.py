@@ -21,13 +21,12 @@
 # >>> print(f1.get_paras())         # Print the parameters of function if has
 # >>>
 # >>> Plot 2d or plot 3d contours
-# >>> Warning ! Only working on 2d functions objects !
-# >>> Warning !! change n_space to reduce the computing time
+# >>> Warning !! change n_points to reduce the computing time
 # >>>
 # >>> import opfunu
 # >>> f2 = opfunu.cec_based.F22005(ndim=2)
-# >>> opfunu.plot_2d(f22005, n_space=1000, ax=None)
-# >>> opfunu.plot_3d(f22005, n_space=1000, ax=None)
+# >>> f2.plot_2d(selected_dims=(2, 3), n_points=300)
+# >>> f2.plot_3d(selected_dims=(1, 4), n_points=300)
 
 __version__ = "1.0.3"
 

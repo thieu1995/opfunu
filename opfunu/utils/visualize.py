@@ -162,8 +162,15 @@ def draw_2d(func, lb=None, ub=None, selected_dims=None, n_points=1000,
     # Plot the function
     plt.rcParams.update({'font.size': 14})
     plt.figure(figsize=figsize)
-    plt.contourf(D1, D2, Z, levels=ct_levels, cmap=ct_cmap, alpha=ct_alpha)
-    plt.colorbar(label='Function Value')
+
+    cont = plt.contourf(D1, D2, Z, levels=ct_levels, cmap=ct_cmap, alpha=ct_alpha)
+    cbar = plt.colorbar(cont)
+    cbar.set_label('Function Value')
+    cbar.formatter = ScalarFormatter()
+    cbar.formatter.set_scientific(True)
+    cbar.formatter.set_powerlimits((-2, 2))
+    cbar.update_ticks()
+
     plt.title(title)
     if x_label is None:
         x_label = f'Dimension X{selected_dims[0]}'
