@@ -5,7 +5,7 @@
 # --------------------------------------------------%
 
 import numpy as np
-from opfunu.utils.visualize import draw_2d
+from opfunu.utils.visualize import draw_2d, draw_3d
 
 
 class Benchmark:
@@ -254,7 +254,7 @@ class Benchmark:
         return np.random.uniform(self.lb, self.ub)
 
     def plot_2d(self, selected_dims=None, n_points=500, ct_cmap="viridis", ct_levels=30, ct_alpha=0.7, fixed_strategy="mean", fixed_values=None,
-                title="Contour map of the function", x_label=None, y_label=None, filename=None, exts=(".png", ".pdf"), verbose=True):
+                title="Contour map of the function", x_label=None, y_label=None, figsize=(10, 8), filename=None, exts=(".png", ".pdf"), verbose=True):
         """
         Draw 2D contour of the function.
 
@@ -289,6 +289,8 @@ class Benchmark:
             Set the x label
         y_label : str
             Set the y label
+        figsize : tuple, default=(10, 8)
+            The figure size with format of tuple (width, height)
         filename : str, default = None
             Set the file name, If None, the file will not be saved
         exts : list, tuple, np.ndarray
@@ -298,4 +300,53 @@ class Benchmark:
         """
         draw_2d(self.evaluate, self.lb, self.ub, selected_dims=selected_dims, n_points=n_points,
                 ct_cmap=ct_cmap, ct_levels=ct_levels, ct_alpha=ct_alpha, fixed_strategy=fixed_strategy, fixed_values=fixed_values,
-                title=title, x_label=x_label, y_label=y_label, filename=filename, exts=exts, verbose=verbose)
+                title=title, x_label=x_label, y_label=y_label, figsize=figsize, filename=filename, exts=exts, verbose=verbose)
+
+    def plot_3d(self, selected_dims=None, n_points=500, ct_cmap="viridis", ct_levels=30, ct_alpha=0.7, fixed_strategy="mean", fixed_values=None,
+                title="3D visualization of the function", x_label=None, y_label=None, figsize=(10, 8), filename=None, exts=(".png", ".pdf"), verbose=True):
+        """
+        Draw 3D of the function.
+
+        Parameters
+        ----------
+        selected_dims : list, tuple, np.ndarray
+            The selected dimensions you want to draw.
+            If your function has only 2 dimensions, it will select (1, 2) automatically.
+        n_points : int
+            The number of points that will be used to draw the contour
+        ct_cmap : str
+            The cmap of matplotlib.pyplot.contourf function (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.contourf.html)
+        ct_levels : int
+            The levels parameter of contourf function
+        ct_alpha : float
+            The alpha parameter of contourf function
+        fixed_strategy : str
+            The selected strategy to set values for other dimensions.
+            When your function has > 2 dimensions, you need to set a fixed value for other dimensions to be able to calculate value.
+            List of available strategy: ["min", "max", "mean', "values", "zero"]
+                + min: Set the other dimensions by its lower bound
+                + max: Set the other dimensions by its upper bound
+                + mean: Set the other dimensions by it average value (lower bound + upper bound) / 2
+                + zero: Set the other dimensions by 0
+                + values: Set the other dimensions by your passed values through the parameter: `fixed_values`.
+
+        fixed_values : list, tuple, np.ndarray
+            Fixed values for all dimensions (length should be the same as lower bound), the selected dimensions will be replaced in the drawing process.
+        title : str
+            Title for the figure
+        x_label : str
+            Set the x label
+        y_label : str
+            Set the y label
+        figsize : tuple, default=(10, 8)
+            The figure size with format of tuple (width, height)
+        filename : str, default = None
+            Set the file name, If None, the file will not be saved
+        exts : list, tuple, np.ndarray
+            The list of extensions to save file, for example: (".png", ".pdf", ".jpg")
+        verbose : bool
+            Show the figure or not. It will not show on linux system.
+        """
+        draw_3d(self.evaluate, self.lb, self.ub, selected_dims=selected_dims, n_points=n_points,
+                ct_cmap=ct_cmap, ct_levels=ct_levels, ct_alpha=ct_alpha, fixed_strategy=fixed_strategy, fixed_values=fixed_values,
+                title=title, x_label=x_label, y_label=y_label, figsize=figsize, filename=filename, exts=exts, verbose=verbose)

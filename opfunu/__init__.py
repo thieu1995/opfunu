@@ -33,7 +33,7 @@ __version__ = "1.0.3"
 
 import inspect
 import re
-from .utils.visualize import draw_2d
+from .utils.visualize import draw_2d, draw_3d
 from . import name_based
 from . import cec_based
 
