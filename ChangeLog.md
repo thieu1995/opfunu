@@ -1,6 +1,11 @@
 # Version 1.0.3
 
 + Optimized katsuura_func performance, at 1M ndim > 80x speedup
++ Add plot_2d, plot_3d to Benchmark class.
++ User can use draw_2d, draw_3d from opfunu to draw their function.
++ Add tutorial on how to integrate with other optimization frameworks like Mealpy, Opytimizer, Niapy
++ Update examples and update documentations
++ Update citation and paper (Got published at Journal of Open Research Software)
 
 ---------------------------------------------------------------------
 # Version 1.0.2
