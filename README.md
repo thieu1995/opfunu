@@ -152,19 +152,19 @@ draw_2d(f0.evaluate, f0.lb, f0.ub, selected_dims=(2, 3), n_points=300)
 draw_3d(f0.evaluate, f0.lb, f0.ub, selected_dims=(2, 3), n_points=300)
 ```
 
-<div style="display: flex; justify-content: space-around;">
-
-<div style="flex: 1; text-align: center; margin: 10px;">
-    <img src=".github/img/2d-f12010.png" alt="F1-2010 CEC 2D" style="width: 100%;">
-    <p>F1-2010 CEC 2D</p>
-</div>
-
-<div style="flex: 1; text-align: center; margin: 10px;">
-    <img src=".github/img/3d-f12010.png" alt="F1-2010 CEC 3D" style="width: 100%;">
+<table>
+  <tr>
+    <td style="text-align: center;">
+      <img src=".github/img/2d-f12010.png" alt="F1-2010 CEC 2D" style="width: 100%;">
+      <p>F1-2010 CEC 2D</p>
+    </td>
+    <td style="text-align: center;">
+      <img src=".github/img/3d-f12010.png" alt="F1-2010 CEC 3D" style="width: 100%;">
     <p>F1-2010 CEC 3D</p>
-</div>
+    </td>
+  </tr>
+</table>
 
-</div>
 
 
 
