@@ -156,11 +156,11 @@ draw_3d(f0.evaluate, f0.lb, f0.ub, selected_dims=(2, 3), n_points=300)
   <tr>
     <td style="text-align: center;">
       <img src=".github/img/2d-f12010.png" alt="F1-2010 CEC 2D" style="width: 100%;">
-      <p>F1-2010 CEC 2D</p>
+      <p style="text-align: center;">F1-2010 CEC 2D</p>
     </td>
     <td style="text-align: center;">
       <img src=".github/img/3d-f12010.png" alt="F1-2010 CEC 3D" style="width: 100%;">
-    <p>F1-2010 CEC 3D</p>
+    <p style="text-align: center;">F1-2010 CEC 3D</p>
     </td>
   </tr>
 </table>
