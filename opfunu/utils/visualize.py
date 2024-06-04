@@ -49,15 +49,47 @@ def custom_formatter(x, pos):
         return '{:.2f}'.format(x)
 
 
-def plot_latex_formula(latex):
-    base_url = r'https://latex.codecogs.com/png.latex?\dpi{400}'
+def draw_latex(latex, title="Latex equation", figsize=(8, 3), dpi=500,
+               filename=None, exts=(".png", ".pdf"), verbose=True):
+    """
+    Draw latex equation.
+
+    Parameters
+    ----------
+    latex : equation
+        Your latex equation, you can test on the website: https://latex.codecogs.com/
+    title : str
+        Title for the figure
+    figsize : tuple, default=(10, 8)
+        The figure size with format of tuple (width, height)
+    dpi : int, default=500
+        The dot per inches (DPI) - indicate the number of dots per inch.
+    filename : str, default = None
+        Set the file name, If None, the file will not be saved
+    exts : list, tuple, np.ndarray
+        The list of extensions to save file, for example: (".png", ".pdf", ".jpg")
+    verbose : bool
+        Show the figure or not. It will not show on linux system.
+    """
+    base_url = 'https://latex.codecogs.com/png.latex?\dpi{' + str(dpi) + '}'
     url = f'{base_url}{latex}'
     response = requests.get(url)
     img = Image.open(BytesIO(response.content))
 
+    plt.rcParams.update({'font.size': 14})
+    plt.figure(figsize=figsize, dpi=dpi)
     plt.imshow(img)
+    plt.title(title)
     plt.axis('off')
-    plt.show()
+
+    if filename is not None:
+        filepath = __check_filepath__(__clean_filename__(filename))
+        for idx, ext in enumerate(exts):
+            plt.savefig(f"{filepath}{ext}", bbox_inches='tight')
+            # img.convert('RGB').save(f'{filepath}{ext}')
+    if platform.system() != "Linux" and verbose:
+        plt.show()
+    plt.close()
 
 
 def draw_2d(func, lb=None, ub=None, selected_dims=None, n_points=1000,
