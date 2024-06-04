@@ -321,7 +321,7 @@ class F102017(CecBenchmark):
         self.f_global = f_bias
         self.x_global = self.f_shift
         self.n_funcs = 3
-        self.p = np.array([0.2, 0.2, 0.2])
+        self.p = np.array([0.2, 0.4, 0.4])
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.idx1, self.idx2, self.idx3 = self.f_shuffle[:self.n1], self.f_shuffle[self.n1:self.n2], self.f_shuffle[self.n2:self.ndim]
@@ -544,7 +544,7 @@ class F172017(F102017):
     def __init__(self, ndim=None, bounds=None, f_shift="shift_data_17", f_matrix="M_17_D", f_shuffle="shuffle_data_17_D", f_bias=1700.):
         super().__init__(ndim, bounds, f_shift, f_matrix, f_shuffle, f_bias)
         self.n_funcs = 5
-        self.p = np.array([0.1, 0.2, 0.2, 0.2, 0.3])
+        self.p = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
         self.n1 = int(np.ceil(self.p[0] * self.ndim))
         self.n2 = int(np.ceil(self.p[1] * self.ndim)) + self.n1
         self.n3 = int(np.ceil(self.p[2] * self.ndim)) + self.n2
