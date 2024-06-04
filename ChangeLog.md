@@ -1,3 +1,12 @@
+# Version 1.0.4
+
++ Fix p value in F10 and F17 of CEC-2017
++ Add plot_latex to Benchmark class.
++ User can use draw_latex from opfunu to draw their latex equation.
++ Update examples for draw latex function
+
+---------------------------------------------------------------------
+
 # Version 1.0.3
 
 + Optimized katsuura_func performance, at 1M ndim > 80x speedup
@@ -8,6 +17,7 @@
 + Update citation and paper (Got published at Journal of Open Research Software)
 
 ---------------------------------------------------------------------
+
 # Version 1.0.2
 
 + Fix modified_schwefel_func() in operator.py
