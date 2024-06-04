@@ -5,7 +5,7 @@
 # --------------------------------------------------%
 
 import numpy as np
-from opfunu.utils.visualize import draw_2d, draw_3d
+from opfunu.utils.visualize import draw_2d, draw_3d, draw_latex
 
 
 class Benchmark:
@@ -252,6 +252,29 @@ class Benchmark:
             The random solution
         """
         return np.random.uniform(self.lb, self.ub)
+
+    def plot_latex(self, latex, title="Latex equation", figsize=(8, 3), dpi=500, filename=None, exts=(".png", ".pdf"), verbose=True):
+        """
+        Draw latex equation.
+
+        Parameters
+        ----------
+        latex : equation
+            Your latex equation, you can test on the website: https://latex.codecogs.com/
+        title : str
+            Title for the figure
+        figsize : tuple, default=(10, 8)
+            The figure size with format of tuple (width, height)
+        dpi : int, default=500
+            The dot per inches (DPI) - indicate the number of dots per inch.
+        filename : str, default = None
+            Set the file name, If None, the file will not be saved
+        exts : list, tuple, np.ndarray
+            The list of extensions to save file, for example: (".png", ".pdf", ".jpg")
+        verbose : bool
+            Show the figure or not. It will not show on linux system.
+        """
+        draw_latex(latex, title=title, figsize=figsize, dpi=dpi, filename=filename, exts=exts, verbose=verbose)
 
     def plot_2d(self, selected_dims=None, n_points=500, ct_cmap="viridis", ct_levels=30, ct_alpha=0.7, fixed_strategy="mean", fixed_values=None,
                 title="Contour map of the function", x_label=None, y_label=None, figsize=(10, 8), filename=None, exts=(".png", ".pdf"), verbose=True):
