@@ -166,6 +166,27 @@ draw_3d(f0.evaluate, f0.lb, f0.ub, selected_dims=(2, 3), n_points=300)
 </table>
 
 
+### How to draw Latex
+
+Two ways if you want to draw latex equation. 
+
+```python
+from opfunu.cec_based import F12010
+from opfunu.name_based import Ackley02
+from opfunu.utils.visualize import draw_latex
+
+f0 = F12010()
+f1 = Ackley02()
+
+## Plot using function inside the object
+f0.plot_latex(f0.latex_formula, figsize=(8, 3), dpi=500, title="Latex equation", exts=(".png", ".pdf"), verbose=True)
+f1.plot_latex(f1.latex_formula_global_optimum, figsize=(8, 3), dpi=500, title="Global optimum", verbose=True)
+
+## Plot using module
+draw_latex(f0.latex_formula_bounds, title="Boundary for Function")
+draw_latex(f1.latex_formula_dimension, title=None)
+```
+
 
 
 For more usage examples please look at [examples](/examples) folder.
