@@ -15,7 +15,7 @@ def readme():
 
 setup(
     name="opfunu",
-    version="1.0.3",
+    version="1.0.4",
     author="Thieu",
     author_email="nguyenthieu2102@gmail.com",
     description="Opfunu: An Open-source Python Library for Optimization Benchmark Functions",

@@ -5,7 +5,7 @@ authors:
     given-names: "Nguyen"
     orcid: "https://orcid.org/0000-0001-9994-8747"
 title: "Opfunu: An Open-source Python Library for Optimization Benchmark Functions"
-version: 1.0.3
+version: 1.0.4
 doi: 10.5281/zenodo.3620960
 date-released: 2022-07-13
 url: "https://github.com/thieu1995/opfunu"
