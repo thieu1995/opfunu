@@ -30,6 +30,7 @@ def rosenbrock_func(x, shift=0.0):
     term2 = (x[:-1] - 1) ** 2
     return np.sum(term1 + term2)
 
+
 def scaffer_func(x):
     x = np.array(x).ravel()
     return 0.5 + (np.sin(np.sqrt(np.sum(x ** 2))) ** 2 - 0.5) / (1 + 0.001 * np.sum(x ** 2)) ** 2
@@ -132,7 +133,6 @@ def elliptic_func(x):
     return np.sum(10 ** (6.0 * idx / (ndim - 1)) * x ** 2)
 
 
-
 def sphere_noise_func(x):
     x = np.array(x).ravel()
     return np.sum(x ** 2) * (1 + 0.1 * np.abs(np.random.normal(0, 1)))
@@ -160,7 +160,9 @@ def fractal_1d_func(x):
         upper = 2 ** (k - 1) + 1
         for t in range(1, upper):
             selected = np.random.choice([0, 1, 2], p=1 / 3 * np.ones(3))
-            result2 += np.sum([doubledip(x, np.random.uniform(0, 1), 1.0 / (2 ** (k - 1) * (2 - np.random.uniform(0, 1)))) for _ in range(0, selected)])
+            result2 += np.sum(
+                [doubledip(x, np.random.uniform(0, 1), 1.0 / (2 ** (k - 1) * (2 - np.random.uniform(0, 1)))) for _ in
+                 range(0, selected)])
         result1 += result2
     return result1
 
@@ -228,7 +230,8 @@ def gz_func(x):
     x = np.array(x).ravel()
     ndim = len(x)
     t1 = (500 - np.mod(x, 500)) * np.sin(np.sqrt(np.abs(500 - np.mod(x, 500)))) - (x - 500) ** 2 / (10000 * ndim)
-    t2 = (np.mod(np.abs(x), 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x + 500) ** 2 / (10000 * ndim)
+    t2 = (np.mod(np.abs(x), 500) - 500) * np.sin(np.sqrt(np.abs(np.mod(np.abs(x), 500) - 500))) - (x + 500) ** 2 / (
+                10000 * ndim)
     t3 = x * np.sin(np.abs(x) ** 0.5)
     conditions = [x < -500, (-500 <= x) & (x <= 500), x > 500]
     choices = [t2, t3, t1]
@@ -266,6 +269,36 @@ def lunacek_bi_rastrigin_func(x, miu0=2.5, d=1, shift=0.0):
     return result
 
 
+def lunacek_bi_rastrigin_cec_func(x, shift=0.0):
+    """
+    This is a direct conversion of the CEC2021 C-Code for the Lunacek Bi-Rastrigin Function
+    Warning: There is an odd shift in the C-Code that is not present in the description or function
+    definition.
+    """
+    x = np.array(x).ravel() + shift
+    nx = len(x)
+    d = 1.0
+    s = 1.0 - 1.0 / (2.0 * np.sqrt(nx + 20) - 8.2)
+    mu0 = 2.5
+    mu1 = -np.sqrt((mu0 ** 2 - d) / s)
+
+    # This is where in the original CEC C-Code, if the shift value is negative then scaled_x is multiplied by -1
+    # Scale x
+    scaled_x = x * 0.2 + mu0
+
+    # Compute tmp1 and tmp2
+    tmp1 = np.sum((scaled_x - mu0) ** 2)
+    tmp2 = s * np.sum((scaled_x - mu1) ** 2) + d * nx
+
+    # Use np.cos directly on scaled x
+    cosine_sum = np.sum(np.cos(2.0 * np.pi * x * 0.2))
+
+    # Minimum of tmp1 and tmp2, and calculation of the function value
+    f = min(tmp1, tmp2) + 10.0 * (nx - cosine_sum)
+
+    return f
+
+
 def calculate_weight(x, delta=1.):
     ndim = len(x)
     temp = np.sum(x ** 2)
@@ -289,9 +322,9 @@ def modified_schwefel_func(x):
     mask3 = ~mask1 & ~mask2
     fx = np.zeros(nx)
     fx[mask1] -= ((500.0 - np.fmod(z[mask1], 500)) * np.sin(np.sqrt(500.0 - np.fmod(z[mask1], 500))) -
-                 ((z[mask1] - 500.0) / 100.) ** 2 / nx)
+                  ((z[mask1] - 500.0) / 100.) ** 2 / nx)
     fx[mask2] -= (-500.0 + np.fmod(np.abs(z[mask2]), 500)) * np.sin(np.sqrt(500.0 - np.fmod(np.abs(z[mask2]), 500))) - (
-                 (z[mask2] + 500.0) / 100.) ** 2 / nx
+            (z[mask2] + 500.0) / 100.) ** 2 / nx
     fx[mask3] -= z[mask3] * np.sin(np.sqrt(np.abs(z[mask3])))
 
     return np.sum(fx) + 4.189828872724338e+002 * nx
@@ -313,10 +346,40 @@ def hgbat_func(x, shift=0.0):
     return np.abs(t2 ** 2 - t1 ** 2) ** 0.5 + (0.5 * t2 + t1) / ndim + 0.5
 
 
-def zakharov_func(x):
+def zakharov_cec_doc_func(x):
+    """
+    This is the variant of the Zakharov function as defined in the CEC 2017 and CEC 2022 documentation which does
+    not match the implementation.
+
+    CEC References
+    N. H. Awad, M. Z. Ali, P. N. Suganthan, J. J. Liang, and B. Y. Qu,
+    "Problem Definitions and Evaluation Criteria for the CEC 2017 Special Session and Competition on Single Objective
+    Real-Parameter Numerical Optimization"
+    and
+    Abhishek Kumar, Kenneth V. Price, Ali Wagdy Mohamed, Anas A. Hadi, P. N. Suganthan
+    "Problem Definitions and Evaluation Criteria for the CEC 2022 Special Session and Competition on Single Objective
+    Bound Constrained Numerical Optimization"
+
+    The implementation matches the zakharov_func implementation below.
+    """
     x = np.array(x).ravel()
     temp = np.sum(0.5 * x)
     return np.sum(x ** 2) + temp ** 2 + temp ** 4
+
+
+def zakharov_func(x):
+    """
+    This variant matches the CEC 2017 and CEC 2022 implementations and the function as defined in:
+    Jamil, Momin, and Xin-She Yang.
+    "A literature survey of benchmark functions for global optimization problems."
+    International Journal of Mathematical Modelling and Numerical Optimization 4.2 (2013): 150-194.
+    """
+    z = np.asarray(x)
+    ndim = len(z)
+    sum1 = np.sum(z ** 2)
+    sum2 = np.sum(0.5 * np.arange(1, ndim + 1) * z)
+    f = sum1 + sum2 ** 2 + sum2 ** 4
+    return f
 
 
 def levy_func(x, shift=0.0):
@@ -346,14 +409,43 @@ def expanded_schaffer_f6_func(x):
     return f
 
 
+def schaffer_f7_cec_doc_func(x):
+    """
+    This is the variant of the Schaffer F7 function as defined in the CEC 2017 and CEC 2022 documentation which does
+    not match the implementation:
+    N. H. Awad, M. Z. Ali, P. N. Suganthan, J. J. Liang, and B. Y. Qu,
+    "Problem Definitions and Evaluation Criteria for the CEC 2017 Special Session and Competition on Single Objective
+    Real-Parameter Numerical Optimization"
+    and
+    Abhishek Kumar, Kenneth V. Price, Ali Wagdy Mohamed, Anas A. Hadi, P. N. Suganthan
+    "Problem Definitions and Evaluation Criteria for the CEC 2022 Special Session and Competition on Single Objective
+    Bound Constrained Numerical Optimization"
+    """
+
+    z = np.array(x).ravel()
+    ndim = len(z)
+    f = 0.0
+    for i in range(ndim - 1):
+        s_i = np.sqrt(z[i] ** 2 + z[i + 1] ** 2)
+        f += np.sqrt(s_i) * (np.sin(50.0 * s_i ** 0.2) + 1.0)
+    f = (f / (ndim - 1)) ** 2
+    return f
+
+
 def schaffer_f7_func(x):
-    x = np.array(x).ravel()
-    ndim = len(x)
-    result = 0.0
-    for idx in range(0, ndim - 1):
-        t = x[idx] ** 2 + x[idx + 1] ** 2
-        result += np.sqrt(t) * (np.sin(50. * t ** 0.2) + 1)
-    return (result / (ndim - 1)) ** 2
+    """
+    This is the variant of the Schaffer F7 function from the CEC2017 and CEC2022 code and matching the graphic.
+
+    The implementation matches the definition from:
+    Real-Parameter Black-Box Optimization Benchmarking 2009: Noisy Functions Definitions
+    (Nikolaus Hansen, Steffen Finck, Raymond Ros, Anne Auger)
+    """
+    z = np.array(x).ravel()
+    ndim = len(z)
+    s = np.sqrt(z[:-1] ** 2 + z[1:] ** 2)
+    # below np.sin(50.0 * s ** 0.2)**2 shouldn't be squared according to the documentation
+    f = np.sum(np.sqrt(s) * (np.sin(50.0 * s ** 0.2) ** 2 + 1)) / (ndim - 1)
+    return f ** 2
 
 
 def chebyshev_func(x):
@@ -368,7 +460,7 @@ def chebyshev_func(x):
     dx_arr = np.zeros(ndim)
     dx_arr[:2] = [1.0, 1.2]
     for i in range(2, ndim):
-        dx_arr[i] = 2.4 * dx_arr[i-1] - dx_arr[i-2]
+        dx_arr[i] = 2.4 * dx_arr[i - 1] - dx_arr[i - 2]
     dx = dx_arr[-1]
 
     dy = 2.0 / sample
@@ -430,7 +522,7 @@ def lennard_jones_func(x):
     sum_val = 0
 
     x_matrix = x.reshape((k, 3))
-    for i in range(k-1):
+    for i in range(k - 1):
         for j in range(i + 1, k):
             # Use slicing to get the differences between points i and j
             diff = x_matrix[i] - x_matrix[j]

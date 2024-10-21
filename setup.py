@@ -15,7 +15,7 @@ def readme():
 
 setup(
     name="opfunu",
-    version="1.0.4",
+    version="1.0.5",
     author="Thieu",
     author_email="nguyenthieu2102@gmail.com",
     description="Opfunu: An Open-source Python Library for Optimization Benchmark Functions",
@@ -64,7 +64,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities",
     ],
-    install_requires=["numpy>=1.16.5", "matplotlib>=3.3.0", "Pillow>=9.1.0", "requests>=2.27.0"],
+    install_requires=["numpy>=1.16.5", "matplotlib>=3.3.0", "Pillow>=9.1.0", "requests==2.32.0"],
     extras_require={
         "dev": ["pytest>=7.0", "twine>=4.0.1"],
     },

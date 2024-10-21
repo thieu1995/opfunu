@@ -1,3 +1,10 @@
+# Version 1.0.5
+
++ Fix schaffer_f7_func to match the cec implementation and reference document
++ Fix zakharov_func to match the cec implementation and reference document
++ Added a direct conversion of the lunacek_bi_rastrigin_cec_func
++ Added tests for cec functions comparing outputs to the reference implementations
+---------------------------------------------------------------------
 # Version 1.0.4
 
 + Fix p value in F10 and F17 of CEC-2017
