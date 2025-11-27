@@ -22,7 +22,7 @@ class Salomon(Benchmark):
 
     *Global optimum*: :math:`f(x) = 0` for :math:`x_i = 0` for :math:`i = 1, ..., n`
     """
-    name = "Qing Function"
+    name = "Salomon Function"
     latex_formula = r'f_{\text{Salomon}}(x) = 1 - \cos \left (2 \pi \sqrt{\sum_{i=1}^{n} x_i^2} \right) + 0.1 \sqrt{\sum_{i=1}^n x_i^2}'
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10, ..., 10]'

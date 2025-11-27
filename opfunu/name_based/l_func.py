@@ -289,7 +289,7 @@ class Levy13(Benchmark):
     with :math:`x_i \in [-10, 10]` for :math:`i = 1, 2`.
     *Global optimum*: :math:`f(x) = 0` for :math:`x = [1, 1]`
     """
-    name = "Levy 5 Function"
+    name = "Levy 13 Function"
     latex_formula = r'f_{\text{Levy13}}(x) = \left(x_{1} -1\right)^{2} \left[\sin^{2}\left(3 \pi x_{2}\right) + 1\right] + \left(x_{2} - 1\right)^{2} \left[\sin^{2}\left(2 \pi x_{2}\right)+ 1\right] + \sin^{2}\left(3 \pi x_{1}\right)'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [-10, 10]'

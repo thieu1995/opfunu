@@ -539,7 +539,7 @@ class CrownedCross(Benchmark):
     .. [1] Mishra, S. Global Optimization by Differential Evolution and Particle Swarm Methods:
     Evaluation on Some Benchmark Functions Munich University, 2006
     """
-    name = "Cross-Leg-Table Function"
+    name = "Crowned Cross Function"
     latex_formula = r'f(x) = 0.0001 \left(\left|{e^{\left|{100 - \frac{\sqrt{x_{1}^{2} + x_{2}^{2}}}{\pi}}\right|}' + \
         r'\sin\left(x_{1}\right) \sin\left(x_{2}\right)}\right| + 1\right)^{0.1}'
     latex_formula_dimension = r'd = 2'

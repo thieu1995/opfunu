@@ -21,7 +21,7 @@ class Ursem01(Benchmark):
 
     *Global optimum*: :math:`f(x) = -4.81681406371` for :math:`x = [1.69714, 0.0]`
     """
-    name = "Qing Function"
+    name = "Ursem 1 Function"
     latex_formula = r'f_{\text{Ursem01}}(x) = - \sin(2x_1 - 0.5 \pi) - 3 \cos(x_2) - 0.5 x_1'
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10, ..., 10]'

@@ -73,7 +73,7 @@ class Keane(Benchmark):
 
     *Global optimum*: :math:`f(x) = 0.0` for :math:`x = [7.85396153, 7.85396135]`.
     """
-    name = "Katsuura Function"
+    name = "Keane Function"
     latex_formula = r'f_{\text{Keane}}(x) = \frac{\sin^2(x_1 - x_2)\sin^2(x_1 + x_2)} {\sqrt{x_1^2 + x_2^2}}'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [0, 10]'

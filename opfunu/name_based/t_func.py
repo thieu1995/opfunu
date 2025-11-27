@@ -22,7 +22,7 @@ class TestTubeHolder(Benchmark):
 
     *Global optimum*: :math:`f(x) = -10.872299901558` for :math:`x= [-\pi/2, 0]`
     """
-    name = "Qing Function"
+    name = "TestTubeHolder Function"
     latex_formula = r'f_{\text{TestTubeHolder}}(x)='
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10, ..., 10]'
