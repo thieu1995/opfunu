@@ -148,7 +148,7 @@ class Michalewicz(Benchmark):
     Here :math:`x_i \in [0, \pi]`.
     *Global optimum*: :math:`f(x) = -1.8013`for :math:`x = [0, 0]`
     """
-    name = "McCormick Function"
+    name = "Michalewicz Function"
     latex_formula = r'f(x) = - x_{1} + 2 x_{2} + \left(x_{1} - x_{2}\right)^{2} + \sin\left(x_{1} + x_{2}\right) + 1'
     latex_formula_dimension = r'd = 2'
     latex_formula_bounds = r'x_i \in [0, \pi]`'
@@ -732,7 +732,7 @@ class MultiModal(Benchmark):
     Here :math:`x_i \in [-10, 10] for i \in [1, n]`.
     *Global optimum*: :math:`f(0) = 0, `
     """
-    name = "Mishra 11 Function"
+    name = "MultiModal Function"
     latex_formula = r'\left( \sum_{i=1}^n \lvert x_i \rvert \right) \left( \prod_{i=1}^n \lvert x_i \rvert \right)'
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10] \forall i \in [1, n]'

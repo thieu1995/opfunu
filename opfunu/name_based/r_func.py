@@ -23,7 +23,7 @@ class Rana(Benchmark):
 
     *Global optimum*: :math:`f(x_i) = -928.5478` for :math:`x = [-300.3376, 500]`.
     """
-    name = "Qing Function"
+    name = "Rana Function"
     latex_formula = r'f_{\text{Rana}}(x) = '
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10, ..., 10]'

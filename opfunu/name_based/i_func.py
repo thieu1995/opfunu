@@ -13,7 +13,7 @@ class Infinity(Benchmark):
     .. [1] Jamil, M. & Yang, X.-S. A Literature Survey of Benchmark Functions For Global Optimization
     Problems Int. Journal of Mathematical Modelling and Numerical Optimisation, 2013, 4, 150-194.
     """
-    name = "Hansen Function"
+    name = "Infinity Function"
     latex_formula = r'f(x) = \sum_{i=1}^{n} x_i^{6} \left [ \sin\left ( \frac{1}{x_i} \right ) + 2 \right ]'
     latex_formula_dimension = r'd \in N^+'
     latex_formula_bounds = r'x_i \in [-1, 1], \forall i \in \llbracket 1, d\rrbracket'

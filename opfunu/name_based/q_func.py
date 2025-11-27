@@ -159,7 +159,7 @@ class Quintic(Benchmark):
 
     *Global optimum*: :math:`f(x_i) = 0` for :math:`x_i = -1` for :math:`i = 1, ..., n`
     """
-    name = "Quartic Function"
+    name = "Quintic Function"
     latex_formula = r'f_{\text{Quintic}}(x) = \sum_{i=1}^{n} \left|{x_{i}^{5} - 3 x_{i}^{4}+ 4 x_{i}^{3} + 2 x_{i}^{2} - 10 x_{i} -4}\right|'
     latex_formula_dimension = r'd = n'
     latex_formula_bounds = r'x_i \in [-10, 10, ..., 10]'

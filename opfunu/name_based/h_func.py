@@ -262,7 +262,7 @@ class HolderTable(Benchmark):
     """
     .. [1] Gavana, A. Global Optimization Benchmarks and AMPGO retrieved 2015
     """
-    name = "Hosaki Function"
+    name = "Holder Table Function"
     latex_formula = r'f(x) = - \left|{e^{\left|{1' +\
         r'- \frac{\sqrt{x_{1}^{2} + x_{2}^{2}}}{\pi} }\right|} \sin\left(x_{1}\right) \cos\left(x_{2}\right)}\right|'
     latex_formula_dimension = r'd = 2'
