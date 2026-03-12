@@ -126,9 +126,10 @@ def non_continuous_rastrigin_func(x):
 
 
 def elliptic_func(x):
-    x = np.array(x).ravel()
     ndim = len(x)
-    idx = np.arange(0, ndim)
+    if ndim == 1:
+        return x[0] ** 2  # degenerate 1D case: avoids (ndim-1) = 0 division
+    idx = np.arange(ndim)
     return np.sum(10 ** (6.0 * idx / (ndim - 1)) * x ** 2)
 
 
